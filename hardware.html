@@ -107,7 +107,7 @@
       transition: background 0.25s, border-color 0.25s, transform 0.2s;
       position: relative; overflow: hidden;
     }
-    .contact-pill::before {
+  .contact-pill::before {
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 60%);
       pointer-events: none;
@@ -116,6 +116,20 @@
       background: rgba(255,255,255,0.16);
       border-color: rgba(255,255,255,0.45);
       transform: translateY(-1px);
+    }
+    .lang-switcher {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px;
+      border-radius: 999px; border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    .lang-switcher button {
+      min-width: 54px; height: 30px; padding: 0 12px;
+      border: 0; border-radius: 999px; background: transparent;
+      color: rgba(255,255,255,0.76); font-size: 0.8rem; font-weight: 700;
+    }
+    .lang-switcher button.is-active {
+      background: rgba(255,255,255,0.92); color: var(--blue-dark-01);
     }
     .menu-toggle {
       display: none; width: 42px; height: 42px;
@@ -631,7 +645,7 @@
     }
   </style>
 </head>
-<body>
+<body data-page="hardware">
   <header class="site-header" data-site-header>
     <div class="header-inner">
       <a href="index.html" aria-label="AISO Home">
@@ -646,33 +660,37 @@
       </a>
 
       <nav class="nav-links" aria-label="Main navigation">
-        <a class="nav-link" href="index.html">Home</a>
-        <a class="nav-link" href="hardware.html" aria-current="page">Hardware</a>
-        <a class="nav-link" href="software.html">Software</a>
-        <a class="nav-link" href="solutions.html">Solution</a>
-        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="index.html" data-i18n="shared.nav.home">Home</a>
+        <a class="nav-link" href="hardware.html" aria-current="page" data-i18n="shared.nav.hardware">Hardware</a>
+        <a class="nav-link" href="software.html" data-i18n="shared.nav.software">Software</a>
+        <a class="nav-link" href="solutions.html" data-i18n="shared.nav.solution">Solution</a>
+        <a class="nav-link" href="about.html" data-i18n="shared.nav.about">About</a>
       </nav>
 
       <div class="header-right">
-        <a class="contact-pill" href="mailto:contact@aisoportal.com">Contact AISO</a>
-        <button class="menu-toggle" data-menu-toggle aria-label="Open menu"><span></span></button>
+        <div class="lang-switcher" aria-label="Language switcher">
+          <button type="button" data-lang-value="en" data-i18n="shared.lang.en">EN</button>
+          <button type="button" data-lang-value="zh-TW" data-i18n="shared.lang.zhTW">繁中</button>
+        </div>
+        <a class="contact-pill" href="mailto:contact@aisoportal.com" data-i18n="shared.nav.contact">Contact AISO</a>
+        <button class="menu-toggle" data-menu-toggle data-i18n-aria-label="shared.nav.openMenu" aria-label="Open menu"><span></span></button>
       </div>
     </div>
   </header>
 
   <nav class="mobile-menu" data-mobile-menu aria-label="Mobile navigation">
-    <a href="index.html">Home</a>
-    <a href="hardware.html" aria-current="page">Hardware</a>
-    <a href="software.html">Software</a>
-    <a href="solutions.html">Solution</a>
-    <a href="about.html">About</a>
-    <a href="mailto:contact@aisoportal.com">Contact AISO</a>
+    <a href="index.html" data-i18n="shared.nav.home">Home</a>
+    <a href="hardware.html" aria-current="page" data-i18n="shared.nav.hardware">Hardware</a>
+    <a href="software.html" data-i18n="shared.nav.software">Software</a>
+    <a href="solutions.html" data-i18n="shared.nav.solution">Solution</a>
+    <a href="about.html" data-i18n="shared.nav.about">About</a>
+    <a href="mailto:contact@aisoportal.com" data-i18n="shared.nav.contact">Contact AISO</a>
   </nav>
 
   <div class="hero-band">
     <section class="hero-stage" aria-label="Page hero">
-      <h1 class="hero-title">Choose Your AI Hardware</h1>
-      <p class="hero-subtitle">Select your preferred AI hardware infrastructure, and we'll recommend the best compatible software solutions.</p>
+      <h1 class="hero-title" data-i18n="hardware.hero.title">Choose Your AI Hardware</h1>
+      <p class="hero-subtitle" data-i18n="hardware.hero.subtitle">Select your preferred AI hardware infrastructure, and we'll recommend the best compatible software solutions.</p>
     </section>
   </div>
 
@@ -699,17 +717,18 @@
           </g>
         </svg>
       </a>
-      <p class="footer-copy">&copy; <span id="footer-year"></span> AISO Alliance. All rights reserved.</p>
+      <p class="footer-copy">&copy; <span id="footer-year"></span> <span data-i18n="hardware.footer.copyright">AISO Alliance. All rights reserved.</span></p>
     </div>
 
     <div class="footer-links">
-      <a href="hardware.html">Hardware</a>
-      <a href="software.html">Software</a>
-      <a href="about.html">About</a>
+      <a href="hardware.html" data-i18n="shared.footer.hardware">Hardware</a>
+      <a href="software.html" data-i18n="shared.footer.software">Software</a>
+      <a href="about.html" data-i18n="shared.footer.about">About</a>
     </div>
   </footer>
 
   <button class="help-bubble" type="button" aria-label="Help">?</button>
+  <script src="js/i18n.js"></script>
   <script>
 window.AISOCompatibilityData = {
   hardwareOrder: ["miniPC", "AI BOX", "AITNB", "AITPC", "Workstation", "Rack Server"],
@@ -718,7 +737,7 @@ window.AISOCompatibilityData = {
     "AI BOX": "AI Box",
     "AITNB": "AITNB",
     "AITPC": "AITPC",
-    "Workstation": "Work Station",
+    "Workstation": "Workstation",
     "Rack Server": "Rack Server"
   },
   hardwareAliases: {
@@ -729,7 +748,7 @@ window.AISOCompatibilityData = {
     "AITNB": "AITNB",
     "AITPC": "AITPC",
     "Workstation": "Workstation",
-    "Work Station": "Workstation",
+    "Workstation": "Workstation",
     "Rack Server": "Rack Server"
   },
   softwareOrder: [
@@ -1044,9 +1063,9 @@ window.AISOHardwarePageData = [
   },
   {
     id: 5,
-    type: "Work Station",
-    title: "Work Station",
-    imageAlt: "Work Station",
+    type: "Workstation",
+    title: "Workstation",
+    imageAlt: "Workstation",
     platforms: [
       "NVIDIA RTX 6000 Ada",
       "NVIDIA RTX PRO 6000 Max-Q Workstation Edition"
@@ -2313,9 +2332,9 @@ window.AISOHardwarePageData = [
       },
       {
         id: 5,
-        type: "Work Station",
-        title: "Work Station",
-        imageAlt: "Work Station",
+        type: "Workstation",
+        title: "Workstation",
+        imageAlt: "Workstation",
         platforms: [
           "NVIDIA RTX 6000 Ada",
           "NVIDIA RTX PRO 6000 Max-Q Workstation Edition"
