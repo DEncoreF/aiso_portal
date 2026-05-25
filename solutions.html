@@ -70,77 +70,66 @@
             aria-modal="true"
             aria-labelledby="wizard-quote-title"
           >
-            <div class="modal wizard-quote-dialog modal-wrap">
-              <!-- Left panel: configuration summary -->
+            <div class="wizard-quote-dialog">
+
+              <!-- Left panel -->
               <div class="wiz-quote-panel-left">
-                <button class="modal-close wiz-quote-close-left" data-modal-close aria-label="Close">
-                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                  </svg>
-                </button>
-                <p class="wiz-quote-panel-label">Your Configuration</p>
-                <div class="wizard-quote-summary" data-quote-summary></div>
+                <p class="wiz-quote-header-kicker">AISO Alliance</p>
+                <h3 class="wiz-quote-header-title" id="wizard-quote-title">Talk to an expert.</h3>
+                <p class="wiz-quote-header-sub">Tell us about your deployment. We'll respond within 2-3 business days.</p>
+                <div class="wiz-quote-header-tags" data-quote-summary></div>
               </div>
 
-              <!-- Right panel: form -->
+              <!-- Close button — anchored to dialog, not scrollable panel -->
+              <button class="modal-close wiz-quote-close-right" data-modal-close aria-label="Close">
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
+
+              <!-- Right panel -->
               <div class="wiz-quote-panel-right">
-                <button class="modal-close wiz-quote-close-right" data-modal-close aria-label="Close">
-                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                  </svg>
-                </button>
-                <h3 class="wizard-modal-title" id="wizard-quote-title">Request a Quote</h3>
-                <p class="wizard-modal-sub">We'll get back to you within 1 business day.</p>
-                <div class="wiz-quote-mobile-config">
-                  <p class="wiz-quote-panel-label">Your Configuration</p>
-                  <div class="wizard-quote-summary wizard-quote-summary-mobile" data-quote-summary-mobile></div>
+                <!-- Mobile-only header (left panel is hidden on mobile) -->
+                <div class="wiz-quote-mobile-header">
+                  <p class="wiz-quote-mobile-title">Talk to an expert.</p>
+                  <div class="wiz-quote-header-tags wiz-quote-mobile-tags" data-quote-summary-mobile></div>
                 </div>
-
                 <form class="wizard-quote-form" id="wizard-quote-form" novalidate>
+                  <div class="wiz-quote-row">
+                    <label class="wizard-quote-field">
+                      <span>Name</span>
+                      <input type="text" name="name" autocomplete="name" required placeholder="Your full name" />
+                    </label>
+                    <label class="wizard-quote-field">
+                      <span>Work Email</span>
+                      <input type="email" name="email" autocomplete="email" required placeholder="you@company.com" />
+                    </label>
+                  </div>
+                  <div class="wiz-quote-row">
+                    <label class="wizard-quote-field">
+                      <span>Company</span>
+                      <input type="text" name="company" autocomplete="organization" required placeholder="Organisation name" />
+                    </label>
+                    <label class="wizard-quote-field">
+                      <span>Industry</span>
+                      <select name="industry" required>
+                        <option value="" disabled selected>Select industry</option>
+                        <option value="finance">Finance &amp; Banking</option>
+                        <option value="healthcare">Healthcare &amp; Life Sciences</option>
+                        <option value="manufacturing">Manufacturing &amp; Energy</option>
+                        <option value="government">Government &amp; Public Sector</option>
+                        <option value="technology">Technology &amp; SaaS</option>
+                        <option value="retail">Retail &amp; E-Commerce</option>
+                      </select>
+                    </label>
+                  </div>
                   <label class="wizard-quote-field">
-                    <span>Name *</span>
-                    <input type="text" name="name" autocomplete="name" required placeholder="Your full name" />
+                    <span>Message <span class="wiz-quote-optional">optional</span></span>
+                    <textarea name="message" rows="2" placeholder="Deployment constraints, timeline, or anything else…"></textarea>
                   </label>
-
-                  <label class="wizard-quote-field">
-                    <span>Email *</span>
-                    <input type="email" name="email" autocomplete="email" required placeholder="work@company.com" />
-                  </label>
-
-                  <label class="wizard-quote-field">
-                    <span>Company *</span>
-                    <input type="text" name="company" autocomplete="organization" required placeholder="Organisation name" />
-                  </label>
-
-                  <label class="wizard-quote-field">
-                    <span>Industry *</span>
-                    <select name="industry" required>
-                      <option value="" disabled selected>Select your industry</option>
-                      <option value="finance">Finance &amp; Banking</option>
-                      <option value="healthcare">Healthcare &amp; Life Sciences</option>
-                      <option value="manufacturing">Manufacturing &amp; Energy</option>
-                      <option value="government">Government &amp; Public Sector</option>
-                      <option value="technology">Technology &amp; SaaS</option>
-                      <option value="retail">Retail &amp; E-Commerce</option>
-                    </select>
-                  </label>
-
-                  <label class="wizard-quote-field">
-                    <span>Job Title (optional)</span>
-                    <input type="text" name="title" autocomplete="organization-title" placeholder="e.g. CTO, IT Manager" />
-                  </label>
-
-                  <label class="wizard-quote-field">
-                    <span>Phone (optional)</span>
-                    <input type="tel" name="phone" autocomplete="tel" placeholder="+1 234 567 8900" />
-                  </label>
-
-                  <label class="wizard-quote-field wizard-quote-field-full">
-                    <span>Message</span>
-                    <textarea name="message" rows="3" placeholder="Deployment constraints, workloads, integration needs, or anything else we should know."></textarea>
-                  </label>
-
-                  <button type="submit" class="wizard-primary-button wizard-primary-button-full">
+                  <input type="hidden" name="title" value="" />
+                  <input type="hidden" name="phone" value="" />
+                  <button type="submit" class="wizard-primary-button wiz-quote-submit">
                     Send Enquiry →
                   </button>
                   <p class="wizard-quote-status" data-quote-status role="status"></p>

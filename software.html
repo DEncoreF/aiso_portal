@@ -283,6 +283,14 @@
       padding-inline: clamp(20px, 5vw, 80px);
     }
 
+    .software-section {
+      padding-inline: 0;
+    }
+
+    .software-section .section-head {
+      padding-inline: clamp(20px, 5vw, 80px);
+    }
+
     .notice-banner {
       max-width: var(--content-width);
       margin: -28px auto 0;
@@ -383,107 +391,237 @@
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
+      gap: 0;
+      padding-inline: clamp(20px, 5vw, 80px);
     }
 
     .software-card {
       display: flex;
       flex-direction: column;
-      min-height: 100%;
-      border-radius: 24px;
-      border: 1px solid rgba(20, 46, 123, 0.08);
-      box-shadow: var(--shadow-card);
-      overflow: hidden;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border-radius: 0;
+      border: none;
+      border-top: 1px solid rgba(20, 46, 123, 0.1);
+      box-shadow: none;
+      background: transparent;
+      overflow: visible;
+      transition: background 0.2s;
     }
 
+    .software-card:nth-child(odd) {
+      border-right: 1px solid rgba(20, 46, 123, 0.1);
+    }
+
+    .software-card:nth-child(1),
+    .software-card:nth-child(2) {
+      border-top: none;
+    }
+
+    /* top border removed via nth-child rules above */
+
     .software-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(20, 46, 123, 0.14);
+      transform: none;
+      box-shadow: none;
+      background: rgba(20, 46, 123, 0.025);
     }
 
     .software-card.is-bundled {
-      background: linear-gradient(180deg, #f7f9ff 0%, #edf3ff 100%);
+      background: transparent;
     }
 
     .software-card.is-optional {
-      background: var(--white);
+      background: transparent;
     }
 
-    .software-card-inner {
+    .software-card.is-selected {
+      border-left: 3px solid var(--blue-dark-02);
+      padding-left: 0;
+      background: rgba(20, 46, 123, 0.04);
+    }
+
+    /* Editorial row face */
+    .software-card-face {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      padding: 22px 16px;
+    }
+
+    .software-mark {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: inline-grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--blue-dark-01), var(--blue-dark-02));
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(20, 46, 123, 0.18);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .software-card-face-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .software-card-face-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+      flex-wrap: nowrap;
+      overflow: hidden;
+    }
+
+    .software-company {
+      color: var(--gray-04);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+
+    .software-type-label {
+      color: var(--gray-04);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .software-type-label::before {
+      content: "·";
+      margin-right: 5px;
+    }
+
+    .software-name {
+      color: var(--ink);
+      font-size: 1.18rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .software-description {
+      color: var(--gray-04);
+      font-size: 0.88rem;
+      font-weight: 500;
+      line-height: 1.55;
+      margin-bottom: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .software-card-face-actions {
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      flex: 1;
-      padding: 28px;
+      align-items: flex-end;
+      gap: 8px;
     }
 
+    .software-card-learn-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--blue-dark-02);
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+
+    .software-card-learn-more svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .software-card-learn-more:hover svg {
+      transform: translateX(3px);
+    }
+
+    .action-quick-select {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid rgba(20, 46, 123, 0.22);
+      background: rgba(20, 46, 123, 0.07);
+      color: var(--blue-dark-02);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .action-quick-select:hover {
+      background: rgba(20, 46, 123, 0.13);
+      border-color: rgba(20, 46, 123, 0.35);
+    }
+
+    .action-quick-select.is-selected {
+      background: linear-gradient(135deg, #23367f, #5160a9);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(20, 46, 123, 0.22);
+    }
+
+    .action-included-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: rgba(20, 46, 123, 0.05);
+      color: var(--gray-04);
+      border: 1px solid rgba(20, 46, 123, 0.09);
+      white-space: nowrap;
+    }
+
+    /* Legacy — kept for drawer reuse */
     .software-type-badge {
       align-self: flex-start;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 7px 12px;
+      padding: 5px 10px;
       border-radius: 999px;
       background: rgba(29, 46, 123, 0.08);
       color: var(--blue-dark-02);
-      font-size: 0.74rem;
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    .software-header {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    }
-
-    .software-mark {
-      flex-shrink: 0;
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
-      display: inline-grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--blue-dark-01), var(--blue-dark-02));
-      color: #fff;
-      box-shadow: 0 16px 30px rgba(20, 46, 123, 0.18);
-      font-size: 0.86rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-    }
-
-    .software-company {
-      color: var(--gray-04);
-      font-size: 0.76rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 4px;
-    }
-
-    .software-name {
-      color: var(--ink);
-      font-size: 1.28rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 6px;
-    }
-
-    .software-description {
-      color: var(--ink);
-      font-size: 0.95rem;
-      font-weight: 500;
-      line-height: 1.65;
-      margin-bottom: 18px;
-    }
-
-    .software-divider {
-      border: 0;
-      border-top: 1px solid rgba(20, 46, 123, 0.1);
-      margin: 0 0 18px;
     }
 
     .software-meta {
@@ -630,6 +768,219 @@
       font-weight: 600;
     }
 
+    /* ── Detail Drawer ── */
+    .sd-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 175;
+      background: rgba(7, 11, 29, 0.54);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+
+    .sd-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sd-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 176;
+      width: min(540px, 100vw);
+      background: #ffffff;
+      box-shadow: -24px 0 60px rgba(8, 15, 38, 0.18);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    .sd-drawer.is-open {
+      transform: translateX(0);
+    }
+
+    .sd-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(20, 46, 123, 0.14);
+      background: rgba(20, 46, 123, 0.05);
+      color: var(--ink);
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      z-index: 1;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+
+    .sd-close:hover {
+      background: rgba(20, 46, 123, 0.12);
+    }
+
+    .sd-body {
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(20, 46, 123, 0.2) transparent;
+    }
+
+    .sd-hero {
+      padding: 44px 32px 28px;
+      background: linear-gradient(180deg, #f7f9ff 0%, #edf3ff 100%);
+      border-bottom: 1px solid rgba(20, 46, 123, 0.1);
+    }
+
+    .sd-hero-header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .sd-mark {
+      flex-shrink: 0;
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      display: inline-grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--blue-dark-01), var(--blue-dark-02));
+      color: #fff;
+      box-shadow: 0 16px 30px rgba(20, 46, 123, 0.22);
+      font-size: 0.96rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .sd-hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .sd-company {
+      color: var(--gray-04);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0;
+    }
+
+    .sd-name {
+      color: var(--ink);
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 0;
+    }
+
+    .sd-tagline {
+      color: var(--gray-04);
+      font-size: 0.94rem;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .sd-content {
+      padding: 28px 32px 32px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .sd-action-footer {
+      padding: 20px 32px;
+      border-top: 1px solid rgba(20, 46, 123, 0.1);
+      background: #fff;
+      display: grid;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .sd-quote-link {
+      display: block;
+      text-align: center;
+      color: var(--gray-04);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-family: inherit;
+    }
+
+    .sd-quote-link:hover {
+      color: var(--blue-dark-02);
+    }
+
+    @media (max-width: 680px) {
+      .sd-drawer {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 88vh;
+        border-radius: 24px 24px 0 0;
+        transform: translateY(100%);
+        transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+
+      .sd-drawer.is-open {
+        transform: translateY(0);
+      }
+
+      .sd-hero {
+        padding: 32px 22px 22px;
+      }
+
+      .sd-content {
+        padding: 22px 22px 28px;
+      }
+
+      .sd-action-footer {
+        padding: 16px 22px;
+      }
+
+      .software-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .software-card:nth-child(odd) {
+        border-right: none;
+      }
+
+      .software-card:nth-child(2) {
+        border-top: 1px solid rgba(20, 46, 123, 0.1);
+      }
+
+      .software-card-face {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .software-card-face-actions {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+    }
+
     .site-footer {
       background: var(--white);
       border-top: 1px solid rgba(20, 46, 123, 0.08);
@@ -686,12 +1037,6 @@
       font-weight: 800;
       box-shadow: 0 18px 32px rgba(11, 22, 46, 0.16);
       cursor: pointer;
-    }
-
-    @media (max-width: 980px) {
-      .software-grid {
-        grid-template-columns: 1fr;
-      }
     }
 
     @media (max-width: 680px) {
@@ -1938,6 +2283,9 @@ window.AISOHardwarePageData = [
   const selectedHardwareItem = findHardwareItem(selectedHardware);
 
   let selectedAddOn = null;
+  let activeDetailName = null;
+  let sdBackdrop = null;
+  let sdDrawer = null;
 
   const SVG_FEATURES = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.26L20 9l-4 3.9.94 5.46L12 15.8 7.06 18.36 8 12.9 4 9l5.4-.74L12 3z"/></svg>';
   const SVG_INDUSTRIES = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M5 19a7 7 0 0 1 14 0"/></svg>';
@@ -2024,6 +2372,151 @@ window.AISOHardwarePageData = [
     `;
   }
 
+  function ensureDetailDrawer() {
+    if (sdBackdrop && sdDrawer) return;
+    sdBackdrop = document.createElement("div");
+    sdBackdrop.className = "sd-backdrop";
+    sdBackdrop.setAttribute("aria-hidden", "true");
+    sdDrawer = document.createElement("div");
+    sdDrawer.className = "sd-drawer";
+    sdDrawer.setAttribute("role", "dialog");
+    sdDrawer.setAttribute("aria-modal", "true");
+    sdDrawer.setAttribute("aria-label", "Software detail");
+    document.body.appendChild(sdBackdrop);
+    document.body.appendChild(sdDrawer);
+  }
+
+  function openDetailDrawer(name, typeLabel) {
+    ensureDetailDrawer();
+    activeDetailName = name;
+    sdDrawer.innerHTML = renderSoftwareDetail(name, typeLabel);
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(function () {
+      sdBackdrop.classList.add("is-open");
+      sdDrawer.classList.add("is-open");
+    });
+    var closeBtn = sdDrawer.querySelector("[data-close-detail]");
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeDetailDrawer() {
+    if (!sdBackdrop || !sdDrawer) return;
+    sdBackdrop.classList.remove("is-open");
+    sdDrawer.classList.remove("is-open");
+    document.body.style.overflow = "";
+    activeDetailName = null;
+    setTimeout(function () {
+      if (sdDrawer) sdDrawer.innerHTML = "";
+    }, 340);
+  }
+
+  function refreshDetailDrawer() {
+    if (!activeDetailName || !sdDrawer || !sdDrawer.innerHTML) return;
+    var toggleBtn = sdDrawer.querySelector("[data-select-add-on]");
+    if (!toggleBtn) return;
+    var isSelected = selectedAddOn === activeDetailName;
+    toggleBtn.classList.toggle("is-selected", isSelected);
+    toggleBtn.textContent = isSelected ? "✓ Selected Add-on" : "Select Add-on";
+  }
+
+  function renderSoftwareDetail(name, typeLabel) {
+    var item = softwareCatalog[name];
+    var compatibilityEntry = getCompatibilityEntry(name);
+    var compatibleHardware = compatibilityEntry ? (compatibilityEntry.hardware || []) : [];
+    var isSelected = selectedAddOn === name;
+    var isOptional = typeLabel !== "Bundled";
+
+    var heroHtml = `
+      <div class="sd-hero">
+        <div class="sd-hero-header">
+          <div class="sd-mark" aria-hidden="true">${escapeHtml(getMarkText(name))}</div>
+          <div>
+            <div class="sd-hero-meta">
+              <p class="sd-company">${escapeHtml(item.company)}</p>
+              <span class="software-type-badge">${escapeHtml(typeLabel)}</span>
+            </div>
+            <h2 class="sd-name">${escapeHtml(name)}</h2>
+          </div>
+        </div>
+        <p class="sd-tagline">${escapeHtml(item.description)}</p>
+      </div>
+    `;
+
+    var featuresHtml = `
+      <section class="software-meta-block">
+        <div class="software-meta-title">${SVG_FEATURES} Key Features</div>
+        <ul class="feature-list">
+          ${item.features.map(function (f) {
+            return `<li class="feature-item"><span class="feature-dot"></span><span>${escapeHtml(f)}</span></li>`;
+          }).join("")}
+        </ul>
+      </section>
+    `;
+
+    var industriesHtml = `
+      <section class="software-meta-block">
+        <div class="software-meta-title">${SVG_INDUSTRIES} Applicable Industries</div>
+        <div class="industry-list">
+          ${item.industries.map(function (ind) {
+            return `<span class="industry-chip">${escapeHtml(ind)}</span>`;
+          }).join("")}
+        </div>
+      </section>
+    `;
+
+    var primaryActionHtml = "";
+    if (!isOptional) {
+      if (!selectedHardware) {
+        primaryActionHtml = compatibleHardware.length
+          ? `
+            <div class="action-message">
+              <a class="action-primary" href="hardware.html?software=${encodeURIComponent(name)}">View Compatible Hardware</a>
+              <p class="action-helper">This software is bundled automatically with compatible hardware. Select a hardware to get started.</p>
+            </div>
+          `
+          : `<span class="action-primary is-disabled" aria-disabled="true">Compatible Hardware Pending</span>`;
+      } else {
+        primaryActionHtml = `
+          <div class="action-message">
+            <span class="action-secondary">Included by Default</span>
+            <p class="action-helper">This bundled software is already included with the selected hardware and cannot be selected separately.</p>
+          </div>
+        `;
+      }
+    } else if (!selectedHardware) {
+      primaryActionHtml = compatibleHardware.length
+        ? `<a class="action-primary" href="hardware.html?software=${encodeURIComponent(name)}">Find Compatible Hardware</a>`
+        : `<span class="action-primary is-disabled" aria-disabled="true">Compatible Hardware Pending</span>`;
+    } else {
+      primaryActionHtml = `
+        <button class="action-primary selection-toggle ${isSelected ? "is-selected" : ""}"
+                type="button"
+                data-select-add-on="${escapeHtml(name)}">
+          ${isSelected ? "✓ Selected Add-on" : "Select Add-on"}
+        </button>
+      `;
+    }
+
+    var quoteCta = (selectedHardware && isOptional)
+      ? `<button class="sd-quote-link" type="button" data-open-quote>Request a custom quote for this add-on</button>`
+      : "";
+
+    return `
+      <button class="sd-close" type="button" data-close-detail aria-label="Close detail panel">&times;</button>
+      <div class="sd-body">
+        ${heroHtml}
+        <div class="sd-content">
+          ${featuresHtml}
+          ${industriesHtml}
+        </div>
+      </div>
+      <div class="sd-action-footer">
+        ${primaryActionHtml}
+        ${quoteCta}
+      </div>
+    `;
+  }
+
   function renderCardAction(name, typeLabel, compatibleHardware) {
     if (!selectedHardware) {
       if (!compatibleHardware.length) {
@@ -2060,41 +2553,51 @@ window.AISOHardwarePageData = [
   function renderSoftwareCard(name, typeLabel, variantClass) {
     const item = softwareCatalog[name];
     const compatibilityEntry = getCompatibilityEntry(name);
-    const compatibleHardware = compatibilityEntry.hardware || [];
+    const compatibleHardware = compatibilityEntry ? (compatibilityEntry.hardware || []) : [];
     const isSelected = selectedAddOn === name;
+    const isOptional = typeLabel !== "Bundled";
+
+    let footerAction = "";
+    if (!isOptional) {
+      footerAction = `<span class="action-included-badge">Included</span>`;
+    } else if (!selectedHardware) {
+      footerAction = compatibleHardware.length
+        ? `<a class="action-quick-select" href="hardware.html?software=${encodeURIComponent(name)}">Find Hardware</a>`
+        : `<span class="action-included-badge">Pending</span>`;
+    } else {
+      footerAction = `
+        <button class="action-quick-select${isSelected ? " is-selected" : ""}"
+                type="button"
+                data-select-add-on="${escapeHtml(name)}">
+          ${isSelected ? "✓ Selected" : "Select Add-on"}
+        </button>
+      `;
+    }
+
     return `
-      <article class="software-card ${variantClass}${isSelected ? " is-selected" : ""}">
-        <div class="software-card-inner">
-          <span class="software-type-badge">${escapeHtml(typeLabel)}</span>
-          <div class="software-header">
-            <div class="software-mark" aria-hidden="true">${escapeHtml(getMarkText(name))}</div>
-            <div>
+      <article class="software-card ${variantClass}${isSelected ? " is-selected" : ""}"
+               data-software-name="${escapeHtml(name)}">
+        <div class="software-card-face">
+          <div class="software-mark" aria-hidden="true">${escapeHtml(getMarkText(name))}</div>
+          <div class="software-card-face-body">
+            <div class="software-card-face-meta">
               <p class="software-company">${escapeHtml(item.company)}</p>
-              <h3 class="software-name">${escapeHtml(name)}</h3>
             </div>
+            <h3 class="software-name">${escapeHtml(name)}</h3>
+            <p class="software-description">${escapeHtml(item.description)}</p>
           </div>
-          <p class="software-description">${escapeHtml(item.description)}</p>
-          <hr class="software-divider">
-          <div class="software-meta">
-            <section class="software-meta-block">
-              <div class="software-meta-title">${SVG_FEATURES} Key Features</div>
-              <ul class="feature-list">
-                ${item.features.map(function (feature) {
-                  return `<li class="feature-item"><span class="feature-dot"></span><span>${escapeHtml(feature)}</span></li>`;
-                }).join("")}
-              </ul>
-            </section>
-            <section class="software-meta-block">
-              <div class="software-meta-title">${SVG_INDUSTRIES} Applicable Industries</div>
-              <div class="industry-list">
-                ${item.industries.map(function (industry) {
-                  return `<span class="industry-chip">${escapeHtml(industry)}</span>`;
-                }).join("")}
-              </div>
-            </section>
-          </div>
-          <div class="action-stack">
-            ${renderCardAction(name, typeLabel, compatibleHardware)}
+          <div class="software-card-face-actions">
+            <button class="software-card-learn-more"
+                    type="button"
+                    data-open-detail="${escapeHtml(name)}"
+                    aria-label="Learn more about ${escapeHtml(name)}">
+              Learn more
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+            ${footerAction}
           </div>
         </div>
       </article>
@@ -2312,15 +2815,50 @@ window.AISOHardwarePageData = [
   }
 
   function initEvents() {
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && activeDetailName) {
+        closeDetailDrawer();
+      }
+    });
+
     document.addEventListener("click", function (event) {
+      // Open detail drawer
+      const detailTrigger = event.target.closest("[data-open-detail]");
+      if (detailTrigger) {
+        event.stopPropagation();
+        const name = detailTrigger.getAttribute("data-open-detail");
+        const card = detailTrigger.closest(".software-card");
+        const typeLabel = card
+          ? (card.classList.contains("is-bundled") ? "Bundled" : "Optional Add-on")
+          : "Optional Add-on";
+        openDetailDrawer(name, typeLabel);
+        return;
+      }
+
+      // Close: scrim click
+      if (sdBackdrop && event.target === sdBackdrop) {
+        closeDetailDrawer();
+        return;
+      }
+
+      // Close: close button
+      const closeBtn = event.target.closest("[data-close-detail]");
+      if (closeBtn) {
+        closeDetailDrawer();
+        return;
+      }
+
+      // Select add-on (from outer row OR from inside drawer)
       const addOnButton = event.target.closest("[data-select-add-on]");
       if (addOnButton) {
         const targetName = addOnButton.getAttribute("data-select-add-on");
         selectedAddOn = selectedAddOn === targetName ? null : targetName;
         renderSoftware();
+        refreshDetailDrawer();
         return;
       }
 
+      // Open quote modal
       const quoteButton = event.target.closest("[data-open-quote]");
       if (quoteButton) {
         openQuoteModal();

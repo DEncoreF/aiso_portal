@@ -335,34 +335,45 @@ function resolveRecommendation(answers) {
   }
 
   function renderBrowse() {
-    var tiers = window.AISO_V2_DATA.tiers;
-    var cards = tiers.map(function (tier) {
-      return [
-        '<div class="sol-tier-card">',
-        '  <div class="sol-tier-card-header">',
-        '    <span class="sol-tier-name">' + escapeHtml(tier.tier) + '</span>',
-        '    <span class="sol-tier-form">' + escapeHtml(tier.formFactor) + '</span>',
-        '  </div>',
-        '  <p class="sol-tier-tagline">' + escapeHtml(tier.tagline) + '</p>',
-        '  <p class="sol-tier-desc">' + escapeHtml(tier.description) + '</p>',
-        '  <p class="sol-tier-audience">' + escapeHtml(tier.audience) + '</p>',
-        '  <ul class="sol-tier-scenarios">',
-        tier.scenarios.slice(0, 3).map(function(s) { return '<li>' + escapeHtml(s) + '</li>'; }).join(''),
-        '  </ul>',
-        '</div>'
-      ].join('');
-    }).join('');
-
     return [
       '<section class="wizard-screen wiz-browse">',
-      '  <div class="wizard-screen-inner wizard-screen-shell-wide wiz-browse-inner">',
-      '    <p class="wizard-kicker">Sovereign AI for Every Scale</p>',
-      '    <h1 class="wizard-title wiz-browse-title">Find Your On-Premise AI Stack</h1>',
-      '    <p class="wizard-copy-block wiz-browse-copy">Four tiers — from a solo workstation to a full data-centre rack. Every configuration runs entirely on-premise, zero cloud dependency.</p>',
-      '    <div class="sol-tier-grid">' + cards + '</div>',
-      '    <div class="wiz-browse-cta">',
-      '      <p class="wiz-browse-hint">Answer 3 questions. Get a stack matched to your scale, use case, and deployment priorities.</p>',
-      '      <button class="wizard-primary-button" data-action="start">Get My Recommendation →</button>',
+      '  <div class="wiz-hero-layout">',
+      '    <div class="wiz-hero-inner">',
+      '      <div class="wiz-hero-kicker-pill">',
+      '        <span class="wiz-hero-kicker-dot" aria-hidden="true"></span>',
+      '        Sovereign AI &nbsp;&middot;&nbsp; On-premise &nbsp;&middot;&nbsp; No cloud',
+      '      </div>',
+      '      <h1 class="wizard-title wiz-hero-title">Your AI. Your Data.</h1>',
+      '      <div class="wiz-hero-accent-wrap">',
+      '        <h1 class="wizard-title wiz-hero-title wiz-hero-title-accent">Your Rules.</h1>',
+      '        <div class="wiz-hero-accent-line" aria-hidden="true"></div>',
+      '      </div>',
+      '      <p class="wiz-hero-copy">A complete AI stack running entirely on your infrastructure. Full ownership. Absolute control.</p>',
+      '      <div class="wiz-hero-cta">',
+      '        <button class="wiz-hero-primary-btn" data-action="start">Find My Solution →</button>',
+      '        <div class="wiz-hero-hint-block">',
+      '          <p class="wiz-hero-hint-strong">3 questions</p>',
+      '          <p class="wiz-hero-hint-sub">under a minute &nbsp;&middot;&nbsp; no signup</p>',
+      '        </div>',
+      '      </div>',
+      '    </div>',
+      '    <div class="wiz-hero-visual" aria-hidden="true">',
+      '      <div class="wiz-hero-glyph">',
+      '        <svg viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">',
+      '          <circle cx="160" cy="160" r="120" stroke="rgba(129,140,248,0.12)" stroke-width="1"/>',
+      '          <circle cx="160" cy="160" r="80" stroke="rgba(129,140,248,0.18)" stroke-width="1"/>',
+      '          <circle cx="160" cy="160" r="40" stroke="rgba(129,140,248,0.28)" stroke-width="1"/>',
+      '          <circle cx="160" cy="160" r="8" fill="rgba(129,140,248,0.6)"/>',
+      '          <line x1="160" y1="40" x2="160" y2="280" stroke="rgba(129,140,248,0.08)" stroke-width="1"/>',
+      '          <line x1="40" y1="160" x2="280" y2="160" stroke="rgba(129,140,248,0.08)" stroke-width="1"/>',
+      '          <circle cx="160" cy="40" r="4" fill="rgba(129,140,248,0.5)"/>',
+      '          <circle cx="280" cy="160" r="4" fill="rgba(129,140,248,0.35)"/>',
+      '          <circle cx="160" cy="280" r="4" fill="rgba(129,140,248,0.25)"/>',
+      '          <circle cx="40" cy="160" r="4" fill="rgba(129,140,248,0.2)"/>',
+      '          <path d="M160 40 A120 120 0 0 1 280 160" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" stroke-linecap="round"/>',
+      '          <path d="M160 80 A80 80 0 0 0 80 160" stroke="rgba(129,140,248,0.25)" stroke-width="1" stroke-linecap="round"/>',
+      '        </svg>',
+      '      </div>',
       '    </div>',
       '  </div>',
       '</section>'
@@ -412,16 +423,24 @@ function resolveRecommendation(answers) {
     ].join('');
   }
 
+  function getSolutionNarrative() {
+    var narratives = (data.solutionNarratives) || {};
+    var goal = state.answers.goal || '';
+    var pain = state.answers.pain || '';
+    var key = goal + '|' + pain;
+    return narratives[key] || narratives[goal] || narratives['default'] || {
+      role: 'On-Premise AI for Your Organisation',
+      headline: 'A sovereign AI deployment tailored to your scale and objectives.',
+      points: ['Runs entirely on your own infrastructure — zero cloud dependency', 'Covers your AI use case from day one with a pre-configured stack', 'Full control over your models, data, and deployment — permanently']
+    };
+  }
+
   function getResultMarkup() {
     var recommendation = state.recommendation || resolveRecommendation(state.answers);
-    var tiers = data.tiers || [];
-    var tierOrder = (data.recommendationRules && data.recommendationRules.tierOrder) || ['personal', 'studio', 'sme', 'enterprise'];
-    var activeTier;
-    var activeFinalIdx;
-    var bundleProducts;
-    var eligibleAddOns;
-    var groupedAddOns;
-    var profileLabels = getProfileLabels();
+    var narrative;
+    var scaleLabel = getSelectedLabel('scale', state.answers.scale);
+    var goalLabel  = getSelectedLabel('goal',  state.answers.goal);
+    var painLabel  = getPainLabel(state.answers.pain);
 
     if (!recommendation || !recommendation.tier) {
       return getErrorMarkup('A recommendation could not be generated from the current answers.');
@@ -430,22 +449,36 @@ function resolveRecommendation(answers) {
     state.recommendation = recommendation;
     if (state.activeTierId === null) state.activeTierId = recommendation.tierId;
 
-    activeTier = tiers.find(function (t) {
-      return t.id === state.activeTierId;
-    }) || recommendation.tier;
-    activeFinalIdx = tierOrder.indexOf(state.activeTierId);
-    if (activeFinalIdx < 0) activeFinalIdx = recommendation.finalIdx;
+    narrative = getSolutionNarrative();
 
-    bundleProducts = getBundledProductsForTier(activeFinalIdx);
-    eligibleAddOns = (data.softwareCatalog || []).filter(function (s) {
-      return !s.isBundled && tierOrder.indexOf(s.minTier) <= activeFinalIdx;
-    });
-    groupedAddOns = groupAddOnsByDomain(eligibleAddOns);
-    ensureSelectedAddOns(recommendation, activeFinalIdx);
+    var headlineParts = narrative.headline.split('.');
+    var firstPart = headlineParts[0] ? escapeHtml(headlineParts[0].trim()) + '.' : '';
+    var restPart  = headlineParts.slice(1).join('.').trim();
+    var headlineHtml = restPart
+      ? firstPart + ' <span class="wiz-result-headline-accent">' + escapeHtml(restPart) + '</span>'
+      : firstPart;
+
+    var checkItems = [
+      'Sovereign AI stack sized for your team',
+      'Configuration matched to your ' + escapeHtml(goalLabel || 'objective'),
+      'Deployment scope sized for a ' + escapeHtml(painLabel || 'your budget') + ' investment',
+      'Response within one business day'
+    ];
+
+    var checklistHtml = checkItems.map(function (item) {
+      return [
+        '<li class="wiz-result-check-item">',
+          '<span class="wiz-result-check-icon" aria-hidden="true">',
+            '<svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+          '</span>',
+          '<span>' + item + '</span>',
+        '</li>'
+      ].join('');
+    }).join('');
 
     return [
       '<section class="wizard-screen wizard-screen-result">',
-        '<div class="wizard-screen-inner wizard-screen-shell wizard-screen-shell-wide">',
+        '<div class="wizard-screen-inner wizard-screen-shell wizard-screen-shell-narrow">',
           '<div class="wizard-toolbar wizard-toolbar-result">',
             '<button type="button" class="wizard-back-button" data-action="back">',
               getBackIconMarkup(),
@@ -453,90 +486,29 @@ function resolveRecommendation(answers) {
             '</button>',
             '<button type="button" class="wizard-reset-button" data-action="restart">Start Over</button>',
           '</div>',
-          '<div class="wiz-result-column">',
-            '<div class="wiz-tier-tabs">',
-              tierOrder.map(function (tierId) {
-                var tabTier = tiers.find(function (tierItem) {
-                  return tierItem.id === tierId;
-                });
+          '<div class="wiz-result-card">',
 
-                if (!tabTier) return '';
+            '<div class="wiz-result-captured-pill">',
+              '<svg class="wiz-result-check-svg" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+              'Requirements captured',
+            '</div>',
 
-                return [
-                  '<button type="button" class="wiz-tier-tab',
-                    tabTier.id === state.activeTierId ? ' is-active' : '',
-                    tabTier.id === recommendation.tierId ? ' is-recommended' : '',
-                    '" data-action="switch-tier" data-tier-id="', escapeAttr(tabTier.id), '">',
-                    '<span class="wiz-tier-tab-label">', escapeHtml(tabTier.tier), '</span>',
-                    '<span class="wiz-tier-tab-form">', escapeHtml(tabTier.formFactor), '</span>',
-                    tabTier.id === recommendation.tierId
-                      ? '<span class="wiz-tier-recommended-badge">Recommended</span>'
-                      : '',
-                  '</button>'
-                ].join('');
-              }).join(''),
+            '<h1 class="wiz-result-headline">', headlineHtml, '</h1>',
+
+            '<p class="wiz-result-sub">Our solutions team will review your requirements and respond with a configuration built around your answers — not a generic bundle.</p>',
+
+            '<div class="wiz-result-checklist">',
+              '<p class="wiz-result-checklist-label">Your proposal will include</p>',
+              '<ul class="wiz-result-check-list">', checklistHtml, '</ul>',
             '</div>',
-            '<div class="wiz-reveal">',
-              '<span class="wizard-panel-label">Your Recommended Stack</span>',
-              '<h1 class="wiz-reveal-title">' + escapeHtml(activeTier.tier) + '<span class="wiz-reveal-title-form">' + escapeHtml(activeTier.formFactor) + '</span></h1>',
-              '<p class="wiz-reveal-tagline">', escapeHtml(activeTier.tagline), '</p>',
-              '<div class="wiz-context-chips">',
-                profileLabels.map(function (label) {
-                  return '<span class="wiz-context-chip">' + escapeHtml(label) + '</span>';
-                }).join(''),
-              '</div>',
-            '</div>',
-            '<div class="wiz-hw-bundle-row">',
-              '<div class="wiz-info-card">',
-                '<h2 class="wiz-info-title">Hardware</h2>',
-                '<div class="wizard-pill-row">',
-                  activeTier.platforms.map(function (platform) {
-                    return '<span class="wizard-pill">' + escapeHtml(platform) + '</span>';
-                  }).join(''),
-                '</div>',
-                '<p class="wiz-info-sub">', escapeHtml(activeTier.formFactor), '</p>',
-              '</div>',
-              '<div class="wiz-info-card">',
-                '<h2 class="wiz-info-title">Bundled Core</h2>',
-                '<p class="wiz-info-subtitle">Included with every hardware tier</p>',
-                '<div class="wiz-bundle-list">',
-                  bundleProducts.map(function (item) {
-                    return [
-                      '<div class="wiz-bundle-item">',
-                        '<span class="wiz-bundle-check" aria-hidden="true">&#10003;</span>',
-                        '<span>', escapeHtml(item.name), '</span>',
-                      '</div>'
-                    ].join('');
-                  }).join(''),
-                '</div>',
-              '</div>',
-            '</div>',
-            '<section class="wiz-addon-section">',
-              '<div class="wiz-section-head">',
-                '<h2 class="wiz-section-title">Optional Add-ons</h2>',
-                '<p class="wiz-section-sub">Select what interests you &#8212; we will include your choices in the enquiry.</p>',
-              '</div>',
-              groupedAddOns.length
-                ? groupedAddOns.map(function (group) {
-                    return [
-                      '<div class="wiz-addon-group">',
-                        '<div class="wiz-addon-group-label">', escapeHtml(group.label), '</div>',
-                        '<div class="wiz-addon-grid-toggle">',
-                          group.items.map(getAddOnToggleMarkup).join(''),
-                        '</div>',
-                      '</div>'
-                    ].join('');
-                  }).join('')
-                : '<p class="wizard-empty-state">No optional add-ons are unlocked for this configuration yet.</p>',
-            '</section>',
-            '<div class="wiz-why-block">',
-              '<h2 class="wiz-section-title">Why this fits</h2>',
-              '<p>', escapeHtml(state.activeTierId === recommendation.tierId ? recommendation.whyFits : activeTier.description), '</p>',
-            '</div>',
-            '<div class="wiz-cta-row">',
-              '<button type="button" class="wizard-primary-button" data-action="quote" data-tier-id="', escapeAttr(state.activeTierId), '">Request a Quote &rarr;</button>',
-              '<a class="wizard-ghost-button" href="test.html#pipeline">Explore aiDAPTIV Architecture</a>',
-            '</div>',
+
+            '<button type="button" class="wiz-result-cta-btn" data-action="quote">',
+              '<span>Get a Tailored Quote</span>',
+              '<span class="wiz-result-cta-arrow" aria-hidden="true">',
+                '<svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+              '</span>',
+            '</button>',
+
           '</div>',
         '</div>',
       '</section>'
@@ -779,43 +751,41 @@ function resolveRecommendation(answers) {
 
   function getQuoteFormMarkup() {
     return [
+      '<div class="wiz-quote-row">',
+        '<label class="wizard-quote-field">',
+          '<span>Name *</span>',
+          '<input type="text" name="name" autocomplete="name" required placeholder="Your full name" />',
+        '</label>',
+        '<label class="wizard-quote-field">',
+          '<span>Work Email *</span>',
+          '<input type="email" name="email" autocomplete="email" required placeholder="you@company.com" />',
+        '</label>',
+      '</div>',
+      '<div class="wiz-quote-row">',
+        '<label class="wizard-quote-field">',
+          '<span>Company *</span>',
+          '<input type="text" name="company" autocomplete="organization" required placeholder="Organisation name" />',
+        '</label>',
+        '<label class="wizard-quote-field">',
+          '<span>Industry *</span>',
+          '<select name="industry" required>',
+            '<option value="" disabled selected>Select industry</option>',
+            '<option value="finance">Finance &amp; Banking</option>',
+            '<option value="healthcare">Healthcare &amp; Life Sciences</option>',
+            '<option value="manufacturing">Manufacturing &amp; Energy</option>',
+            '<option value="government">Government &amp; Public Sector</option>',
+            '<option value="technology">Technology &amp; SaaS</option>',
+            '<option value="retail">Retail &amp; E-Commerce</option>',
+          '</select>',
+        '</label>',
+      '</div>',
       '<label class="wizard-quote-field">',
-        '<span>Name *</span>',
-        '<input type="text" name="name" autocomplete="name" required placeholder="Your full name" />',
+        '<span>Message <span class="wiz-quote-optional">optional</span></span>',
+        '<textarea name="message" rows="2" placeholder="Deployment constraints, timeline, or anything else…"></textarea>',
       '</label>',
-      '<label class="wizard-quote-field">',
-        '<span>Email *</span>',
-        '<input type="email" name="email" autocomplete="email" required placeholder="work@company.com" />',
-      '</label>',
-      '<label class="wizard-quote-field">',
-        '<span>Company *</span>',
-        '<input type="text" name="company" autocomplete="organization" required placeholder="Organisation name" />',
-      '</label>',
-      '<label class="wizard-quote-field">',
-        '<span>Industry *</span>',
-        '<select name="industry" required>',
-          '<option value="" disabled selected>Select your industry</option>',
-          '<option value="finance">Finance &amp; Banking</option>',
-          '<option value="healthcare">Healthcare &amp; Life Sciences</option>',
-          '<option value="manufacturing">Manufacturing &amp; Energy</option>',
-          '<option value="government">Government &amp; Public Sector</option>',
-          '<option value="technology">Technology &amp; SaaS</option>',
-          '<option value="retail">Retail &amp; E-Commerce</option>',
-        '</select>',
-      '</label>',
-      '<label class="wizard-quote-field">',
-        '<span>Job Title (optional)</span>',
-        '<input type="text" name="title" autocomplete="organization-title" placeholder="e.g. CTO, IT Manager" />',
-      '</label>',
-      '<label class="wizard-quote-field">',
-        '<span>Phone (optional)</span>',
-        '<input type="tel" name="phone" autocomplete="tel" placeholder="+1 234 567 8900" />',
-      '</label>',
-      '<label class="wizard-quote-field wizard-quote-field-full">',
-        '<span>Message</span>',
-        '<textarea name="message" rows="3" placeholder="Deployment constraints, workloads, integration needs, or anything else we should know."></textarea>',
-      '</label>',
-      '<button type="submit" class="wizard-primary-button wizard-primary-button-full">',
+      '<input type="hidden" name="title" value="" />',
+      '<input type="hidden" name="phone" value="" />',
+      '<button type="submit" class="wizard-primary-button wiz-quote-submit">',
         'Send Enquiry →',
       '</button>',
       '<p class="wizard-quote-status" data-quote-status role="status"></p>'
@@ -823,67 +793,21 @@ function resolveRecommendation(answers) {
   }
 
   function openQuoteModal() {
-    var recommendation = state.recommendation || resolveRecommendation(state.answers);
-    var tiers = data.tiers || [];
-    var tierOrder = (data.recommendationRules && data.recommendationRules.tierOrder) || ['personal', 'studio', 'sme', 'enterprise'];
-    var activeTier;
-    var activeFinalIdx;
-    var hardwareTier;
     var scaleLabel;
-    var scaleSubtext;
     var goalLabel;
+    var painLabel;
     var summaryRows;
     var summaryMarkup;
     var firstInput;
 
-    if (!quoteModal || !quoteForm || !recommendation || !recommendation.tier) return;
+    if (!quoteModal || !quoteForm) return;
 
-    state.recommendation = recommendation;
-    if (state.activeTierId === null) state.activeTierId = recommendation.tierId;
-    activeTier = tiers.find(function (tier) {
-      return tier.id === state.activeTierId;
-    }) || recommendation.tier;
-    activeFinalIdx = tierOrder.indexOf(state.activeTierId);
-    if (activeFinalIdx < 0) activeFinalIdx = recommendation.finalIdx;
-
-    ensureSelectedAddOns(recommendation, activeFinalIdx);
-    hardwareTier = activeTier.tier + ' \u2014 ' + activeTier.formFactor;
     scaleLabel = getSelectedLabel('scale', state.answers.scale);
-    scaleSubtext = getSelectedSubtext('scale', state.answers.scale);
-    goalLabel = getSelectedLabel('goal', state.answers.goal);
-    summaryRows = [
-      { label: 'Hardware Tier', value: hardwareTier },
-      { label: 'Organisation Scale', value: scaleLabel },
-      { label: 'Planned Users', value: scaleSubtext || 'Not specified' },
-      { label: 'AI Objective', value: goalLabel },
-      { label: 'AI Priority', value: getPainLabel(state.answers.pain) },
-      { label: 'Platforms', value: activeTier.platforms.join(' / ') },
-      { label: 'Bundled Software', value: 'Orient AI + Otterscale' },
-      { label: 'Selected Add-ons', value: getSelectedAddOnNames('None selected'), full: true }
-    ];
+    goalLabel  = getSelectedLabel('goal',  state.answers.goal);
+    painLabel  = getPainLabel(state.answers.pain);
 
-    if (state.activeTierId !== recommendation.tierId) {
-      summaryRows.push({
-        note: 'Note: Recommended tier was ' + recommendation.tier.tier + ' \u2014 ' + recommendation.tier.formFactor,
-        full: true
-      });
-    }
-
-    summaryMarkup = summaryRows.map(function (row) {
-      if (row.note) {
-        return [
-          '<div class="wizard-quote-summary-row wizard-quote-summary-row-full">',
-          '<strong>', escapeHtml(row.note), '</strong>',
-          '</div>'
-        ].join('');
-      }
-
-      return [
-        '<div class="wizard-quote-summary-row', row.full ? ' wizard-quote-summary-row-full' : '', '">',
-        '<span>', escapeHtml(row.label), '</span>',
-        '<strong>', escapeHtml(row.value), '</strong>',
-        '</div>'
-      ].join('');
+    summaryMarkup = [scaleLabel, goalLabel, painLabel].filter(Boolean).map(function (val) {
+      return '<span class="wiz-quote-tag">' + escapeHtml(val) + '</span>';
     }).join('');
 
     if (quoteSummary) quoteSummary.innerHTML = summaryMarkup;
@@ -915,17 +839,8 @@ function resolveRecommendation(answers) {
 
   function handleQuoteSubmit(event) {
     var formData;
-    var recommendation = state.recommendation || resolveRecommendation(state.answers);
-    var tiers = data.tiers || [];
-    var tierOrder = (data.recommendationRules && data.recommendationRules.tierOrder) || ['personal', 'studio', 'sme', 'enterprise'];
-    var activeTier;
-    var activeFinalIdx;
     var subject;
     var bodyLines;
-    var addOnNames;
-    var scaleLabel;
-    var scaleSubtext;
-    var goalLabel;
     var href;
 
     event.preventDefault();
@@ -935,52 +850,24 @@ function resolveRecommendation(answers) {
       return;
     }
 
-    if (!recommendation || !recommendation.tier) return;
-
-    if (state.activeTierId === null) state.activeTierId = recommendation.tierId;
-    activeTier = tiers.find(function (tier) {
-      return tier.id === state.activeTierId;
-    }) || recommendation.tier;
-    activeFinalIdx = tierOrder.indexOf(state.activeTierId);
-    if (activeFinalIdx < 0) activeFinalIdx = recommendation.finalIdx;
-
-    ensureSelectedAddOns(recommendation, activeFinalIdx);
     formData = new FormData(quoteForm);
-    addOnNames = getSelectedAddOnNames('None');
-    scaleLabel = getSelectedLabel('scale', state.answers.scale);
-    scaleSubtext = getSelectedSubtext('scale', state.answers.scale);
-    goalLabel = getSelectedLabel('goal', state.answers.goal);
-    subject = 'AISO Stack Enquiry \u2014 ' + activeTier.tier;
+    subject = 'AISO Solution Enquiry';
 
     bodyLines = [
-      '=== Configuration ===',
-      'Hardware Tier: ' + activeTier.tier + ' \u2014 ' + activeTier.formFactor,
-      'Organisation Scale: ' + scaleLabel,
-      'Planned Users: ' + (scaleSubtext || 'Not specified'),
-      'AI Objective: ' + goalLabel,
-      'AI Priority: ' + getPainLabel(state.answers.pain),
-      'Industry: ' + (formData.get('industry') || '—'),
-      'Platforms: ' + activeTier.platforms.join(' / '),
-      'Bundled Software: Orient AI + Otterscale',
-      'Selected Add-ons: ' + addOnNames
-    ];
-
-    if (state.activeTierId !== recommendation.tierId) {
-      bodyLines.push(
-        'Note: Recommended tier was ' + recommendation.tier.tier + ' \u2014 ' + recommendation.tier.formFactor
-      );
-    }
-
-    bodyLines = bodyLines.concat([
+      '=== Requirements ===',
+      'Organisation Scale: '   + (getSelectedLabel('scale', state.answers.scale) || 'Not specified'),
+      'Primary AI Objective: ' + (getSelectedLabel('goal',  state.answers.goal)  || 'Not specified'),
+      'Budget Range: '         + (getPainLabel(state.answers.pain)                || 'Not specified'),
+      'Industry: '             + (formData.get('industry') || '—'),
       '',
       '=== Contact ===',
-      'Name: ' + (formData.get('name') || ''),
-      'Company: ' + (formData.get('company') || ''),
-      'Email: ' + (formData.get('email') || ''),
-      'Job Title: ' + (formData.get('title') || '\u2014'),
-      'Phone: ' + (formData.get('phone') || '\u2014'),
-      'Message: ' + (formData.get('message') || '\u2014')
-    ]);
+      'Name: '      + (formData.get('name')    || ''),
+      'Company: '   + (formData.get('company') || ''),
+      'Email: '     + (formData.get('email')   || ''),
+      'Job Title: ' + (formData.get('title')   || '—'),
+      'Phone: '     + (formData.get('phone')   || '—'),
+      'Message: '   + (formData.get('message') || '—')
+    ];
 
     href = 'mailto:contact@aisoportal.com?subject=' +
       encodeURIComponent(subject) +
