@@ -387,11 +387,10 @@ window.AISO_V2_DATA = {
       question: "What is your approximate deployment budget?",
       subtext: 'We use this to right-size the hardware tier and deployment scope for your organisation.',
       options: [
-        { value: 'privacy',     label: 'Under TWD $1M',          sub: 'Compact workstation or personal AI node — individual to small team' },
-        { value: 'cost',        label: 'TWD $1M – $5M',          sub: 'Dedicated workstation or departmental server — growing teams' },
-        { value: 'compliance',  label: 'TWD $5M – $15M',         sub: 'Multi-GPU server or small rack cluster — enterprise division' },
-        { value: 'integration', label: 'TWD $15M – $60M',        sub: 'Full rack-scale deployment — large enterprise or government' },
-        { value: 'speed',       label: 'TWD $60M+',              sub: 'Data-centre-grade sovereign AI infrastructure at scale' }
+        { value: 'privacy',     label: 'Under USD $20K',          sub: 'Pilot or proof-of-concept budget' },
+        { value: 'cost',        label: 'USD $20K – $50K',         sub: 'Departmental or team-level investment' },
+        { value: 'compliance',  label: 'USD $50K – $200K',        sub: 'Division-wide or multi-team rollout' },
+        { value: 'integration', label: 'USD $200K+',              sub: 'Organisation-wide or mission-critical deployment' }
       ]
     }
   ],
@@ -460,11 +459,10 @@ window.AISO_V2_DATA = {
         'industry':  'with Industry Solutions add-ons tailored to your vertical'
       },
       pain: {
-        'privacy':     'configured for a compact, cost-efficient entry into sovereign AI below TWD $1M',
-        'cost':        'right-sized for a TWD $1M–$5M departmental deployment with maximum return on investment',
-        'compliance':  'architected for a TWD $5M–$15M multi-GPU deployment at enterprise division scale',
-        'integration': 'engineered for a TWD $15M–$60M full rack-scale deployment across your organisation',
-        'speed':       'designed for a TWD $60M+ data-centre-grade sovereign AI infrastructure programme'
+        'privacy':     'configured for a compact, cost-efficient entry into sovereign AI under USD $20K',
+        'cost':        'right-sized for a USD $20K–$50K departmental deployment with maximum return on investment',
+        'compliance':  'architected for a USD $50K–$200K multi-GPU deployment at enterprise division scale',
+        'integration': 'engineered for a USD $200K+ full rack-scale deployment across your organisation'
       }
     }
   },
