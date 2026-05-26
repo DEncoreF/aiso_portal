@@ -608,7 +608,9 @@
     .quote-summary-shell:hover .quote-summary-card > .quote-summary-footer,
     .quote-summary-shell.is-expanded .quote-summary-card > .quote-summary-footer  { opacity: 1; max-height: 50px; margin-top: 14px; }
     .quote-summary-shell:hover .quote-summary-card,
-    .quote-summary-shell.is-expanded .quote-summary-card  { padding: 20px !important; transform: translateY(-5px); justify-content: flex-start; }
+    .quote-summary-shell.is-expanded .quote-summary-card  { padding: 20px !important; transform: translateY(-5px); justify-content: flex-start; max-height: calc(100vh - 48px); overflow-y: auto; scrollbar-width: none; }
+    .quote-summary-shell:hover .quote-summary-card::-webkit-scrollbar,
+    .quote-summary-shell.is-expanded .quote-summary-card::-webkit-scrollbar { display: none; }
     .quote-summary-shell:hover .quote-summary-collapsed,
     .quote-summary-shell.is-expanded .quote-summary-collapsed { opacity: 0; pointer-events: none; max-height: 0; min-height: 0; }
 
@@ -618,6 +620,9 @@
 
     @media (max-width: 1200px) {
       .quote-summary-blocks { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      .quote-summary-shell:hover .quote-summary-card > .quote-summary-footer,
+      .quote-summary-shell.is-expanded .quote-summary-card > .quote-summary-footer { max-height: 120px; }
+      body.quote-summary-active.quote-summary-expanded { padding-bottom: 280px; }
     }
     @media (max-width: 900px) {
       .quote-summary-card { display: none !important; }

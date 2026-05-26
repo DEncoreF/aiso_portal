@@ -948,7 +948,7 @@
       }
 
       .sd-hero {
-        padding: 28px 20px 18px;
+        padding: 60px 20px 18px;
       }
 
       .sd-hero-header {
@@ -2154,6 +2154,13 @@ window.AISOHardwarePageData = [
           width: 100%;
           min-width: 0;
         }
+
+        .quote-summary-shell:hover .quote-summary-card > .quote-summary-footer,
+        .quote-summary-shell.is-expanded .quote-summary-card > .quote-summary-footer {
+          max-height: 120px;
+        }
+
+        body.quote-summary-active.quote-summary-expanded { padding-bottom: 280px !important; }
       }
 
       @media (max-width: 900px) {
