@@ -2291,8 +2291,8 @@ window.AISOHardwarePageData = [
                   <input id="quote-phone" name="phone" type="tel" placeholder="+886 900 000 000">
                 </div>
                 <div class="quote-field-full">
-                  <label for="quote-message">Message</label>
-                  <textarea id="quote-message" name="message" placeholder="${escapeHtml(config.messagePlaceholder || "Deployment constraints, workloads, integration needs, or anything else we should know.")}"></textarea>
+                  <label for="quote-message">Additional Requirements</label>
+                  <textarea id="quote-message" name="message" maxlength="500" placeholder="${escapeHtml(config.messagePlaceholder || "e.g. preferred brand, GPU model, VRAM, workload type, or deployment constraints.")}"></textarea>
                 </div>
               </div>
               <button class="quote-modal-submit" type="submit">Send Enquiry &rarr;</button>
@@ -2874,8 +2874,8 @@ window.AISOHardwarePageData = [
       summaryTitle: "Your Configuration",
       summaryBlocks: getSummaryBlocks(),
       messagePlaceholder: selectedAddOn
-        ? "Tell us about your deployment timeline, integration needs, or anything else we should know about this hardware and add-on selection."
-        : "Tell us about your deployment timeline, integration needs, or whether you want bundled software only."
+        ? "e.g. preferred brand, GPU model, VRAM, workload type, or deployment constraints."
+        : "e.g. preferred brand, GPU model, VRAM, workload type, or deployment constraints."
     });
   }
 
