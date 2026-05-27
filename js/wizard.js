@@ -521,7 +521,7 @@ function resolveRecommendation(answers) {
       'Sovereign AI stack sized for your team',
       'Configuration matched to your ' + escapeHtml(goalLabel || 'objective'),
       'Deployment scope sized for a ' + escapeHtml(painLabel || 'your budget') + ' investment',
-      'Response within one business day'
+      'Response within 2-3 business days'
     ];
 
     var checklistHtml = checkItems.map(function (item) {
