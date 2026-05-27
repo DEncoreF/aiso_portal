@@ -11,7 +11,8 @@ function resolveRecommendation(answers) {
   if (baseIdx < 0) baseIdx = 0;
 
   // 2. Software domain from goal
-  var domain = rules.goalToDomain ? rules.goalToDomain[answers.goal] : null;
+  var goalValue = Array.isArray(answers.goal) ? answers.goal[0] : answers.goal;
+  var domain = rules.goalToDomain ? rules.goalToDomain[goalValue] : null;
 
   // 3. Bump tier if domain requires higher minimum
   var finalIdx = baseIdx;
@@ -78,7 +79,7 @@ function resolveRecommendation(answers) {
     screen: -1,
     answers: {
       scale: null,
-      goal: null,
+      goal: [],
       pain: null
     },
     recommendation: null,
@@ -142,7 +143,8 @@ function resolveRecommendation(answers) {
           tierOrder = (data.recommendationRules && data.recommendationRules.tierOrder) || [];
           state.activeTierId = newTierId;
           newFinalIdx = tierOrder.indexOf(newTierId);
-          newDomain = (data.recommendationRules.goalToDomain || {})[state.answers.goal] || null;
+          var activeGoal = Array.isArray(state.answers.goal) ? state.answers.goal[0] : state.answers.goal;
+          newDomain = (data.recommendationRules.goalToDomain || {})[activeGoal] || null;
           firstEligible = newDomain
             ? (data.softwareCatalog || []).filter(function (s) {
                 return s.domain === newDomain && !s.isBundled &&
@@ -223,7 +225,7 @@ function resolveRecommendation(answers) {
     if (action === 'restart') {
       state.answers = {
         scale: null,
-        goal: null,
+        goal: [],
         pain: null
       };
       state.recommendation = null;
@@ -238,23 +240,29 @@ function resolveRecommendation(answers) {
     if (action === 'quote') {
       openQuoteModal();
     }
+
+    if (action === 'next-goal') {
+      if (Array.isArray(state.answers.goal) && state.answers.goal.length > 0) {
+        transitionTo(2, 'forward');
+      }
+      return;
+    }
   }
 
   function handleAnswerSelection(questionId, value) {
     if (state.isTransitioning || !questionId || !value) return;
-
+    var question = getQuestionById(questionId);
+    if (question && question.multiSelect) {
+      var arr = Array.isArray(state.answers[questionId]) ? state.answers[questionId].slice() : [];
+      var idx = arr.indexOf(value);
+      if (idx === -1) { arr.push(value); } else { arr.splice(idx, 1); }
+      state.answers[questionId] = arr;
+      renderStage();
+      return;
+    }
     state.answers[questionId] = value;
-
-    if (questionId === 'scale') {
-      transitionTo(1, 'forward');
-      return;
-    }
-
-    if (questionId === 'goal') {
-      transitionTo(2, 'forward');
-      return;
-    }
-
+    if (questionId === 'scale') { transitionTo(1, 'forward'); return; }
+    if (questionId === 'goal') { transitionTo(2, 'forward'); return; }
     if (questionId === 'pain') {
       state.recommendation = resolveRecommendation(state.answers);
       transitionTo(3, 'forward');
@@ -381,10 +389,61 @@ function resolveRecommendation(answers) {
   }
 
   function getQuestionMarkup(question) {
+    var currentStep = state.screen + 1;
+    if (question.multiSelect) {
+      var selectedValues = Array.isArray(state.answers[question.id]) ? state.answers[question.id] : [];
+      var hasSelection = selectedValues.length > 0;
+      var optionsHtml = question.options.map(function (option) {
+        var isSelected = selectedValues.indexOf(option.value) !== -1;
+        return [
+          '<button',
+            ' type="button"',
+            ' class="wizard-answer-card wizard-answer-card-check' + (isSelected ? ' is-selected' : '') + '"',
+            ' data-question-id="', escapeAttr(question.id), '"',
+            ' data-answer-value="', escapeAttr(option.value), '"',
+          '>',
+            '<span class="wizard-check-box" aria-hidden="true">',
+              isSelected ? '<svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '',
+            '</span>',
+            '<span class="wizard-answer-label">', escapeHtml(option.label), '</span>',
+            '<span class="wizard-answer-sub">', escapeHtml(option.sub), '</span>',
+          '</button>'
+        ].join('');
+      }).join('');
+      return [
+        '<section class="wizard-screen wizard-screen-question">',
+          '<div class="wizard-screen-inner wizard-screen-shell wizard-screen-shell-medium">',
+            '<div class="wizard-toolbar">',
+              '<button type="button" class="wizard-back-button" data-action="back">',
+                getBackIconMarkup(),
+                '<span>Back</span>',
+              '</button>',
+              '<div class="wiz-step-bar" aria-label="Step ' + currentStep + ' of ' + data.wizardQuestions.length + '">',
+                data.wizardQuestions.map(function (_, i) {
+                  return '<span class="wiz-step-dot' + (i === state.screen ? ' is-active' : (i < state.screen ? ' is-done' : '')) + '"></span>';
+                }).join('<span class="wiz-step-line"></span>'),
+              '</div>',
+            '</div>',
+            '<div class="wizard-copy-block">',
+              '<span class="wizard-copy-kicker">Question ', escapeHtml(String(currentStep)), '</span>',
+              '<h1 class="wizard-title wizard-title-question">', escapeHtml(question.question), '</h1>',
+              '<p class="wizard-subtitle wizard-subtitle-question">', escapeHtml(question.subtext), '</p>',
+            '</div>',
+            '<div class="wizard-card-grid wizard-card-grid-multiselect">',
+              optionsHtml,
+            '</div>',
+            '<div class="wizard-multiselect-footer">',
+              '<button type="button" class="wizard-continue-btn' + (hasSelection ? '' : ' is-disabled') + '" data-action="next-goal"' + (hasSelection ? '' : ' disabled') + '>',
+                'Continue',
+                '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+              '</button>',
+            '</div>',
+          '</div>',
+        '</section>'
+      ].join('');
+    }
     var selectedValue = state.answers[question.id];
     var cardGridClasses = ['wizard-card-grid'];
-    var currentStep = state.screen + 1;
-
     if (question.options.length === 4) cardGridClasses.push('wizard-card-grid-four');
     if (question.options.length === 5 && question.layout === '3-2') {
       cardGridClasses.push('wizard-card-grid-five-3-2');
@@ -439,7 +498,7 @@ function resolveRecommendation(answers) {
     var recommendation = state.recommendation || resolveRecommendation(state.answers);
     var narrative;
     var scaleLabel = getSelectedLabel('scale', state.answers.scale);
-    var goalLabel  = getSelectedLabel('goal',  state.answers.goal);
+    var goalLabel = Array.isArray(state.answers.goal) ? state.answers.goal.map(function(v){ return getSelectedLabel('goal', v); }).join(', ') : getSelectedLabel('goal', state.answers.goal);
     var painLabel  = getPainLabel(state.answers.pain);
 
     if (!recommendation || !recommendation.tier) {
@@ -677,7 +736,7 @@ function resolveRecommendation(answers) {
   function getProfileLabels() {
     return [
       getSelectedLabel('scale', state.answers.scale),
-      getSelectedLabel('goal', state.answers.goal),
+      (Array.isArray(state.answers.goal) ? state.answers.goal.map(function(v){ return getSelectedLabel('goal', v); }).join(', ') : getSelectedLabel('goal', state.answers.goal)),
       getPainLabel(state.answers.pain)
     ];
   }
@@ -803,10 +862,21 @@ function resolveRecommendation(answers) {
     if (!quoteModal || !quoteForm) return;
 
     scaleLabel = getSelectedLabel('scale', state.answers.scale);
-    goalLabel  = getSelectedLabel('goal',  state.answers.goal);
+    goalLabel = Array.isArray(state.answers.goal) ? state.answers.goal.map(function(v){ return getSelectedLabel('goal', v); }).join(', ') : getSelectedLabel('goal', state.answers.goal);
     painLabel  = getPainLabel(state.answers.pain);
 
-    summaryMarkup = [scaleLabel, goalLabel, painLabel].filter(Boolean).map(function (val) {
+    var summaryItems = [];
+    if (scaleLabel) summaryItems.push(scaleLabel);
+    if (Array.isArray(state.answers.goal) && state.answers.goal.length) {
+      state.answers.goal.forEach(function (v) {
+        var lbl = getSelectedLabel('goal', v);
+        if (lbl) summaryItems.push(lbl);
+      });
+    } else if (goalLabel) {
+      summaryItems.push(goalLabel);
+    }
+    if (painLabel) summaryItems.push(painLabel);
+    summaryMarkup = summaryItems.map(function (val) {
       return '<span class="wiz-quote-tag">' + escapeHtml(val) + '</span>';
     }).join('');
 
@@ -856,7 +926,7 @@ function resolveRecommendation(answers) {
     bodyLines = [
       '=== Requirements ===',
       'Organisation Scale: '   + (getSelectedLabel('scale', state.answers.scale) || 'Not specified'),
-      'Primary AI Objective: ' + (getSelectedLabel('goal',  state.answers.goal)  || 'Not specified'),
+      'AI Objectives: ' + (Array.isArray(state.answers.goal) && state.answers.goal.length ? state.answers.goal.map(function(v){ return getSelectedLabel('goal', v); }).join(', ') : 'Not specified'),
       'Budget Range: '         + (getPainLabel(state.answers.pain)                || 'Not specified'),
       'Industry: '             + (formData.get('industry') || '—'),
       '',

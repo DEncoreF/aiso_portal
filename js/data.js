@@ -370,15 +370,20 @@ window.AISO_V2_DATA = {
     {
       id: 'goal',
       screen: 2,
-      question: "What do you need AI to do first?",
-      subtext: 'Pick your most urgent use case — this shapes your software stack.',
-      layout: '3-2',
+      multiSelect: true,
+      question: "What do you want AI to help with?",
+      subtext: 'Select all that apply — our team will follow up with a tailored recommendation.',
       options: [
-        { value: 'assistant', label: 'Internal AI Assistant',      sub: 'Private team chatbot, knowledge base, internal Q&A' },
-        { value: 'doc',       label: 'Document Processing',        sub: 'Contracts, reports, PDF intelligence' },
-        { value: 'security',  label: 'Security & Risk',            sub: 'Threat detection, fraud, OT/IT compliance' },
-        { value: 'workflow',  label: 'Workflow Automation',        sub: 'Business processes, audit, ESG reporting' },
-        { value: 'industry',  label: 'Industry-Specific Use Case', sub: 'Clinical AI, smart city, retail intelligence' }
+        { value: 'assistant',  label: 'AI Assistant',                  sub: 'Always-on chatbot for internal Q&A and team support' },
+        { value: 'knowledge',  label: 'Knowledge Management',          sub: 'Centralise documents, search by asking, share across teams' },
+        { value: 'doc',        label: 'Document Processing',           sub: 'Contract review, PDF summarisation, e-signature' },
+        { value: 'service',    label: 'Customer Service AI',           sub: 'Automated replies, omnichannel inbox, sentiment detection' },
+        { value: 'workflow',   label: 'Process & Workflow Automation', sub: 'Approval flows, scheduling, task routing' },
+        { value: 'compliance', label: 'Compliance & Audit',            sub: 'ESG reporting, internal audit, regulatory evidence' },
+        { value: 'security',   label: 'Security & Fraud Prevention',   sub: 'Threat detection, fraud screening, anomaly alerts' },
+        { value: 'healthcare', label: 'Healthcare & Life Sciences',    sub: 'Clinical AI, patient data, HL7 FHIR compliance' },
+        { value: 'finance',    label: 'Finance & Banking',             sub: 'Fraud detection, risk scoring, regulatory reporting' },
+        { value: 'smartcity',  label: 'Smart City & IoT',              sub: 'Remote sensing, infrastructure monitoring, early warning' }
       ]
     },
     {
