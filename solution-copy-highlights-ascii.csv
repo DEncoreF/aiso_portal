@@ -1,0 +1,181 @@
+Section,Field,Current Copy,Notes
+,,,
+HERO,,,"Static display text on browse screen"
+,Title Line 1,Your AI. Your Data.,
+,Title Line 2,Your Rules.,
+,CTA Button,Browse All Solutions ->,
+,,,
+WIZARD Q1 - Who is this for?,,,"Question screen"
+,Question,Who is this for?,
+,Subtext,We'll match the right hardware tier and software stack for your team size.,
+,Option: Individual,Just me - local AI on my own machine fully offline,
+,Option: Small Team,2 - 50 users one shared on-premise AI hub,
+,Option: Growing Organisation,51 - 200 users departmental deployment,
+,Option: Enterprise,200+ users data-centre scale,
+,,,
+WIZARD Q2 - What do you want AI to help with?,,,"Question screen - multi-select"
+,Question,What do you want AI to help with?,
+,Subtext,Select all that apply - our team will follow up with a tailored recommendation.,
+,Option: AI Assistant,Always-on chatbot for internal Q&A and team support,
+,Option: Knowledge Management,Centralise documents search by asking share across teams,
+,Option: Document Processing,Contract review PDF summarisation e-signature,
+,Option: Customer Service AI,Automated replies omnichannel inbox sentiment detection,
+,Option: Process & Workflow Automation,Approval flows scheduling task routing,
+,Option: Compliance & Audit,ESG reporting internal audit regulatory evidence,
+,Option: Security & Fraud Prevention,Threat detection fraud screening anomaly alerts,
+,Option: Healthcare & Life Sciences,Clinical AI patient data HL7 FHIR compliance,
+,Option: Finance & Banking,Fraud detection risk scoring regulatory reporting,
+,Option: Smart City & IoT,Remote sensing infrastructure monitoring early warning,
+,,,
+WIZARD Q3 - Budget,,,"Question screen"
+,Question,What is your approximate deployment budget?,
+,Subtext,We use this to right-size the hardware tier and deployment scope for your organisation.,
+,Option: Under USD $20K,Pilot or proof-of-concept budget,
+,Option: USD $20K - $50K,Departmental or team-level investment,
+,Option: USD $50K - $200K,Division-wide or multi-team rollout,
+,Option: USD $200K+,Organisation-wide or mission-critical deployment,
+,,,
+RESULT: Internal AI Assistant,,,"5 goals x 4 budgets"
+,assistant | Under USD $20K - Role,Entry-Level Sovereign AI - Compact Deployment,
+,assistant | Under USD $20K - Headline,Maximum impact. Minimum footprint. Under TWD $1M.,TWD -> needs update
+,assistant | Under USD $20K - Point 1,A fully private AI assistant owned outright - no recurring cloud costs ever,
+,assistant | Under USD $20K - Point 2,Compact workstation delivers full team knowledge access on a single node,
+,assistant | Under USD $20K - Point 3,The most cost-efficient path to sovereign AI with immediate productivity gains,
+,assistant | Under USD $20K - Tags,"Under $1M TWD, Single Node, Zero Cloud",TWD -> needs update
+,,,
+,assistant | $20K-$50K - Role,Departmental AI Deployment at Scale,
+,assistant | $20K-$50K - Headline,Own your AI. Own your cost structure. Own your future.,
+,assistant | $20K-$50K - Point 1,Flat one-time investment eliminates per-seat per-token and SaaS renewal fees,
+,assistant | $20K-$50K - Point 2,TWD $1M-$5M buys a dedicated server that serves your team indefinitely,TWD -> needs update
+,assistant | $20K-$50K - Point 3,Full stack ownership - models data and deployment - with no vendor dependency,
+,assistant | $20K-$50K - Tags,"$1M-$5M TWD, Flat Cost, No Lock-in",TWD -> needs update
+,,,
+,assistant | $50K-$200K - Role,Enterprise AI Infrastructure at Division Scale,
+,assistant | $50K-$200K - Headline,Division-wide sovereign AI. Built to last.,
+,assistant | $50K-$200K - Point 1,Multi-GPU server handles concurrent inference for entire business divisions,
+,assistant | $50K-$200K - Point 2,TWD $5M-$15M delivers purpose-built infrastructure with no cloud dependency ever,TWD -> needs update
+,assistant | $50K-$200K - Point 3,Private knowledge base and model governance owned by your organisation permanently,
+,assistant | $50K-$200K - Tags,"$5M-$15M TWD, Multi-GPU, Division Scale",TWD -> needs update
+,,,
+,assistant | $200K+ - Role,Rack-Scale Sovereign AI for Large Organisations,
+,assistant | $200K+ - Headline,AI that commands your entire organisation. At scale.,
+,assistant | $200K+ - Point 1,Full rack-scale deployment serves thousands of concurrent users on-premise,
+,assistant | $200K+ - Point 2,TWD $15M-$60M investment funds infrastructure your organisation owns outright,TWD -> needs update
+,assistant | $200K+ - Point 3,Private RAG multi-agent orchestration and zero cloud middleware - at enterprise scale,
+,assistant | $200K+ - Tags,"$15M-$60M TWD, Rack-Scale, Enterprise-Wide",TWD -> needs update
+,,,
+RESULT: Document Processing,,,"5 goals x 4 budgets"
+,doc | Under USD $20K - Role,Entry-Level Document Intelligence - Compact Node,
+,doc | Under USD $20K - Headline,Document intelligence with absolute confidentiality. Under TWD $1M.,TWD -> needs update
+,doc | Under USD $20K - Point 1,Every contract report and filing processed entirely on your own compact hardware,
+,doc | Under USD $20K - Point 2,No document content reaches a third-party OCR or AI service - ever,
+,doc | Under USD $20K - Point 3,Maximum document privacy at the most accessible entry price point,
+,doc | Under USD $20K - Tags,"Under $1M TWD, On-Premise OCR, No 3rd Party",TWD -> needs update
+,,,
+,doc | $20K-$50K - Role,Departmental Document AI - Dedicated Workstation,
+,doc | $20K-$50K - Headline,Unlimited document intelligence. One fixed investment.,
+,doc | $20K-$50K - Point 1,Process every PDF and contract your department needs - no per-page charges,
+,doc | $20K-$50K - Point 2,TWD $1M-$5M dedicated workstation replaces your document SaaS portfolio permanently,TWD -> needs update
+,doc | $20K-$50K - Point 3,Predictable infrastructure spend with no variable cloud billing - ever,
+,doc | $20K-$50K - Tags,"$1M-$5M TWD, Fixed Cost, No Per-Page Fee",TWD -> needs update
+,,,
+,doc | $50K-$200K - Role,Enterprise Document Intelligence - Multi-GPU Server,
+,doc | $50K-$200K - Headline,Document AI built to the standard regulators demand.,
+,doc | $50K-$200K - Point 1,Documents processed entirely within your jurisdiction - full data residency compliance,
+,doc | $50K-$200K - Point 2,TWD $5M-$15M multi-GPU server handles high-volume regulated document workflows,TWD -> needs update
+,doc | $50K-$200K - Point 3,E-signature and audit-trail integrity for the most demanding compliance environments,
+,doc | $50K-$200K - Tags,"$5M-$15M TWD, Data Residency, Audit-Ready",TWD -> needs update
+,,,
+,doc | $200K+ - Role,Rack-Scale Document Processing - Enterprise Deployment,
+,doc | $200K+ - Headline,Document AI at the scale your operations demand.,
+,doc | $200K+ - Point 1,Full rack deployment processes organisation-wide document volumes on-premise,
+,doc | $200K+ - Point 2,TWD $15M-$60M investment funds infrastructure integrated with your full DMS landscape,TWD -> needs update
+,doc | $200K+ - Point 3,Batch pipelines cross-document intelligence and e-signatures at enterprise throughput,
+,doc | $200K+ - Tags,"$15M-$60M TWD, Rack-Scale, DMS-Native",TWD -> needs update
+,,,
+RESULT: Security & Risk,,,"5 goals x 4 budgets"
+,security | Under USD $20K - Role,Entry-Level Sovereign Security - Compact Node,
+,security | Under USD $20K - Headline,Sovereign threat detection. Your first on-premise security AI. Under TWD $1M.,TWD -> needs update
+,security | Under USD $20K - Point 1,Air-gapped threat detection on a compact node - no cloud telemetry dependencies,
+,security | Under USD $20K - Point 2,Full SIEM-compatible deployment within your perimeter at the most accessible price,
+,security | Under USD $20K - Point 3,The highest-value entry into on-premise security AI available today,
+,security | Under USD $20K - Tags,"Under $1M TWD, Air-Gapped, SIEM-Compatible",TWD -> needs update
+,,,
+,security | $20K-$50K - Role,Departmental Security AI - Dedicated Workstation,
+,security | $20K-$50K - Headline,Full-spectrum threat intelligence. One sovereign platform.,
+,security | $20K-$50K - Point 1,TWD $1M-$5M replaces your fragmented cloud security subscriptions permanently,TWD -> needs update
+,security | $20K-$50K - Point 2,No per-event per-alert or per-seat charges - cost fixed at deployment,
+,security | $20K-$50K - Point 3,Threat detection and fraud intelligence owned and auditable by your team,
+,security | $20K-$50K - Tags,"$1M-$5M TWD, Flat Cost, No Per-Alert Fee",TWD -> needs update
+,,,
+,security | $50K-$200K - Role,Enterprise Security Infrastructure - Multi-GPU Server,
+,security | $50K-$200K - Headline,Security posture that satisfies your regulators and your adversaries.,
+,security | $50K-$200K - Point 1,TWD $5M-$15M multi-GPU server runs MITRE ATT&CK and IEC 62443 frameworks natively,TWD -> needs update
+,security | $50K-$200K - Point 2,Audit evidence and risk reporting generated automatically - fully on-premise,
+,security | $50K-$200K - Point 3,Full threat-detection coverage within your data sovereignty boundary,
+,security | $50K-$200K - Tags,"$5M-$15M TWD, MITRE ATT&CK, IEC 62443",TWD -> needs update
+,,,
+,security | $200K+ - Role,Rack-Scale Security Platform - Enterprise Deployment,
+,security | $200K+ - Headline,Unified threat intelligence across your entire estate.,
+,security | $200K+ - Point 1,Full rack deployment ingests signals from IT and OT networks simultaneously,
+,security | $200K+ - Point 2,TWD $15M-$60M funds organisation-wide threat coverage with zero cloud exposure,TWD -> needs update
+,security | $200K+ - Point 3,Integrates with your full SIEM ticketing and incident response landscape at scale,
+,security | $200K+ - Tags,"$15M-$60M TWD, IT/OT Fusion, SIEM-Native",TWD -> needs update
+,,,
+RESULT: Workflow Automation,,,"5 goals x 4 budgets"
+,workflow | Under USD $20K - Role,Entry-Level Workflow Automation - Compact Node,
+,workflow | Under USD $20K - Headline,AI-driven operations. Fully sovereign. Under TWD $1M.,TWD -> needs update
+,workflow | Under USD $20K - Point 1,Process automation and approval workflows running entirely on your own hardware,
+,workflow | Under USD $20K - Point 2,No workflow data decisions or audit logs reach any external cloud service,
+,workflow | Under USD $20K - Point 3,The most accessible entry into sovereign process AI - owned outright from day one,
+,workflow | Under USD $20K - Tags,"Under $1M TWD, Air-Gapped, Data Sovereignty",TWD -> needs update
+,,,
+,workflow | $20K-$50K - Role,Departmental Workflow AI - Dedicated Workstation,
+,workflow | $20K-$50K - Headline,AI-powered operations on infrastructure you already own.,
+,workflow | $20K-$50K - Point 1,TWD $1M-$5M replaces manual approval chains and reporting overhead permanently,TWD -> needs update
+,workflow | $20K-$50K - Point 2,No per-process per-user or per-execution cloud charges - ever,
+,workflow | $20K-$50K - Point 3,One dedicated workstation handles multiple workflow domains indefinitely,
+,workflow | $20K-$50K - Tags,"$1M-$5M TWD, Flat Cost, No Per-Process Fee",TWD -> needs update
+,,,
+,workflow | $50K-$200K - Role,Enterprise Workflow Intelligence - Multi-GPU Server,
+,workflow | $50K-$200K - Headline,Automated compliance built into every workflow.,
+,workflow | $50K-$200K - Point 1,TWD $5M-$15M multi-GPU server handles complex audit and ESG reporting at scale,TWD -> needs update
+,workflow | $50K-$200K - Point 2,Audit evidence collected automatically - satisfies internal and external regulators,
+,workflow | $50K-$200K - Point 3,GRI and TCFD reporting generated from your own data with no third-party exposure,
+,workflow | $50K-$200K - Tags,"$5M-$15M TWD, Audit Evidence, ESG Reporting",TWD -> needs update
+,,,
+,workflow | $200K+ - Role,Rack-Scale Process Automation - Enterprise Deployment,
+,workflow | $200K+ - Headline,Intelligent automation that commands your existing systems.,
+,workflow | $200K+ - Point 1,TWD $15M-$60M rack deployment connects to your full ERP CRM and data landscape,TWD -> needs update
+,workflow | $200K+ - Point 2,Organisation-wide workflow automation with zero cloud intermediaries,
+,workflow | $200K+ - Point 3,AI decision nodes operate natively within your existing architecture at enterprise throughput,
+,workflow | $200K+ - Tags,"$15M-$60M TWD, ERP-Native, No Middleware",TWD -> needs update
+,,,
+RESULT: Industry-Specific Use Case,,,"5 goals x 4 budgets"
+,industry | Under USD $20K - Role,Entry-Level Vertical AI - Compact Node,
+,industry | Under USD $20K - Headline,Vertical AI for your industry. Sovereign by design. Under TWD $1M.,TWD -> needs update
+,industry | Under USD $20K - Point 1,Industry-specific AI running on your own compact hardware - no cloud exposure,
+,industry | Under USD $20K - Point 2,Clinical operational or customer intelligence owned outright from day one,
+,industry | Under USD $20K - Point 3,The most accessible entry into sovereign vertical AI available today,
+,industry | Under USD $20K - Tags,"Under $1M TWD, Air-Gapped, Vertical AI",TWD -> needs update
+,,,
+,industry | $20K-$50K - Role,Departmental Vertical AI - Dedicated Workstation,
+,industry | $20K-$50K - Headline,One sovereign AI platform. Every vertical use case. Fixed cost.,
+,industry | $20K-$50K - Point 1,TWD $1M-$5M replaces fragmented SaaS subscriptions with one integrated deployment,TWD -> needs update
+,industry | $20K-$50K - Point 2,No per-seat per-patient or per-transaction billing - ever,
+,industry | $20K-$50K - Point 3,One investment serves your full industry AI portfolio indefinitely,
+,industry | $20K-$50K - Tags,"$1M-$5M TWD, Flat Cost, No Per-Transaction Fee",TWD -> needs update
+,,,
+,industry | $50K-$200K - Role,Enterprise Vertical Intelligence - Multi-GPU Server,
+,industry | $50K-$200K - Headline,Industry AI that satisfies the regulators who answer to no one.,
+,industry | $50K-$200K - Point 1,TWD $5M-$15M multi-GPU server supports HL7 FHIR financial regulation and sector frameworks natively,TWD -> needs update
+,industry | $50K-$200K - Point 2,All processing logging and reporting within your certified infrastructure perimeter,
+,industry | $50K-$200K - Point 3,Audit-ready from day one - no cloud data transfer or compliance gaps,
+,industry | $50K-$200K - Tags,"$5M-$15M TWD, HL7 FHIR, Audit-Ready",TWD -> needs update
+,,,
+,industry | $200K+ - Role,Rack-Scale Vertical AI - Enterprise Deployment,
+,industry | $200K+ - Headline,Sovereign AI woven into the fabric of your operations.,
+,industry | $200K+ - Point 1,TWD $15M-$60M rack deployment integrates with your full operational system landscape,TWD -> needs update
+,industry | $200K+ - Point 2,CRM-native FHIR-compliant and IoT-ready across your entire vertical,
+,industry | $200K+ - Point 3,No cloud middleware or vendor-managed integration layers - at enterprise scale,
+,industry | $200K+ - Tags,"$15M-$60M TWD, FHIR-Compliant, IoT-Ready",TWD -> needs update

@@ -728,6 +728,102 @@
       line-height: 1.5;
     }
 
+    .filter-bar {
+      max-width: var(--content-width);
+      margin: 0 auto 4px;
+      padding: 0 clamp(20px, 5vw, 80px) 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .filter-select-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .filter-select-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--blue-dark-02);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .filter-select {
+      appearance: none;
+      -webkit-appearance: none;
+      height: 44px;
+      padding: 0 36px 0 38px;
+      border: 1.5px solid rgba(20, 46, 123, 0.22);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--blue-dark-02);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+
+    .filter-select:focus {
+      border-color: var(--blue-dark-02);
+    }
+
+    .filter-caret {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--blue-dark-02);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .filter-search-wrap {
+      position: relative;
+      flex: 1;
+    }
+
+    .filter-search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--blue-dark-02);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .filter-search {
+      width: 100%;
+      height: 44px;
+      padding: 0 42px 0 16px;
+      border: 1.5px solid rgba(20, 46, 123, 0.22);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--blue-dark-02);
+      font-size: 0.875rem;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.18s;
+      box-sizing: border-box;
+    }
+
+    .filter-search::placeholder {
+      color: rgba(20, 46, 123, 0.4);
+      font-weight: 400;
+    }
+
+    .filter-search:focus {
+      border-color: var(--blue-dark-02);
+    }
+
     .action-stack {
       margin-top: auto;
       padding-top: 20px;
@@ -1259,7 +1355,12 @@
       .quote-summary-blocks { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     }
     @media (max-width: 900px) {
-      .quote-summary-shell { width: calc(100vw - 32px) !important; }
+      .quote-summary-shell {
+        width: calc(100vw - 32px) !important;
+        left: 16px !important;
+        right: 16px !important;
+        transform: none !important;
+      }
       .quote-summary-card { display: none !important; }
       .quote-summary-mobilebar { display: block !important; }
     }
@@ -1336,6 +1437,25 @@
       <div class="section-head">
         <h2 class="section-title" id="optional-title">Optional Add-ons</h2>
         <div class="section-rule" aria-hidden="true"></div>
+      </div>
+      <div class="filter-bar" id="optional-filter-bar">
+        <div class="filter-select-wrap">
+          <span class="filter-select-icon">
+            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M227.8,66.34l-32,136A20,20,0,0,1,176.43,220H79.57A20,20,0,0,1,60.2,202.34l-32-136A20,20,0,0,1,48,44H208a20,20,0,0,1,19.8,22.34ZM108,148a12,12,0,0,0,24,0V108a12,12,0,0,0-24,0Zm4-68a16,16,0,1,0,16-16A16,16,0,0,0,112,80Z"/></svg>
+          </span>
+          <select class="filter-select" id="optional-filter-category" aria-label="Filter by category">
+            <option value="">All</option>
+          </select>
+          <span class="filter-caret">
+            <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>
+          </span>
+        </div>
+        <div class="filter-search-wrap">
+          <input class="filter-search" id="optional-filter-search" type="search" placeholder="Search software..." aria-label="Search optional add-ons" autocomplete="off" />
+          <span class="filter-search-icon">
+            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.07a88,88,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.31ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+          </span>
+        </div>
       </div>
       <div class="software-grid" id="optional-software"></div>
     </section>
@@ -1433,7 +1553,7 @@ window.AISOCompatibilityData = {
     },
     "FortVax": {
       delivery: "optional",
-      hardware: []
+      hardware: ["Workstation", "Rack Server", "AI BOX"]
     },
     "gadoScout": {
       delivery: "optional",
@@ -1464,6 +1584,7 @@ window.AISOCompatibilityData = {
     "digiRunner": {
       company: "TPIsoftware Corporation",
       description: "AI Governance Platform for Enhanced Security and Cost Observability",
+      category: ["Business Applications"],
       features: [
         "Centralizes management of AI models and LLMs; monitors API usage and identifies zombie or shadow APIs.",
         "Improves system performance and maintenance efficiency with a microservices architecture and load balancing.",
@@ -1477,6 +1598,7 @@ window.AISOCompatibilityData = {
     "OrientAI Express": {
       company: "TPIsoftware Corporation",
       description: "Agile AI Knowledge & Assistant Platform",
+      category: ["Business Applications"],
       features: [
         "Agile knowledge management with rapid, zero-configuration deployment.",
         "Secure, scalable edge architecture with full data sovereignty and no cloud dependency.",
@@ -1489,6 +1611,7 @@ window.AISOCompatibilityData = {
     "ComPDF SDK": {
       company: "KDAN",
       description: "Enterprise-Grade PDF SDK for Scalable Document Processing & Automation",
+      category: ["Business Applications"],
       features: [
         "Modular SDK for flexible feature bundling, covering generation, editing, conversion, OCR, and e-signature.",
         "Broad multi-platform compatibility across Windows, macOS, iOS, Android, and Web.",
@@ -1501,6 +1624,7 @@ window.AISOCompatibilityData = {
     "ComPDF AI": {
       company: "KDAN",
       description: "Intelligent Document Processing & Automation Platform",
+      category: ["Business Applications"],
       features: [
         "End-to-end document automation from pre-processing to classification, extraction, and structured data delivery.",
         "Flexible deployment across self-hosted, private cloud, public cloud, and API-based SaaS integration.",
@@ -1513,6 +1637,7 @@ window.AISOCompatibilityData = {
     "DottedSign": {
       company: "KDAN",
       description: "Professional eSign Platform for High-Efficiency, Legally Binding Digital Signing",
+      category: ["Business Applications", "Cybersecurity"],
       features: [
         "Comprehensive API integration with CRM, ERP, HRM, BPM, and CLM for automated signing workflows.",
         "Standardized template management with one-click multi-recipient sending and real-time progress tracking.",
@@ -1525,6 +1650,7 @@ window.AISOCompatibilityData = {
     "digiFlexis": {
       company: "TPIsoftware Corporation",
       description: "Business Process Management Platform for Integrated Workflow Automation",
+      category: ["Business Applications"],
       features: [
         "Form builder creates forms with customization using an intuitive drag-and-drop interface.",
         "Workflow design streamlines conditional logic, batch approvals, and reassignment.",
@@ -1537,6 +1663,7 @@ window.AISOCompatibilityData = {
     "SysTalk.Audit": {
       company: "TPIsoftware Corporation",
       description: "Enterprise AI-powered Quality Assurance Platform",
+      category: ["Business Applications"],
       features: [
         "Automates the quality assurance process with AI, achieving 100% coverage and reducing manual sampling costs.",
         "Speech-to-text supports Mandarin, Taiwanese Hokkien, Hakka, and English accents for full-call transcription.",
@@ -1549,6 +1676,7 @@ window.AISOCompatibilityData = {
     "FortVax": {
       company: "Taiwan Numerical Powers",
       description: "AI-Powered Cold Wallet Solution for Secure Digital Asset Custody",
+      category: ["Financial Services", "Cybersecurity"],
       features: [
         "Seamless NFC operation lets users manage the cold wallet through smartphone NFC without charging.",
         "Compact, portable credit card-sized design.",
@@ -1561,6 +1689,7 @@ window.AISOCompatibilityData = {
     "gadoScout": {
       company: "TPIsoftware Corporation",
       description: "AI-Powered Anomaly Detection Platform for Preemptive Cybersecurity Protection",
+      category: ["Cybersecurity"],
       features: [
         "Real-time anomaly detection monitors system logs and traffic to detect unusual behaviors and threats.",
         "Machine learning-driven analysis identifies deviant patterns, anomalies, and security risks.",
@@ -1572,6 +1701,7 @@ window.AISOCompatibilityData = {
     "WEBA Engagement Platform": {
       company: "Fuco&Ryzo",
       description: "No-Code Interactive Experience Platform for Digital Marketing & Fintech",
+      category: ["Marketing"],
       features: [
         "Fast ROI through no-code design that reduces development costs and accelerates digital transformation.",
         "Flexible promotions boost engagement and conversion rates.",
@@ -1584,6 +1714,7 @@ window.AISOCompatibilityData = {
     "AI Cloud Service for Remote Sensing Analytics & IoT Early Warning": {
       company: "ThinkTron Ltd.",
       description: "AI Cloud Service for Remote Sensing Analytics & IoT-Based Early Warning",
+      category: ["National Defense"],
       features: [
         "AI-driven detection and identification of objects from satellite, UAV, and aerial imagery.",
         "Integrated IoT sensor network delivers real-time monitoring and early warning of potential hazards.",
@@ -1596,6 +1727,7 @@ window.AISOCompatibilityData = {
     "GreenSwift": {
       company: "TPIsoftware Corporation",
       description: "AI-Driven Greenhouse Gas Emissions Management and Reporting Platform",
+      category: ["ESG"],
       features: [
         "Unified management of GHG emissions inventory, carbon footprint, and CBAM reporting.",
         "Automated emissions factor matching improves administrative efficiency and reporting accuracy.",
@@ -1608,6 +1740,7 @@ window.AISOCompatibilityData = {
     "digiCare": {
       company: "TPIsoftware Corporation",
       description: "FHIR-Compliant Data Exchange Platform",
+      category: ["Healthcare"],
       features: [
         "Integrated platform complies with HL7 FHIR standards and the Taiwan Core Implementation Guide (TW Core IG).",
         "Supports implementation guides released by Taiwan's National Health Insurance Administration.",
@@ -1620,6 +1753,7 @@ window.AISOCompatibilityData = {
     "Watchmen": {
       company: "Gogolook",
       description: "AI-Powered Brand Reputation Protection & Anti-Scam Operations Center",
+      category: ["Fraud Prevention"],
       features: [
         "AI-enhanced threat hunting detects malicious ads and brand impersonation.",
         "Ultra-fast takedown shortens resolution time from 14 days to 8 hours.",
@@ -2527,7 +2661,7 @@ window.AISOHardwarePageData = [
           <div>
             <div class="sd-hero-meta">
               <p class="sd-company">${escapeHtml(item.company)}</p>
-              <span class="software-type-badge">${escapeHtml(typeLabel)}</span>
+              <span class="software-type-badge" style="display:none">${escapeHtml(typeLabel)}</span>
             </div>
             <h2 class="sd-name">${escapeHtml(name)}</h2>
           </div>
@@ -2886,6 +3020,47 @@ window.AISOHardwarePageData = [
     });
   }
 
+  function getOptionalCategories(names) {
+    const seen = new Set();
+    const cats = [];
+    names.forEach(function (name) {
+      const entry = softwareCatalog[name];
+      if (!entry || !entry.category) return;
+      entry.category.forEach(function (c) {
+        if (!seen.has(c)) { seen.add(c); cats.push(c); }
+      });
+    });
+    return cats.sort();
+  }
+
+  function initFilterBar(names) {
+    const select = document.getElementById("optional-filter-category");
+    const search = document.getElementById("optional-filter-search");
+    if (!select || !search) return;
+
+    const cats = getOptionalCategories(names);
+    select.innerHTML = '<option value="">All</option>' +
+      cats.map(function (c) { return '<option value="' + escapeHtml(c) + '">' + escapeHtml(c) + '</option>'; }).join("");
+
+    function applyFilter() {
+      const cat = select.value;
+      const q = search.value.trim().toLowerCase();
+      const grid = document.getElementById("optional-software");
+      if (!grid) return;
+      Array.from(grid.children).forEach(function (card) {
+        const btn = card.querySelector("[data-open-detail]");
+        const name = btn ? btn.getAttribute("data-open-detail") : "";
+        const entry = softwareCatalog[name];
+        const matchesCat = !cat || (entry && entry.category && entry.category.indexOf(cat) !== -1);
+        const matchesQ = !q || name.toLowerCase().indexOf(q) !== -1 || (entry && entry.description && entry.description.toLowerCase().indexOf(q) !== -1);
+        card.style.display = (matchesCat && matchesQ) ? "" : "none";
+      });
+    }
+
+    select.addEventListener("change", applyFilter);
+    search.addEventListener("input", applyFilter);
+  }
+
   function renderSoftware() {
     renderSelectionBanner();
     renderSection(
@@ -2895,13 +3070,15 @@ window.AISOHardwarePageData = [
       "Bundled",
       "is-bundled"
     );
+    const optionalNames = getSoftwareNamesByDelivery("optional");
     renderSection(
       "optional-software",
-      getSoftwareNamesByDelivery("optional"),
+      optionalNames,
       selectedHardware ? "No optional add-ons are listed for this hardware." : "No optional add-ons are listed.",
       "Optional Add-on",
       "is-optional"
     );
+    initFilterBar(optionalNames);
     renderQuoteSummary();
 
     const footerYear = document.getElementById("footer-year");
