@@ -2511,6 +2511,7 @@ window.AISOHardwarePageData = [
   const selectedHardwareItem = findHardwareItem(selectedHardware);
 
   let selectedAddOn = null;
+  let selectedSoftwareName = null;
   let activeDetailName = null;
   let sdBackdrop = null;
   let sdDrawer = null;
@@ -2651,7 +2652,7 @@ window.AISOHardwarePageData = [
     var item = softwareCatalog[name];
     var compatibilityEntry = getCompatibilityEntry(name);
     var compatibleHardware = compatibilityEntry ? (compatibilityEntry.hardware || []) : [];
-    var isSelected = selectedAddOn === name;
+    var isSelected = selectedHardware ? (selectedAddOn === name) : (selectedSoftwareName === name);
     var isOptional = typeLabel !== "Bundled";
 
     var heroHtml = `
@@ -2713,7 +2714,11 @@ window.AISOHardwarePageData = [
       }
     } else if (!selectedHardware) {
       primaryActionHtml = compatibleHardware.length
-        ? `<a class="action-primary" href="hardware.html?software=${encodeURIComponent(name)}">Find Compatible Hardware</a>`
+        ? `<button class="action-primary selection-toggle ${isSelected ? "is-selected" : ""}"
+                  type="button"
+                  data-select-software="${escapeHtml(name)}">
+            ${isSelected ? "✓ Selected Software" : "Select Software"}
+          </button>`
         : `<span class="action-primary is-disabled" aria-disabled="true">Compatible Hardware Pending</span>`;
     } else {
       primaryActionHtml = `
@@ -2782,7 +2787,7 @@ window.AISOHardwarePageData = [
     const item = softwareCatalog[name];
     const compatibilityEntry = getCompatibilityEntry(name);
     const compatibleHardware = compatibilityEntry ? (compatibilityEntry.hardware || []) : [];
-    const isSelected = selectedAddOn === name;
+    const isSelected = selectedHardware ? (selectedAddOn === name) : (selectedSoftwareName === name);
     const isOptional = typeLabel !== "Bundled";
 
     let footerAction = "";
@@ -2790,7 +2795,11 @@ window.AISOHardwarePageData = [
       footerAction = `<span class="action-included-badge">Included</span>`;
     } else if (!selectedHardware) {
       footerAction = compatibleHardware.length
-        ? `<a class="action-quick-select" href="hardware.html?software=${encodeURIComponent(name)}">Find Hardware</a>`
+        ? `<button class="action-quick-select${isSelected ? " is-selected" : ""}"
+                  type="button"
+                  data-select-software="${escapeHtml(name)}">
+            ${isSelected ? "✓ Selected" : "Select"}
+          </button>`
         : `<span class="action-included-badge">Pending</span>`;
     } else {
       footerAction = `
@@ -2944,9 +2953,74 @@ window.AISOHardwarePageData = [
     ];
   }
 
+  function renderSoftwareFirstSummary(root, name) {
+    const item = softwareCatalog[name] || {};
+    const entry = getCompatibilityEntry(name) || { hardware: [], delivery: "optional" };
+    const compatibleHardware = (entry.hardware || []).map(getHardwareLabel);
+    const isBundled = entry.delivery === "preloaded";
+    const deliveryText = isBundled ? "Bundled (included automatically)" : "Optional add-on";
+    const href = `hardware.html?software=${encodeURIComponent(name)}`;
+    const swHtml = item.company
+      ? escapeHtml(name) + '<br><span style="font-size:0.72rem;font-weight:600;opacity:0.6;text-transform:uppercase;letter-spacing:0.07em">' + escapeHtml(item.company) + '</span>'
+      : escapeHtml(name);
+    const blocks = [
+      { label: "Selected Software",   html: swHtml },
+      { label: "Delivery",            html: escapeHtml(deliveryText) },
+      { label: "Compatible Hardware", html: formatLinesHtml(compatibleHardware, "Not listed yet", 4) },
+      { label: "Category",            html: formatLinesHtml(item.category || [], "—", 3) }
+    ];
+    const note = isBundled
+      ? `${name} is bundled automatically with the compatible hardware below. Browse hardware to continue.`
+      : "The selected software stays fixed. Browse compatible hardware to continue.";
+    const collapsedText = escapeHtml(name) + (item.company ? ' · ' + escapeHtml(item.company) : '');
+    root.innerHTML = `
+      <div class="quote-summary-shell">
+        <aside class="quote-summary-card">
+          <div class="quote-summary-collapsed">
+            <div class="quote-summary-collapsed-info">
+              <span class="quote-summary-eyebrow" style="flex-shrink:0">Your Configuration</span>
+              <span class="quote-summary-collapsed-divider">|</span>
+              <span class="quote-summary-collapsed-text">${collapsedText}</span>
+            </div>
+            <a class="quote-summary-button" style="flex-shrink:0" href="${href}">Find Compatible Hardware</a>
+          </div>
+          <div class="quote-summary-eyebrow">Your Configuration</div>
+          <div class="quote-summary-blocks">
+            ${blocks.map(function (block) {
+              return `<div class="quote-summary-block">
+                <span class="quote-summary-label">${escapeHtml(block.label)}</span>
+                <span class="quote-summary-value">${block.html}</span>
+              </div>`;
+            }).join("")}
+          </div>
+          <div class="quote-summary-footer">
+            <p class="quote-summary-note">${escapeHtml(note)}</p>
+            <a class="quote-summary-button" href="${href}">Find Compatible Hardware</a>
+          </div>
+        </aside>
+        <div class="quote-summary-mobilebar">
+          <div class="quote-summary-mobilebar-inner">
+            <div class="quote-summary-mobile-copy">
+              <strong>${escapeHtml(name)}</strong>
+              <span>Tap to browse compatible hardware</span>
+            </div>
+            <a class="quote-summary-mobile-button" href="${href}">Find Hardware</a>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.classList.add("quote-summary-active");
+    bindQuoteSummaryShell(root);
+  }
+
   function renderQuoteSummary() {
     const root = ensureSummaryRoot();
     if (!selectedHardware) {
+      // Software-first flow: a software is selected, user is browsing for hardware.
+      if (selectedSoftwareName) {
+        renderSoftwareFirstSummary(root, selectedSoftwareName);
+        return;
+      }
       root.innerHTML = "";
       document.body.classList.remove("quote-summary-active");
       document.body.classList.remove("quote-summary-expanded");
@@ -3126,6 +3200,17 @@ window.AISOHardwarePageData = [
         selectedAddOn = selectedAddOn === targetName ? null : targetName;
         renderSoftware();
         refreshDetailDrawer();
+        return;
+      }
+
+      // Select software (software-first flow) → reveal the floating summary bar.
+      // The actual jump to compatible hardware happens from the bar's button.
+      const softwareButton = event.target.closest("[data-select-software]");
+      if (softwareButton) {
+        const targetName = softwareButton.getAttribute("data-select-software");
+        selectedSoftwareName = selectedSoftwareName === targetName ? null : targetName;
+        renderSoftware();
+        if (activeDetailName) closeDetailDrawer();
         return;
       }
 
