@@ -2956,7 +2956,6 @@ window.AISOHardwarePageData = [
   function renderSoftwareFirstSummary(root, name) {
     const item = softwareCatalog[name] || {};
     const entry = getCompatibilityEntry(name) || { hardware: [], delivery: "optional" };
-    const compatibleHardware = (entry.hardware || []).map(getHardwareLabel);
     const isBundled = entry.delivery === "preloaded";
     const deliveryText = isBundled ? "Bundled (included automatically)" : "Optional add-on";
     const href = `hardware.html?software=${encodeURIComponent(name)}`;
@@ -2964,10 +2963,10 @@ window.AISOHardwarePageData = [
       ? escapeHtml(name) + '<br><span style="font-size:0.72rem;font-weight:600;opacity:0.6;text-transform:uppercase;letter-spacing:0.07em">' + escapeHtml(item.company) + '</span>'
       : escapeHtml(name);
     const blocks = [
-      { label: "Selected Software",   html: swHtml },
-      { label: "Delivery",            html: escapeHtml(deliveryText) },
-      { label: "Compatible Hardware", html: formatLinesHtml(compatibleHardware, "Not listed yet", 4) },
-      { label: "Category",            html: formatLinesHtml(item.category || [], "—", 3) }
+      { label: "Selected Software",     html: swHtml },
+      { label: "Delivery",              html: escapeHtml(deliveryText) },
+      { label: "Applicable Industries", html: formatLinesHtml(item.industries || [], "Not listed yet", 4) },
+      { label: "Category",              html: formatLinesHtml(item.category || [], "—", 3) }
     ];
     const note = isBundled
       ? `${name} is bundled automatically with the compatible hardware below. Browse hardware to continue.`
