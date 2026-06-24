@@ -11,7 +11,9 @@ function resolveRecommendation(answers) {
   if (baseIdx < 0) baseIdx = 0;
 
   // 2. Software domain from goal
-  var goalValue = Array.isArray(answers.goal) ? answers.goal[0] : answers.goal;
+  var goalValue = Array.isArray(answers.goal)
+    ? (answers.goal.filter(function (item) { return item !== 'other'; })[0] || null)
+    : answers.goal;
   var domain = rules.goalToDomain ? rules.goalToDomain[goalValue] : null;
 
   // 3. Bump tier if domain requires higher minimum
@@ -49,7 +51,7 @@ function resolveRecommendation(answers) {
   var fr = rules.fitReasons || {};
   var whyFits = 'This stack is ' +
     ((fr.scale && fr.scale[answers.scale]) || '') + ', ' +
-    ((fr.goal  && fr.goal[answers.goal])   || '') + ' — ' +
+    ((fr.goal  && fr.goal[goalValue])   || '') + ' — ' +
     ((fr.pain  && fr.pain[answers.pain])   || '') + '.';
 
   // 6. Alternative = next tier up
@@ -80,6 +82,7 @@ function resolveRecommendation(answers) {
     answers: {
       scale: null,
       goal: [],
+      goalOther: '',
       pain: null
     },
     recommendation: null,
@@ -143,7 +146,7 @@ function resolveRecommendation(answers) {
           tierOrder = (data.recommendationRules && data.recommendationRules.tierOrder) || [];
           state.activeTierId = newTierId;
           newFinalIdx = tierOrder.indexOf(newTierId);
-          var activeGoal = Array.isArray(state.answers.goal) ? state.answers.goal[0] : state.answers.goal;
+          var activeGoal = getPrimaryGoalValue();
           newDomain = (data.recommendationRules.goalToDomain || {})[activeGoal] || null;
           firstEligible = newDomain
             ? (data.softwareCatalog || []).filter(function (s) {
@@ -183,6 +186,27 @@ function resolveRecommendation(answers) {
           answerButton.getAttribute('data-question-id'),
           answerButton.getAttribute('data-answer-value')
         );
+      }
+    });
+
+    stage.addEventListener('input', function (event) {
+      var target = event.target && event.target.nodeType === 1
+        ? event.target
+        : event.target.parentElement;
+      var otherInput = target && target.closest && target.closest('[data-other-goal-input]');
+      var selectedGoals;
+      var continueButton;
+      var ready;
+
+      if (!otherInput) return;
+
+      state.answers.goalOther = otherInput.value || '';
+      selectedGoals = Array.isArray(state.answers.goal) ? state.answers.goal : [];
+      ready = isMultiSelectReady('goal', selectedGoals);
+      continueButton = stage.querySelector('[data-action="next-goal"]');
+      if (continueButton) {
+        continueButton.disabled = !ready;
+        continueButton.classList.toggle('is-disabled', !ready);
       }
     });
 
@@ -226,6 +250,7 @@ function resolveRecommendation(answers) {
       state.answers = {
         scale: null,
         goal: [],
+        goalOther: '',
         pain: null
       };
       state.recommendation = null;
@@ -242,7 +267,7 @@ function resolveRecommendation(answers) {
     }
 
     if (action === 'next-goal') {
-      if (Array.isArray(state.answers.goal) && state.answers.goal.length > 0) {
+      if (isMultiSelectReady('goal', state.answers.goal)) {
         transitionTo(2, 'forward');
       }
       return;
@@ -256,8 +281,15 @@ function resolveRecommendation(answers) {
       var arr = Array.isArray(state.answers[questionId]) ? state.answers[questionId].slice() : [];
       var idx = arr.indexOf(value);
       if (idx === -1) { arr.push(value); } else { arr.splice(idx, 1); }
+      if (value === 'other' && idx !== -1) state.answers.goalOther = '';
       state.answers[questionId] = arr;
       renderStage();
+      if (questionId === 'goal' && value === 'other' && idx === -1) {
+        window.setTimeout(function () {
+          var input = stage.querySelector('[data-other-goal-input]');
+          if (input) input.focus();
+        }, 0);
+      }
       return;
     }
     state.answers[questionId] = value;
@@ -392,9 +424,12 @@ function resolveRecommendation(answers) {
     var currentStep = state.screen + 1;
     if (question.multiSelect) {
       var selectedValues = Array.isArray(state.answers[question.id]) ? state.answers[question.id] : [];
-      var hasSelection = selectedValues.length > 0;
+      var hasSelection = isMultiSelectReady(question.id, selectedValues);
       var optionsHtml = question.options.map(function (option) {
         var isSelected = selectedValues.indexOf(option.value) !== -1;
+        if (option.allowsInput && question.id === 'goal') {
+          return getOtherGoalCardMarkup(question.id, option, isSelected);
+        }
         return [
           '<button',
             ' type="button"',
@@ -484,7 +519,7 @@ function resolveRecommendation(answers) {
 
   function getSolutionNarrative() {
     var narratives = (data.solutionNarratives) || {};
-    var goal = state.answers.goal || '';
+    var goal = getPrimaryGoalValue() || '';
     var pain = state.answers.pain || '';
     var key = goal + '|' + pain;
     return narratives[key] || narratives[goal] || narratives['default'] || {
@@ -498,7 +533,7 @@ function resolveRecommendation(answers) {
     var recommendation = state.recommendation || resolveRecommendation(state.answers);
     var narrative;
     var scaleLabel = getSelectedLabel('scale', state.answers.scale);
-    var goalLabel = Array.isArray(state.answers.goal) ? state.answers.goal.map(function(v){ return getSelectedLabel('goal', v); }).join(', ') : getSelectedLabel('goal', state.answers.goal);
+    var goalLabel = getGoalDisplayLabel('objective');
     var painLabel  = getPainLabel(state.answers.pain);
 
     if (!recommendation || !recommendation.tier) {
@@ -602,6 +637,38 @@ function resolveRecommendation(answers) {
         '<span class="wizard-answer-label">', escapeHtml(option.label), '</span>',
         '<span class="wizard-answer-sub">', escapeHtml(option.sub), '</span>',
       '</button>'
+    ].join('');
+  }
+
+  function getOtherGoalCardMarkup(questionId, option, isSelected) {
+    return [
+      '<div class="wizard-answer-card wizard-answer-card-check wizard-other-card' + (isSelected ? ' is-selected' : '') + '">',
+        '<button',
+          ' type="button"',
+          ' class="wizard-other-toggle"',
+          ' data-question-id="', escapeAttr(questionId), '"',
+          ' data-answer-value="', escapeAttr(option.value), '"',
+        '>',
+          '<span class="wizard-check-box" aria-hidden="true">',
+            isSelected ? '<svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '',
+          '</span>',
+          '<span class="wizard-answer-label">', escapeHtml(option.label), '</span>',
+          '<span class="wizard-answer-sub">', escapeHtml(option.sub), '</span>',
+        '</button>',
+        '<label class="wizard-other-input-wrap' + (isSelected ? ' is-visible' : '') + '">',
+          '<span class="wizard-other-input-label">Specific objective <span class="wizard-other-required" aria-hidden="true">*</span></span>',
+          '<input',
+            ' type="text"',
+            ' data-other-goal-input',
+            ' required',
+            ' aria-required="true"',
+            ' maxlength="120"',
+            ' placeholder="e.g. production planning, warranty analysis, custom inspection flow"',
+            ' value="', escapeAttr(state.answers.goalOther || ''), '"',
+            isSelected ? '' : ' disabled',
+          ' />',
+        '</label>',
+      '</div>'
     ].join('');
   }
 
@@ -725,6 +792,51 @@ function resolveRecommendation(answers) {
     })[0] || null;
   }
 
+  function isMultiSelectReady(questionId, selectedValues) {
+    var values = Array.isArray(selectedValues) ? selectedValues : [];
+
+    if (!values.length) return false;
+    // Whenever "Other" is selected, the free-text objective is mandatory.
+    if (questionId === 'goal' &&
+        values.indexOf('other') !== -1 &&
+        !(state.answers.goalOther || '').trim()) {
+      return false;
+    }
+    return true;
+  }
+
+  function getPrimaryGoalValue() {
+    var goals = Array.isArray(state.answers.goal) ? state.answers.goal : [state.answers.goal];
+    return goals.filter(function (item) {
+      return item && item !== 'other';
+    })[0] || null;
+  }
+
+  function getGoalLabels() {
+    var goals = Array.isArray(state.answers.goal) ? state.answers.goal : [state.answers.goal];
+    var labels = [];
+
+    goals.forEach(function (value) {
+      if (!value) return;
+      if (value === 'other') {
+        if ((state.answers.goalOther || '').trim()) {
+          labels.push('Other: ' + state.answers.goalOther.trim());
+        } else {
+          labels.push('Other');
+        }
+        return;
+      }
+      labels.push(getSelectedLabel('goal', value));
+    });
+
+    return labels;
+  }
+
+  function getGoalDisplayLabel(emptyLabel) {
+    var labels = getGoalLabels();
+    return labels.length ? labels.join(', ') : (emptyLabel || 'None');
+  }
+
   function getPainLabel(value) {
     var question = Array.isArray(data.wizardQuestions) ? data.wizardQuestions[2] : null;
     var option;
@@ -736,7 +848,7 @@ function resolveRecommendation(answers) {
   function getProfileLabels() {
     return [
       getSelectedLabel('scale', state.answers.scale),
-      (Array.isArray(state.answers.goal) ? state.answers.goal.map(function(v){ return getSelectedLabel('goal', v); }).join(', ') : getSelectedLabel('goal', state.answers.goal)),
+      getGoalDisplayLabel(),
       getPainLabel(state.answers.pain)
     ];
   }
@@ -745,6 +857,7 @@ function resolveRecommendation(answers) {
     return [
       state.answers.scale || '',
       state.answers.goal || '',
+      state.answers.goalOther || '',
       state.answers.pain || ''
     ].join('|');
   }
@@ -862,19 +975,14 @@ function resolveRecommendation(answers) {
     if (!quoteModal || !quoteForm) return;
 
     scaleLabel = getSelectedLabel('scale', state.answers.scale);
-    goalLabel = Array.isArray(state.answers.goal) ? state.answers.goal.map(function(v){ return getSelectedLabel('goal', v); }).join(', ') : getSelectedLabel('goal', state.answers.goal);
+    goalLabel = getGoalDisplayLabel();
     painLabel  = getPainLabel(state.answers.pain);
 
     var summaryItems = [];
     if (scaleLabel) summaryItems.push(scaleLabel);
-    if (Array.isArray(state.answers.goal) && state.answers.goal.length) {
-      state.answers.goal.forEach(function (v) {
-        var lbl = getSelectedLabel('goal', v);
-        if (lbl) summaryItems.push(lbl);
-      });
-    } else if (goalLabel) {
-      summaryItems.push(goalLabel);
-    }
+    getGoalLabels().forEach(function (lbl) {
+      if (lbl) summaryItems.push(lbl);
+    });
     if (painLabel) summaryItems.push(painLabel);
     summaryMarkup = summaryItems.map(function (val) {
       return '<span class="wiz-quote-tag">' + escapeHtml(val) + '</span>';
@@ -926,7 +1034,7 @@ function resolveRecommendation(answers) {
     bodyLines = [
       '=== Requirements ===',
       'Organisation Scale: '   + (getSelectedLabel('scale', state.answers.scale) || 'Not specified'),
-      'AI Objectives: ' + (Array.isArray(state.answers.goal) && state.answers.goal.length ? state.answers.goal.map(function(v){ return getSelectedLabel('goal', v); }).join(', ') : 'Not specified'),
+      'AI Objectives: ' + getGoalDisplayLabel('Not specified'),
       'Budget Range: '         + (getPainLabel(state.answers.pain)                || 'Not specified'),
       'Industry: '             + (formData.get('industry') || '—'),
       '',

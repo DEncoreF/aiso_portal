@@ -383,7 +383,8 @@ window.AISO_V2_DATA = {
         { value: 'security',   label: 'Security & Fraud Prevention',   sub: 'Threat detection, fraud screening, anomaly alerts' },
         { value: 'healthcare', label: 'Healthcare & Life Sciences',    sub: 'Clinical AI, patient data, HL7 FHIR compliance' },
         { value: 'finance',    label: 'Finance & Banking',             sub: 'Fraud detection, risk scoring, regulatory reporting' },
-        { value: 'smartcity',  label: 'Smart City & IoT',              sub: 'Remote sensing, infrastructure monitoring, early warning' }
+        { value: 'smartcity',  label: 'Smart City & IoT',              sub: 'Remote sensing, infrastructure monitoring, early warning' },
+        { value: 'other',      label: 'Other',                         sub: 'Describe your AI objective', allowsInput: true }
       ]
     },
     {
