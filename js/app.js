@@ -39,9 +39,19 @@
     var header = document.querySelector('[data-site-header]');
     if (!header) return;
 
+    var lastY = window.scrollY;
     function onScroll() {
-      if (window.scrollY > 40) header.classList.add('is-scrolled');
+      var y = window.scrollY;
+      if (y > 40) header.classList.add('is-scrolled');
       else header.classList.remove('is-scrolled');
+      if (document.body.classList.contains('menu-open')) {
+        header.classList.remove('is-hidden');
+      } else if (y > lastY && y > 120) {
+        header.classList.add('is-hidden');
+      } else if (y < lastY) {
+        header.classList.remove('is-hidden');
+      }
+      lastY = y;
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();

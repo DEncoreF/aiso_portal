@@ -48,11 +48,14 @@ button { font: inherit; }
   position: fixed; top: 0; left: 0; z-index: 120; width: 100%;
   background: rgba(15, 23, 58, 0.18);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 .site-header.is-scrolled {
   background: rgba(15, 23, 58, 0.88);
   box-shadow: 0 4px 24px rgba(15, 23, 58, 0.2);
+}
+.site-header.is-hidden {
+  transform: translateY(-100%);
 }
 .header-inner {
   width: min(1240px, calc(100% - 4.5rem));
@@ -2608,7 +2611,8 @@ body[data-arch-tab="layer"] .arch-side-rail {
 
 @media (max-width: 839px) {
   :root { --page-gutter: 35px; }
-  .header-inner { width: calc(100% - 32px); min-height: 78px; }
+  .header-inner { width: calc(100% - 32px); min-height: 56px; }
+  .brand-logo { width: 96px; }
   .nav-links, .contact-pill { display: none; }
   .menu-toggle { display: inline-grid; place-items: center; }
   .hero-stage {
@@ -5901,7 +5905,7 @@ body.quote-modal-open #back-to-top {
 
 @media (max-width: 390px) {
   .brand-logo {
-    width: 106px;
+    width: 88px;
   }
 
   .arch-tab-btn {

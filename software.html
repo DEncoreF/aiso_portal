@@ -70,12 +70,16 @@
       background: rgba(15, 23, 58, 0.18);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     }
 
     .site-header.is-scrolled {
       background: rgba(15, 23, 58, 0.88);
       box-shadow: 0 4px 24px rgba(15, 23, 58, 0.2);
+    }
+
+    .site-header.is-hidden {
+      transform: translateY(-100%);
     }
 
     .header-inner {
@@ -1207,7 +1211,11 @@
     @media (max-width: 680px) {
       .header-inner {
         width: calc(100% - 32px);
-        min-height: 78px;
+        min-height: 56px;
+      }
+
+      .brand-logo {
+        width: 96px;
       }
 
       .nav-links,
@@ -1284,18 +1292,24 @@
       align-items: center;
     }
 
-    /* ── Collapsed bar (default) ── */
-    .quote-summary-card > .quote-summary-eyebrow,
-    .quote-summary-card > .quote-summary-blocks,
-    .quote-summary-card > .quote-summary-footer {
+    /* ── Collapsed bar (default): details section animates via grid rows ── */
+    .quote-summary-details {
+      display: grid;
+      grid-template-rows: 0fr;
+      margin-top: 0;
       opacity: 0;
-      max-height: 0;
+      transform: translateY(6px);
+      transition: grid-template-rows 0.42s cubic-bezier(0.33, 0, 0.2, 1), margin-top 0.42s cubic-bezier(0.33, 0, 0.2, 1), transform 0.42s cubic-bezier(0.33, 0, 0.2, 1), opacity 0.2s ease;
+    }
+    .quote-summary-details-inner {
+      min-height: 0;
       overflow: hidden;
-      transition: opacity 0.3s ease, max-height 0.3s ease;
+      display: grid;
+      gap: 14px;
     }
     .quote-summary-card { 
       padding: 16px 20px !important; 
-      transition: padding 0.3s ease, transform 0.3s ease; 
+      transition: padding 0.42s cubic-bezier(0.33, 0, 0.2, 1), transform 0.42s cubic-bezier(0.33, 0, 0.2, 1); 
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -1322,7 +1336,7 @@
       overflow: hidden;
     }
     .quote-summary-collapsed-divider {
-      color: rgba(167, 180, 235, 0.3);
+      color: rgba(255, 255, 255, 0.35);
       font-weight: 300;
       flex-shrink: 0;
     }
@@ -1335,20 +1349,30 @@
       text-overflow: ellipsis;
     }
 
-    /* ── Expanded on hover ── */
-    .quote-summary-shell:hover .quote-summary-card > .quote-summary-eyebrow,
-    .quote-summary-shell.is-expanded .quote-summary-card > .quote-summary-eyebrow { opacity: 1; max-height: 50px; }
-    .quote-summary-shell:hover .quote-summary-card > .quote-summary-blocks,
-    .quote-summary-shell.is-expanded .quote-summary-card > .quote-summary-blocks  { opacity: 1; max-height: 500px; margin-top: 14px; }
-    .quote-summary-shell:hover .quote-summary-card > .quote-summary-footer,
-    .quote-summary-shell.is-expanded .quote-summary-card > .quote-summary-footer  { opacity: 1; max-height: 50px; margin-top: 14px; }
-    .quote-summary-shell:hover .quote-summary-card,
-    .quote-summary-shell.is-expanded .quote-summary-card  { padding: 20px !important; transform: translateY(-5px); justify-content: flex-start; }
-    .quote-summary-shell:hover .quote-summary-collapsed,
-    .quote-summary-shell.is-expanded .quote-summary-collapsed { opacity: 0; pointer-events: none; max-height: 0; min-height: 0; }
+    /* ── Expanded via SPEC DETAILS toggle (collapsed strip stays visible) ── */
+    .quote-summary-shell.is-expanded .quote-summary-details { grid-template-rows: 1fr; margin-top: 14px; opacity: 1; transform: none; transition: grid-template-rows 0.42s cubic-bezier(0.33, 0, 0.2, 1), margin-top 0.42s cubic-bezier(0.33, 0, 0.2, 1), transform 0.42s cubic-bezier(0.33, 0, 0.2, 1), opacity 0.26s ease 0.08s; }
+    .quote-summary-shell.is-expanded .quote-summary-card  { padding: 20px !important; justify-content: flex-start; }
+    /* expanded panel keeps the footer CTA; hide the collapsed-strip duplicate */
+    .quote-summary-shell.is-expanded .quote-summary-collapsed .quote-summary-button { display: none; }
 
-    /* body padding: compact when collapsed, full when hovered */
-    body.quote-summary-active { padding-bottom: 80px !important; }
+    .quote-summary-details-toggle {
+      flex-shrink: 0;
+      border: 0;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+      padding: 6px 2px;
+    }
+    .quote-summary-details-toggle:hover { color: #fff; }
+
+    /* body padding: compact when collapsed, full when expanded */
+    body.quote-summary-active { padding-bottom: 80px !important; transition: padding-bottom 0.42s cubic-bezier(0.33, 0, 0.2, 1); }
     body.quote-summary-active.quote-summary-expanded { padding-bottom: 140px !important; }
 
     @media (max-width: 1200px) {
@@ -1356,9 +1380,10 @@
     }
     @media (max-width: 900px) {
       .quote-summary-shell {
-        width: calc(100vw - 32px) !important;
-        left: 16px !important;
-        right: 16px !important;
+        width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
         transform: none !important;
       }
       .quote-summary-card { display: none !important; }
@@ -1953,9 +1978,11 @@ window.AISOHardwarePageData = [
         width: 100%;
         padding: 20px 20px 18px;
         border-radius: 22px;
-        background: linear-gradient(180deg, rgba(15, 23, 58, 0.96), rgba(20, 29, 71, 0.98));
-        border: 1px solid rgba(121, 141, 227, 0.26);
-        box-shadow: 0 22px 46px rgba(8, 15, 38, 0.34);
+        background: rgba(44, 56, 112, 0.7);
+        backdrop-filter: blur(20px) saturate(150%);
+        -webkit-backdrop-filter: blur(20px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 22px 46px rgba(8, 15, 38, 0.28);
         color: #f4f6ff;
         display: flex;
         flex-direction: column;
@@ -1964,7 +1991,7 @@ window.AISOHardwarePageData = [
       }
 
       .quote-summary-eyebrow {
-        color: rgba(167, 180, 235, 0.76);
+        color: rgba(236, 240, 255, 0.85);
         font-size: 0.74rem;
         font-weight: 800;
         letter-spacing: 0.12em;
@@ -1980,14 +2007,14 @@ window.AISOHardwarePageData = [
       .quote-summary-block {
         padding: 12px 14px;
         border-radius: 16px;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(126, 145, 226, 0.18);
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.24);
       }
 
       .quote-summary-label {
         display: block;
         margin-bottom: 6px;
-        color: rgba(167, 180, 235, 0.72);
+        color: rgba(236, 240, 255, 0.8);
         font-size: 0.7rem;
         font-weight: 800;
         letter-spacing: 0.12em;
@@ -2003,13 +2030,13 @@ window.AISOHardwarePageData = [
       }
 
       .quote-summary-empty {
-        color: rgba(196, 204, 236, 0.72);
+        color: rgba(240, 243, 255, 0.78);
         font-weight: 600;
       }
 
       .quote-summary-note {
         margin: 0;
-        color: rgba(196, 204, 236, 0.82);
+        color: rgba(240, 243, 255, 0.9);
         font-size: 0.8rem;
         line-height: 1.55;
       }
@@ -2035,7 +2062,7 @@ window.AISOHardwarePageData = [
         min-height: 48px;
         border: 0;
         border-radius: 16px;
-        background: linear-gradient(135deg, #5160a9, #6473b7);
+        background: linear-gradient(135deg, #0f173a, #1d2e7b);
         color: #ffffff;
         font-size: 0.94rem;
         font-weight: 800;
@@ -2052,8 +2079,8 @@ window.AISOHardwarePageData = [
 
       .quote-summary-button[disabled],
       .quote-summary-mobile-button[disabled] {
-        background: rgba(255, 255, 255, 0.08);
-        color: rgba(196, 204, 236, 0.58);
+        background: rgba(255, 255, 255, 0.22);
+        color: rgba(255, 255, 255, 0.62);
         box-shadow: none;
         cursor: not-allowed;
       }
@@ -2061,12 +2088,12 @@ window.AISOHardwarePageData = [
       .quote-summary-mobilebar {
         display: none;
         position: fixed;
-        left: 16px;
-        right: 16px;
-        bottom: 16px;
+        left: 0;
+        right: 0;
+        bottom: 0;
         z-index: 140;
-        width: calc(100vw - 32px);
-        max-width: calc(100vw - 32px);
+        width: 100vw;
+        max-width: 100vw;
         box-sizing: border-box;
       }
 
@@ -2087,7 +2114,7 @@ window.AISOHardwarePageData = [
       .quote-summary-mobile-copy span {
         display: block;
         margin-top: 2px;
-        color: rgba(196, 204, 236, 0.78);
+        color: rgba(240, 243, 255, 0.85);
         font-size: 0.77rem;
         line-height: 1.45;
       }
@@ -2289,11 +2316,6 @@ window.AISOHardwarePageData = [
           min-width: 0;
         }
 
-        .quote-summary-shell:hover .quote-summary-card > .quote-summary-footer,
-        .quote-summary-shell.is-expanded .quote-summary-card > .quote-summary-footer {
-          max-height: 120px;
-        }
-
         body.quote-summary-active.quote-summary-expanded { padding-bottom: 280px !important; }
       }
 
@@ -2310,9 +2332,12 @@ window.AISOHardwarePageData = [
           display: block;
           width: 100%;
           padding: 14px 16px;
-          border-radius: 22px;
-          background: linear-gradient(180deg, rgba(15, 23, 58, 0.98), rgba(20, 29, 71, 0.98));
-          border: 1px solid rgba(121, 141, 227, 0.24);
+          border-radius: 20px 20px 0 0;
+          background: rgba(44, 56, 112, 0.76);
+          backdrop-filter: blur(20px) saturate(150%);
+          -webkit-backdrop-filter: blur(20px) saturate(150%);
+          border: 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.3);
           box-shadow: 0 22px 46px rgba(8, 15, 38, 0.34);
         }
 
@@ -2891,18 +2916,22 @@ window.AISOHardwarePageData = [
       return;
     }
 
+    const toggle = shell.querySelector("[data-toggle-details]");
+
     function setExpanded(expanded) {
       shell.classList.toggle("is-expanded", expanded);
       document.body.classList.toggle("quote-summary-expanded", expanded);
+      if (toggle) {
+        toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+        toggle.textContent = expanded ? "Hide Details" : "Spec Details";
+      }
     }
 
-    shell.addEventListener("mouseenter", function () { setExpanded(true); });
-    shell.addEventListener("mouseleave", function () { setExpanded(false); });
-    shell.addEventListener("focusin", function () { setExpanded(true); });
-    shell.addEventListener("focusout", function (event) {
-      if (event.relatedTarget && shell.contains(event.relatedTarget)) return;
-      setExpanded(false);
-    });
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        setExpanded(!shell.classList.contains("is-expanded"));
+      });
+    }
   }
 
   function formatLinesHtml(items, emptyText, maxItems) {
@@ -2981,9 +3010,10 @@ window.AISOHardwarePageData = [
               <span class="quote-summary-collapsed-divider">|</span>
               <span class="quote-summary-collapsed-text">${collapsedText}</span>
             </div>
+            <button class="quote-summary-details-toggle" type="button" data-toggle-details aria-expanded="false">Spec Details</button>
             <a class="quote-summary-button" style="flex-shrink:0" href="${href}">Find Compatible Hardware</a>
           </div>
-          <div class="quote-summary-eyebrow">Your Configuration</div>
+          <div class="quote-summary-details"><div class="quote-summary-details-inner">
           <div class="quote-summary-blocks">
             ${blocks.map(function (block) {
               return `<div class="quote-summary-block">
@@ -2996,6 +3026,7 @@ window.AISOHardwarePageData = [
             <p class="quote-summary-note">${escapeHtml(note)}</p>
             <a class="quote-summary-button" href="${href}">Find Compatible Hardware</a>
           </div>
+          </div></div>
         </aside>
         <div class="quote-summary-mobilebar">
           <div class="quote-summary-mobilebar-inner">
@@ -3046,9 +3077,10 @@ window.AISOHardwarePageData = [
               <span class="quote-summary-collapsed-divider">|</span>
               <span class="quote-summary-collapsed-text">${collapsedSummary}</span>
             </div>
+            <button class="quote-summary-details-toggle" type="button" data-toggle-details aria-expanded="false">Spec Details</button>
             <button class="quote-summary-button" style="flex-shrink:0" type="button" data-open-quote>Request a Quote</button>
           </div>
-          <div class="quote-summary-eyebrow">Your Configuration</div>
+          <div class="quote-summary-details"><div class="quote-summary-details-inner">
           <div class="quote-summary-blocks">
             ${getSummaryBlocks().map(function (block) {
               return `
@@ -3063,6 +3095,7 @@ window.AISOHardwarePageData = [
             <p class="quote-summary-note">${escapeHtml(note)}</p>
             <button class="quote-summary-button" type="button" data-open-quote>Request a Quote</button>
           </div>
+          </div></div>
         </aside>
         <div class="quote-summary-mobilebar">
           <div class="quote-summary-mobilebar-inner">
@@ -3224,9 +3257,19 @@ window.AISOHardwarePageData = [
   function initHeaderScroll() {
     var header = document.querySelector("[data-site-header]");
     if (!header) return;
+    var lastY = window.scrollY;
     function onScroll() {
-      if (window.scrollY > 40) header.classList.add("is-scrolled");
+      var y = window.scrollY;
+      if (y > 40) header.classList.add("is-scrolled");
       else header.classList.remove("is-scrolled");
+      if (document.body.classList.contains("menu-open")) {
+        header.classList.remove("is-hidden");
+      } else if (y > lastY && y > 120) {
+        header.classList.add("is-hidden");
+      } else if (y < lastY) {
+        header.classList.remove("is-hidden");
+      }
+      lastY = y;
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
