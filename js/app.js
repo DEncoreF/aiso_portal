@@ -12,17 +12,38 @@
     var toggle = document.querySelector('[data-menu-toggle]');
     var menu = document.querySelector('[data-mobile-menu]');
     if (!toggle || !menu) return;
+    var scrim = document.querySelector('[data-menu-scrim]');
 
-    toggle.addEventListener('click', function () {
-      var open = menu.classList.toggle('open');
+    function setOpen(open) {
+      menu.classList.toggle('open', open);
+      toggle.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      if (scrim) scrim.classList.toggle('is-open', open);
       document.body.classList.toggle('menu-open', open);
+    }
+
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.addEventListener('click', function () {
+      setOpen(!menu.classList.contains('open'));
+    });
+    if (scrim) scrim.addEventListener('click', function () { setOpen(false); });
+    menu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () { setOpen(false); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        setOpen(false);
+        toggle.focus();
+      }
     });
 
-    menu.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        menu.classList.remove('open');
-        document.body.classList.remove('menu-open');
-      });
+    // The toggle is display:none on desktop, so a menu left open while the
+    // viewport widens would be unclosable. Close it when the toggle goes away.
+    window.addEventListener('resize', function () {
+      if (menu.classList.contains('open') && getComputedStyle(toggle).display === 'none') {
+        setOpen(false);
+      }
     });
   }
 
