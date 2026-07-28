@@ -1197,6 +1197,130 @@
             .bar { width: 20px; }
         }
     </style>
+<style>
+/* ── Header dropdown nav (v6 IA: Who we are / What we do / Insights) ── */
+.nav-item { position: relative; }
+.nav-label {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin: 0; border: 0; background: transparent; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  color: rgba(255, 255, 255, 0.92); font: inherit; font-size: 0.97rem; font-weight: 500;
+  letter-spacing: 0.01em; padding: 10px 2px; position: relative; white-space: nowrap;
+  transition: color 0.2s ease;
+}
+.nav-item:hover .nav-label, .nav-item.is-open .nav-label { color: #fff; }
+.nav-caret { width: 13px; height: 13px; opacity: 0.75; transition: transform 0.25s cubic-bezier(0.34, 1.3, 0.5, 1), opacity 0.2s ease; }
+.nav-item.is-open .nav-caret { transform: rotate(180deg); opacity: 1; }
+.nav-label::after {
+  content: ''; position: absolute; left: 2px; right: 2px; bottom: 3px; height: 2px; border-radius: 2px;
+  transform: scaleX(0); transform-origin: right; background: #fff; transition: transform 0.3s ease;
+}
+.nav-item:hover .nav-label::after,
+.nav-item.is-open .nav-label::after,
+.nav-item.is-current .nav-label::after { transform: scaleX(1); transform-origin: left; }
+.nav-dd {
+  position: absolute; top: calc(100% + 10px); left: -12px; min-width: 288px;
+  background: rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(15, 23, 58, 0.07);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 32px 64px -16px rgba(15, 23, 58, 0.32),
+    0 4px 16px rgba(15, 23, 58, 0.08);
+  padding: 8px; opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(8px) scale(0.97); transform-origin: top left;
+  transition: opacity 0.18s ease, transform 0.24s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.18s;
+  z-index: 130;
+}
+.nav-dd::before { content: ''; position: absolute; top: -12px; left: 0; right: 0; height: 12px; }
+.nav-item.is-open .nav-dd {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+  transition: opacity 0.18s ease, transform 0.24s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.dd-row {
+  position: relative;
+  display: flex; align-items: center; gap: 12px; padding: 9px 12px 9px 10px;
+  border-radius: 11px;
+  font-size: 0.9rem; font-weight: 600; color: #101733; text-decoration: none;
+  opacity: 0; transform: translateY(-5px);
+  transition: background 0.15s ease, opacity 0.2s ease, transform 0.24s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.nav-item.is-open .dd-row { opacity: 1; transform: none; }
+.nav-item.is-open .dd-row:nth-child(1) { transition-delay: 0.03s; }
+.nav-item.is-open .dd-row:nth-child(2) { transition-delay: 0.06s; }
+.nav-item.is-open .dd-row:nth-child(3) { transition-delay: 0.09s; }
+.nav-item.is-open .dd-row:nth-child(4) { transition-delay: 0.12s; }
+.dd-ico {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: linear-gradient(160deg, #eef1ff, #e2e8ff);
+  color: #1d2e7b;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 1px 2px rgba(15, 23, 58, 0.06);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.dd-ico svg { width: 17px; height: 17px; }
+.dd-row-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.dd-row-title { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; letter-spacing: -0.005em; }
+.dd-row-desc { font-size: 0.78rem; font-weight: 400; color: #66708f; white-space: nowrap; transition: color 0.15s ease; }
+a.dd-row:hover, a.dd-row:focus-visible { background: rgba(29, 46, 123, 0.06); }
+a.dd-row:hover .dd-ico, a.dd-row:focus-visible .dd-ico {
+  background: linear-gradient(160deg, #27379b, #1d2e7b);
+  color: #fff; transform: scale(1.05);
+}
+a.dd-row:hover .dd-row-desc { color: #4a5578; }
+.dd-row[aria-current="page"] {
+  background: linear-gradient(90deg, rgba(29, 46, 123, 0.1), rgba(29, 46, 123, 0.03));
+  color: #1d2e7b;
+}
+.dd-row[aria-current="page"]::before {
+  content: ''; position: absolute; left: 3px; top: 9px; bottom: 9px; width: 3px; border-radius: 999px;
+  background: linear-gradient(180deg, #3f51b5, #1d2e7b);
+}
+.dd-row[aria-current="page"] .dd-ico {
+  background: linear-gradient(160deg, #27379b, #1d2e7b); color: #fff;
+}
+.dd-row[aria-current="page"] .dd-row-desc { color: #5160a9; }
+.dd-badge {
+  font-size: 0.62rem; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+  background: #e7ecff; border: 1px solid #d4dcff; color: #1d2e7b;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.dd-row[aria-current="page"] .dd-badge { background: #fff; }
+.dd-row.is-soon { color: #9aa1b5; cursor: default; font-weight: 500; }
+.dd-row.is-soon .dd-ico {
+  background: #f1f3f9; color: #a7aec4; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.dd-row.is-soon .dd-badge { background: #f1f3f9; border-color: #e3e7f2; color: #9aa1b5; }
+.portal-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: rgba(255, 255, 255, 0.82); font-size: 0.92rem; font-weight: 500;
+  white-space: nowrap; text-decoration: none; padding: 6px 2px;
+  transition: color 0.2s ease;
+}
+.portal-link svg { width: 13px; height: 13px; opacity: 0.7; transition: transform 0.2s ease, opacity 0.2s ease; }
+.portal-link:hover { color: #fff; }
+.portal-link:hover svg { transform: translate(1px, -1px); opacity: 1; }
+.nav-label:focus-visible, .portal-link:focus-visible, .contact-pill:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85); outline-offset: 3px; border-radius: 6px;
+}
+.dd-row:focus-visible { outline: 2px solid #1d2e7b; outline-offset: -2px; }
+.mobile-menu .menu-group {
+  margin: 12px 0 2px; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: #8b93ab;
+}
+@media (max-width: 900px) { .portal-link { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .nav-dd .dd-row { opacity: 1; transform: none; }
+}
+</style>
 </head>
 <body>
 
@@ -1214,13 +1338,69 @@
                 </svg>
             </a>
             <nav class="nav-links" aria-label="Main navigation">
-                <a class="nav-link" href="index.html">Home</a>
-                <a class="nav-link" href="hardware.html" aria-current="page">Hardware</a>
-                <a class="nav-link" href="software.html">Software</a>
-                <a class="nav-link" href="solutions.html">Solution</a>
-                <a class="nav-link" href="about.html">About</a>
+              <div class="nav-item" data-nav-item>
+                <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">Who we are <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+                <div class="nav-dd">
+                  <a class="dd-row" href="index.html">
+                    <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg></span>
+                    <span class="dd-row-text">
+                      <span class="dd-row-title">Home</span>
+                      <span class="dd-row-desc">Why sovereign AI, at a glance</span>
+                    </span>
+                  </a>
+                  <a class="dd-row" href="about.html#alliance">
+                    <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.4"/><path d="M16.5 3.7a3.4 3.4 0 0 1 0 6.6"/><path d="M21 21v-2a4 4 0 0 0-2.6-3.7"/></svg></span>
+                    <span class="dd-row-text">
+                      <span class="dd-row-title">Alliance Members</span>
+                      <span class="dd-row-desc">The partners behind AISO</span>
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <div class="nav-item is-current" data-nav-item>
+                <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">What we do <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+                <div class="nav-dd">
+                  <a class="dd-row" href="combo.html">
+                    <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v10"/></svg></span>
+                    <span class="dd-row-text">
+                      <span class="dd-row-title">Combo Set <span class="dd-badge">Ready-made</span></span>
+                      <span class="dd-row-desc">Bundles ready to use on arrival</span>
+                    </span>
+                  </a>
+                  <a class="dd-row" href="hardware.html">
+                    <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.6"/><rect x="10.4" y="10.4" width="3.2" height="3.2" rx="0.6"/><path d="M9.5 2.5v2.4M14.5 2.5v2.4M9.5 19.1v2.4M14.5 19.1v2.4M2.5 9.5h2.4M2.5 14.5h2.4M19.1 9.5h2.4M19.1 14.5h2.4"/></svg></span>
+                    <span class="dd-row-text">
+                      <span class="dd-row-title">Hardware</span>
+                      <span class="dd-row-desc">From mini PCs to rack servers</span>
+                    </span>
+                  </a>
+                  <a class="dd-row" href="software.html">
+                    <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5Z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></span>
+                    <span class="dd-row-text">
+                      <span class="dd-row-title">Software</span>
+                      <span class="dd-row-desc">AI applications and platforms</span>
+                    </span>
+                  </a>
+                  <a class="dd-row" href="solutions.html">
+                    <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-1.8 4.6-4.6 1.8 1.8-4.6 4.6-1.8Z"/></svg></span>
+                    <span class="dd-row-text">
+                      <span class="dd-row-title">Find My Solution</span>
+                      <span class="dd-row-desc">Match a tier to your needs</span>
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <div class="nav-item" data-nav-item>
+                <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">Insights <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+                <div class="nav-dd">
+                  <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z"/></svg></span><span class="dd-row-text"><span class="dd-row-title">Blog <span class="dd-badge">Coming soon</span></span></span></span>
+                  <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.3 9a2.8 2.8 0 0 1 5.4 0.9c0 1.8-2.7 2.1-2.7 3.6"/><path d="M12 17h.01"/></svg></span><span class="dd-row-text"><span class="dd-row-title">FAQ <span class="dd-badge">Coming soon</span></span></span></span>
+                  <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/></svg></span><span class="dd-row-text"><span class="dd-row-title">Case Studies <span class="dd-badge">Coming soon</span></span></span></span>
+                </div>
+              </div>
             </nav>
             <div class="header-right">
+                <a class="portal-link" href="https://portal.aisoportal.com">Workspace <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 13L13 7M8.5 7H13v4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                 <a class="contact-pill" href="mailto:contact@aisoportal.com">Contact AISO</a>
                 <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
             </div>
@@ -1228,13 +1408,17 @@
     </header>
 
     <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+        <p class="menu-group">Who we are</p>
         <a href="index.html">Home</a>
-        <a href="hardware.html" aria-current="page">Hardware</a>
+        <a href="about.html#alliance">Alliance Members</a>
+        <p class="menu-group">What we do</p>
+        <a href="combo.html">Combo Set (Ready-made)</a>
+        <a href="hardware.html">Hardware</a>
         <a href="software.html">Software</a>
-        <a href="solutions.html">Solution</a>
-        <a href="about.html">About</a>
+        <a href="solutions.html">Find My Solution</a>
+        <a href="https://portal.aisoportal.com">Workspace</a>
         <a href="mailto:contact@aisoportal.com">Contact AISO</a>
-    </nav>
+      </nav>
 
     <!-- Hero -->
     <div class="hero-band architecture-band">
@@ -1726,13 +1910,15 @@
         });
 
         // Header scroll state
+        // Desktop keeps the header pinned; auto-hide on scroll-down is mobile-only.
         var header = document.getElementById('site-header');
+        var mqDesktop = window.matchMedia('(min-width: 840px)');
         var lastY = window.scrollY;
         window.addEventListener('scroll', function() {
             var y = window.scrollY;
             header.classList.toggle('is-scrolled', y > 20);
             var menu = document.getElementById('mobile-menu');
-            if (menu && menu.classList.contains('open')) {
+            if (mqDesktop.matches || (menu && menu.classList.contains('open'))) {
                 header.classList.remove('is-hidden');
             } else if (y > lastY && y > 120) {
                 header.classList.add('is-hidden');
@@ -1884,5 +2070,120 @@
             }, 200);
         });
     </script>
+<script>
+(function () {
+  'use strict';
+  function initNavDropdowns() {
+    var items = Array.prototype.slice.call(document.querySelectorAll('.nav-links .nav-item'));
+    if (!items.length) return;
+
+    var OPEN_DELAY = 60;
+    var CLOSE_GRACE = 240;
+
+    function setOpen(item, open) {
+      item.classList.toggle('is-open', open);
+      if (!open) item._ddPinned = false;
+      var btn = item.querySelector('.nav-label');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function clearTimers(item) {
+      if (item._ddOpenT) { clearTimeout(item._ddOpenT); item._ddOpenT = null; }
+      if (item._ddCloseT) { clearTimeout(item._ddCloseT); item._ddCloseT = null; }
+    }
+    function closeAll(except) {
+      items.forEach(function (it) {
+        if (it === except) return;
+        clearTimers(it);
+        setOpen(it, false);
+      });
+    }
+    function anyOpen() {
+      return items.some(function (it) { return it.classList.contains('is-open'); });
+    }
+
+    items.forEach(function (item) {
+      var btn = item.querySelector('.nav-label');
+      var panel = item.querySelector('.nav-dd');
+      if (!btn || !panel) return;
+
+      // Hover intent (mouse only): open after a beat; close with a grace
+      // period so the pointer can travel into the panel without collapsing it.
+      item.addEventListener('pointerenter', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        clearTimers(item);
+        item._ddOpenT = setTimeout(function () {
+          closeAll(item);
+          setOpen(item, true);
+        }, OPEN_DELAY);
+      });
+      item.addEventListener('pointerleave', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        clearTimers(item);
+        if (item._ddPinned) return; // clicked open: stays until dismissed
+        item._ddCloseT = setTimeout(function () { setOpen(item, false); }, CLOSE_GRACE);
+      });
+
+      // Click pins the menu open (desktop), toggles on touch/keyboard.
+      btn.addEventListener('click', function () {
+        clearTimers(item);
+        var open = item.classList.contains('is-open');
+        if (open && !item._ddPinned) { item._ddPinned = true; return; }
+        closeAll(item);
+        setOpen(item, !open);
+        item._ddPinned = !open;
+      });
+
+      // Keyboard: focusing the trigger opens its menu (parity with the old
+      // :focus-within behavior); the focusout handler below closes it.
+      btn.addEventListener('focus', function () {
+        if (item.classList.contains('is-open')) return;
+        closeAll(item);
+        setOpen(item, true);
+      });
+
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          closeAll(item);
+          setOpen(item, true);
+          var first = panel.querySelector('a.dd-row');
+          if (first) first.focus();
+        }
+      });
+
+      // Keyboard: close when focus leaves the whole item
+      item.addEventListener('focusout', function (e) {
+        if (!item.contains(e.relatedTarget)) setOpen(item, false);
+      });
+    });
+
+    document.addEventListener('pointerdown', function (e) {
+      if (!anyOpen()) return;
+      var inside = items.some(function (it) { return it.contains(e.target); });
+      if (!inside) closeAll();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !anyOpen()) return;
+      var open = items.filter(function (it) { return it.classList.contains('is-open'); })[0];
+      if (open) {
+        var btn = open.querySelector('.nav-label');
+        if (btn) btn.focus(); // focus first: its open-on-focus is undone by closeAll below
+      }
+      closeAll();
+    });
+
+    // Close once the page actually scrolls (the header may auto-hide)
+    var lastY = window.scrollY;
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (Math.abs(y - lastY) > 6 && anyOpen()) closeAll();
+      lastY = y;
+    }, { passive: true });
+  }
+  if (document.readyState !== 'loading') initNavDropdowns();
+  else document.addEventListener('DOMContentLoaded', initNavDropdowns);
+})();
+</script>
 </body>
 </html>

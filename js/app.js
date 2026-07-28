@@ -35,16 +35,18 @@
   }
 
   // ── 3. Header scroll effect ────────────────────────────────────────
+  // Desktop keeps the header pinned; auto-hide on scroll-down is mobile-only.
   function initHeaderScroll() {
     var header = document.querySelector('[data-site-header]');
     if (!header) return;
 
+    var mqDesktop = window.matchMedia('(min-width: 840px)');
     var lastY = window.scrollY;
     function onScroll() {
       var y = window.scrollY;
       if (y > 40) header.classList.add('is-scrolled');
       else header.classList.remove('is-scrolled');
-      if (document.body.classList.contains('menu-open')) {
+      if (mqDesktop.matches || document.body.classList.contains('menu-open')) {
         header.classList.remove('is-hidden');
       } else if (y > lastY && y > 120) {
         header.classList.add('is-hidden');
@@ -54,6 +56,11 @@
       lastY = y;
     }
     window.addEventListener('scroll', onScroll, { passive: true });
+    if (mqDesktop.addEventListener) {
+      mqDesktop.addEventListener('change', function (e) {
+        if (e.matches) header.classList.remove('is-hidden');
+      });
+    }
     onScroll();
   }
 
@@ -724,6 +731,118 @@
     }).join('');
   }
 
+  // ── 14. Header dropdown nav ────────────────────────────────────────
+  // JS-driven disclosure replaces the old :hover/:focus-within CSS combo,
+  // which left the panel stuck open after a click (focus stayed on the item).
+  function initNavDropdowns() {
+    var items = Array.prototype.slice.call(document.querySelectorAll('.nav-links .nav-item'));
+    if (!items.length) return;
+
+    var OPEN_DELAY = 60;
+    var CLOSE_GRACE = 240;
+
+    function setOpen(item, open) {
+      item.classList.toggle('is-open', open);
+      if (!open) item._ddPinned = false;
+      var btn = item.querySelector('.nav-label');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function clearTimers(item) {
+      if (item._ddOpenT) { clearTimeout(item._ddOpenT); item._ddOpenT = null; }
+      if (item._ddCloseT) { clearTimeout(item._ddCloseT); item._ddCloseT = null; }
+    }
+    function closeAll(except) {
+      items.forEach(function (it) {
+        if (it === except) return;
+        clearTimers(it);
+        setOpen(it, false);
+      });
+    }
+    function anyOpen() {
+      return items.some(function (it) { return it.classList.contains('is-open'); });
+    }
+
+    items.forEach(function (item) {
+      var btn = item.querySelector('.nav-label');
+      var panel = item.querySelector('.nav-dd');
+      if (!btn || !panel) return;
+
+      // Hover intent (mouse only): open after a beat; close with a grace
+      // period so the pointer can travel into the panel without collapsing it.
+      item.addEventListener('pointerenter', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        clearTimers(item);
+        item._ddOpenT = setTimeout(function () {
+          closeAll(item);
+          setOpen(item, true);
+        }, OPEN_DELAY);
+      });
+      item.addEventListener('pointerleave', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        clearTimers(item);
+        if (item._ddPinned) return; // clicked open: stays until dismissed
+        item._ddCloseT = setTimeout(function () { setOpen(item, false); }, CLOSE_GRACE);
+      });
+
+      // Click pins the menu open (desktop), toggles on touch/keyboard.
+      btn.addEventListener('click', function () {
+        clearTimers(item);
+        var open = item.classList.contains('is-open');
+        if (open && !item._ddPinned) { item._ddPinned = true; return; }
+        closeAll(item);
+        setOpen(item, !open);
+        item._ddPinned = !open;
+      });
+
+      // Keyboard: focusing the trigger opens its menu (parity with the old
+      // :focus-within behavior); the focusout handler below closes it.
+      btn.addEventListener('focus', function () {
+        if (item.classList.contains('is-open')) return;
+        closeAll(item);
+        setOpen(item, true);
+      });
+
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          closeAll(item);
+          setOpen(item, true);
+          var first = panel.querySelector('a.dd-row');
+          if (first) first.focus();
+        }
+      });
+
+      // Keyboard: close when focus leaves the whole item
+      item.addEventListener('focusout', function (e) {
+        if (!item.contains(e.relatedTarget)) setOpen(item, false);
+      });
+    });
+
+    document.addEventListener('pointerdown', function (e) {
+      if (!anyOpen()) return;
+      var inside = items.some(function (it) { return it.contains(e.target); });
+      if (!inside) closeAll();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !anyOpen()) return;
+      var open = items.filter(function (it) { return it.classList.contains('is-open'); })[0];
+      if (open) {
+        var btn = open.querySelector('.nav-label');
+        if (btn) btn.focus(); // focus first: its open-on-focus is undone by closeAll below
+      }
+      closeAll();
+    });
+
+    // Close once the page actually scrolls (the header may auto-hide)
+    var lastY = window.scrollY;
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (Math.abs(y - lastY) > 6 && anyOpen()) closeAll();
+      lastY = y;
+    }, { passive: true });
+  }
+
   // ── Bootstrap ─────────────────────────────────────────────────────
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
@@ -734,6 +853,7 @@
     initMobileMenu();
     initYearStamp();
     initHeaderScroll();
+    initNavDropdowns();
     initModalDismissal();
     initFeatureCards();
     initWorkflowSteps();

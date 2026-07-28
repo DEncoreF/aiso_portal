@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AISO Combo Set — Ready-Made Software + Hardware Bundles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      /* ── Combo hero (same structure as hardware/software pages) ── */
+      .combo-hero-band {
+        background: linear-gradient(180deg, var(--blue-dark-01) 0%, var(--blue-dark-02) 60%, var(--gray-03) 100%);
+      }
+      .combo-hero {
+        min-height: 380px;
+        max-width: min(1240px, 100%);
+        margin: 0 auto;
+        padding: 160px clamp(1.5rem, 4vw, 6.25rem) 80px;
+        display: flex; flex-direction: column;
+        align-items: center; gap: 16px; text-align: center;
+      }
+      .combo-hero .hero-title {
+        font-size: clamp(2rem, 4.5vw, 3.2rem);
+        font-weight: 900; line-height: 1.08; letter-spacing: -0.03em;
+        text-wrap: balance; color: #fff; margin: 0; padding: 0;
+      }
+      .combo-hero .hero-subtitle {
+        font-size: clamp(0.98rem, 2vw, 1.18rem);
+        font-weight: 500; line-height: 1.65;
+        text-wrap: balance; color: rgba(255, 255, 255, 0.72);
+        max-width: 560px; margin: 0;
+      }
+
+      /* ── Filter bar ── */
+      .combo-main {
+        width: min(1240px, calc(100% - 3rem));
+        margin: 0 auto; padding: 40px 0 96px;
+      }
+      .combo-toolbar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 16px; flex-wrap: wrap; margin-bottom: 26px;
+      }
+      .combo-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+      .combo-chip {
+        font: inherit; font-size: 0.9rem; font-weight: 600;
+        padding: 9px 18px; border-radius: 999px;
+        border: 1px solid rgba(17, 25, 54, 0.14);
+        background: #fff; color: var(--gray-04); cursor: pointer;
+        transition: border-color 0.2s, color 0.2s, background 0.2s;
+        display: inline-flex; align-items: center; gap: 7px;
+      }
+      .combo-chip:hover { border-color: #5160a9; color: var(--blue-dark-02); }
+      .combo-chip .n { font-size: 0.78rem; opacity: 0.65; }
+      .combo-chip[aria-pressed="true"] {
+        background: linear-gradient(135deg, var(--blue-dark-02), #5160a9);
+        color: #fff; border-color: transparent;
+      }
+      .combo-count { font-size: 0.88rem; color: var(--gray-04); }
+
+      /* ── Card (7 fixed slots) ── */
+      .combo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(276px, 1fr)); gap: 22px; }
+      @media (min-width: 1040px) { .combo-grid { grid-template-columns: repeat(3, 1fr); } }
+      .combo-card {
+        background: #fff; border-radius: 14px; box-shadow: var(--shadow-card);
+        display: flex; flex-direction: column; overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .combo-card:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(140, 160, 230, 0.32); }
+      .cc-fig {
+        height: 132px; background: linear-gradient(160deg, var(--gray-01), var(--gray-02));
+        display: flex; align-items: center; justify-content: center; position: relative;
+      }
+      .cc-fig svg { width: 92px; height: 66px; color: #5160a9; }
+      .cc-period {
+        position: absolute; right: 14px; top: 13px;
+        font-size: 0.72rem; font-weight: 600; color: #8a6410; background: #fdf1d8;
+        border-radius: 999px; padding: 3px 11px;
+        display: inline-flex; align-items: center; gap: 5px;
+      }
+      .cc-period svg { width: 11px; height: 11px; color: currentColor; }
+      .cc-in { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 11px; flex: 1; }
+      .cc-name { font-size: 1.13rem; font-weight: 700; letter-spacing: -0.01em; margin: 0; line-height: 1.35; }
+      .cc-tag { font-size: 0.88rem; color: var(--gray-04); margin: 0; line-height: 1.6; }
+      .cc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+      .cc-t {
+        font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 6px;
+        background: var(--gray-02); color: var(--gray-04);
+      }
+      .cc-t.ind { background: #e7ecff; color: var(--blue-dark-02); }
+      .cc-incl {
+        font-size: 0.8rem; color: var(--gray-04);
+        border-top: 1px solid rgba(17, 25, 54, 0.09); padding-top: 12px; margin-top: auto;
+      }
+      .cc-incl b { color: var(--ink); font-weight: 700; }
+      .cc-price { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
+      .cc-price .amt { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+      .cc-price .u { font-size: 0.76rem; color: var(--gray-04); }
+      .cc-cta {
+        display: block; text-align: center; font-size: 0.92rem; font-weight: 700;
+        padding: 11px 16px; border-radius: 9px; text-decoration: none;
+        background: linear-gradient(135deg, var(--blue-dark-01), var(--blue-dark-02));
+        color: #fff; transition: filter 0.2s;
+      }
+      .cc-cta:hover { filter: brightness(1.18); }
+      .cc-cta.is-soon {
+        background: var(--gray-02); color: var(--gray-04); cursor: default; pointer-events: none;
+      }
+      .combo-empty { text-align: center; padding: 56px 0; color: var(--gray-04); font-size: 0.95rem; }
+
+      /* ── Bottom CTA ── */
+      .combo-foot {
+        margin-top: 52px; background: #fff; border-radius: 14px; box-shadow: var(--shadow-card);
+        padding: 32px 34px; display: flex; align-items: center; justify-content: space-between;
+        gap: 22px; flex-wrap: wrap;
+      }
+      .combo-foot h3 { margin: 0 0 5px; font-size: 1.16rem; font-weight: 700; }
+      .combo-foot p { margin: 0; font-size: 0.9rem; color: var(--gray-04); }
+      .combo-foot-btns { display: flex; gap: 11px; flex-wrap: wrap; }
+      .cf-btn-o {
+        font-size: 0.92rem; font-weight: 700; padding: 11px 22px; border-radius: 9px;
+        border: 1px solid rgba(17, 25, 54, 0.18); color: var(--ink); text-decoration: none;
+      }
+      .cf-btn-o:hover { background: var(--gray-02); }
+      .cf-btn-f {
+        font-size: 0.92rem; font-weight: 700; padding: 11px 22px; border-radius: 9px;
+        background: linear-gradient(135deg, var(--blue-dark-01), var(--blue-dark-02));
+        color: #fff; text-decoration: none; transition: filter 0.2s;
+      }
+      .cf-btn-f:hover { filter: brightness(1.18); }
+    </style>
+  </head>
+  <body data-page="combo">
+    <div class="page-shell">
+      <header class="site-header" data-site-header>
+        <div class="header-inner">
+          <a href="index.html" aria-label="AISO Home">
+            <svg class="brand-logo" viewBox="0 0 252 59" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g fill="none">
+                <path d="M99.8099 0H88.9199V59H99.8099V0Z" fill="currentColor" />
+                <path d="M113.49 58.9V47.9H157.83C161.335 47.9 164.415 45 164.415 41.69V41.33C164.415 38.025 161.34 35.12 157.83 35.12H130.055C120.565 35.12 112.845 27.4 112.845 17.91V17.365C112.845 7.875 120.565 0.154999 130.055 0.154999H173.145V11.155H130.43C126.925 11.155 123.845 14.055 123.845 17.365V17.91C123.845 21.215 126.92 24.12 130.43 24.12H158.205C167.695 24.12 175.415 31.84 175.415 41.33V41.69C175.415 51.18 167.61 58.9 158.02 58.9H113.49Z" fill="currentColor" />
+                <path d="M217.07 58.93C215.695 58.93 214.31 58.86 211.55 58.715C194.165 57.82 182.485 46.075 182.485 29.49C182.485 12.905 194.165 1.095 211.545 0.265002C214.305 0.135002 215.695 0.0650024 217.07 0.0650024C218.445 0.0650024 219.83 0.130002 222.595 0.265002C239.975 1.095 251.655 12.84 251.655 29.49C251.655 46.14 239.975 57.82 222.595 58.715C219.835 58.855 218.45 58.93 217.075 58.93H217.07ZM217.4 11.015C215.335 11.015 213.255 11.1 211.53 11.26C199.97 12.315 193.345 18.96 193.345 29.49C193.345 40.02 199.97 46.415 211.52 47.72C212.865 47.87 214.98 47.96 217.175 47.96C219.37 47.96 221.3 47.875 222.615 47.72C234.165 46.345 240.79 39.7 240.79 29.49C240.79 19.28 234.335 12.645 222.615 11.26C221.255 11.1 219.45 11.015 217.4 11.015Z" fill="currentColor" />
+                <path d="M67.825 59L60.28 46.86H31.275L37.43 35.97H53.515L40.515 15.05L13.14 58.995H0C3.38 53.415 24.42 18.69 32.21 5.75501L32.545 5.20001C34.82 1.46501 36.98 0.0750122 40.515 0.0750122C44.05 0.0750122 46.325 1.51001 48.48 5.19001C48.55 5.31001 48.815 5.75001 48.815 5.75001C56.57 18.705 77.64 53.41 81.025 58.99H67.825V59Z" fill="currentColor" />
+              </g>
+            </svg>
+          </a>
+
+          <nav class="nav-links" aria-label="Main navigation">
+            <div class="nav-item" data-nav-item>
+              <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">Who we are <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <div class="nav-dd">
+                <a class="dd-row" href="index.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Home</span>
+                    <span class="dd-row-desc">Why sovereign AI, at a glance</span>
+                  </span>
+                </a>
+                <a class="dd-row" href="about.html#alliance">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.4"/><path d="M16.5 3.7a3.4 3.4 0 0 1 0 6.6"/><path d="M21 21v-2a4 4 0 0 0-2.6-3.7"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Alliance Members</span>
+                    <span class="dd-row-desc">The partners behind AISO</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div class="nav-item is-current" data-nav-item>
+              <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">What we do <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <div class="nav-dd">
+                <a class="dd-row" href="combo.html" aria-current="page">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v10"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Combo Set <span class="dd-badge">Ready-made</span></span>
+                    <span class="dd-row-desc">Bundles ready to use on arrival</span>
+                  </span>
+                </a>
+                <a class="dd-row" href="hardware.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.6"/><rect x="10.4" y="10.4" width="3.2" height="3.2" rx="0.6"/><path d="M9.5 2.5v2.4M14.5 2.5v2.4M9.5 19.1v2.4M14.5 19.1v2.4M2.5 9.5h2.4M2.5 14.5h2.4M19.1 9.5h2.4M19.1 14.5h2.4"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Hardware</span>
+                    <span class="dd-row-desc">From mini PCs to rack servers</span>
+                  </span>
+                </a>
+                <a class="dd-row" href="software.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5Z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Software</span>
+                    <span class="dd-row-desc">AI applications and platforms</span>
+                  </span>
+                </a>
+                <a class="dd-row" href="solutions.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-1.8 4.6-4.6 1.8 1.8-4.6 4.6-1.8Z"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Find My Solution</span>
+                    <span class="dd-row-desc">Match a tier to your needs</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div class="nav-item" data-nav-item>
+              <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">Insights <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <div class="nav-dd">
+                <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z"/></svg></span><span class="dd-row-text"><span class="dd-row-title">Blog <span class="dd-badge">Coming soon</span></span></span></span>
+                <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.3 9a2.8 2.8 0 0 1 5.4 0.9c0 1.8-2.7 2.1-2.7 3.6"/><path d="M12 17h.01"/></svg></span><span class="dd-row-text"><span class="dd-row-title">FAQ <span class="dd-badge">Coming soon</span></span></span></span>
+                <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/></svg></span><span class="dd-row-text"><span class="dd-row-title">Case Studies <span class="dd-badge">Coming soon</span></span></span></span>
+              </div>
+            </div>
+          </nav>
+
+          <div class="header-right">
+            <a class="portal-link" href="https://portal.aisoportal.com">Workspace <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 13L13 7M8.5 7H13v4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="contact-pill" href="mailto:contact@aisoportal.com">Contact AISO</a>
+            <button class="menu-toggle" data-menu-toggle aria-label="Open menu"><span></span></button>
+          </div>
+        </div>
+      </header>
+
+      <nav class="mobile-menu" data-mobile-menu aria-label="Mobile navigation">
+        <p class="menu-group">Who we are</p>
+        <a href="index.html">Home</a>
+        <a href="about.html#alliance">Alliance Members</a>
+        <p class="menu-group">What we do</p>
+        <a href="combo.html" aria-current="page">Combo Set (Ready-made)</a>
+        <a href="hardware.html">Hardware</a>
+        <a href="software.html">Software</a>
+        <a href="solutions.html">Find My Solution</a>
+        <a href="https://portal.aisoportal.com">Workspace</a>
+        <a href="mailto:contact@aisoportal.com">Contact AISO</a>
+      </nav>
+
+      <div class="combo-hero-band">
+        <section class="combo-hero" aria-label="Page hero">
+          <h1 class="hero-title">Explore Ready-Made Combo Sets</h1>
+          <p class="hero-subtitle">Pick by industry and use case — software licence, hardware and deployment service in one package, fully on-premise.</p>
+        </section>
+      </div>
+
+      <main class="combo-main">
+        <div class="combo-toolbar">
+          <div class="combo-filters" id="combo-filters"></div>
+          <span class="combo-count" id="combo-count"></span>
+        </div>
+        <div class="combo-grid" id="combo-grid"></div>
+        <div class="combo-empty" id="combo-empty" hidden>No offers in this category.</div>
+
+        <div class="combo-foot">
+          <div>
+            <h3>Not sure which one fits?</h3>
+            <p>Tell us your document types and how many people will use it — we'll help you assess the right software and hardware combination.</p>
+          </div>
+          <div class="combo-foot-btns">
+            <a class="cf-btn-o" href="solutions.html">Find My Solution</a>
+            <a class="cf-btn-f" href="mailto:contact@aisoportal.com">Contact us</a>
+          </div>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <a href="index.html" aria-label="AISO Home">
+            <svg class="brand-logo footer" viewBox="0 0 254 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g fill="none">
+                <path d="M101.2 0H89.3101V60H101.2V0Z" fill="currentColor" />
+                <path d="M158.91 59.9H113.88V47.9H158.72C161.865 47.9 164.805 45.34 164.805 42.19V41.83C164.805 38.685 161.87 36.12 158.72 36.12H130.945C121.18 36.12 113.235 28.175 113.235 18.41V17.865C113.235 8.1 121.18 0.154999 130.945 0.154999H174.535V12.155H131.32C128.17 12.155 125.235 14.715 125.235 17.865V18.41C125.235 21.555 128.17 24.12 131.32 24.12H159.095C168.86 24.12 176.805 32.065 176.805 41.83V42.19C176.805 51.955 168.675 59.9 158.91 59.9Z" fill="currentColor" />
+                <path d="M223.505 59.715C219.808 59.905 216.11 59.905 212.41 59.715C194.52 58.795 182.875 46.485 182.875 29.99C182.875 13.495 194.52 1.12001 212.415 0.265007C216.112 0.0883407 219.81 0.0883407 223.51 0.265007C241.4 1.12001 253.045 13.495 253.045 29.99C253.045 46.485 241.395 58.79 223.51 59.715H223.505ZM212.47 12.255C200.725 13.33 194.735 20.21 194.735 29.99C194.735 39.77 200.75 46.4 212.47 47.725C215.145 48.025 220.64 48.06 223.455 47.725C234.89 46.36 241.19 39.77 241.19 29.99C241.19 20.21 235.185 13.64 223.455 12.255C220.58 11.915 215.805 11.95 212.47 12.255Z" fill="currentColor" />
+                <path d="M50.135 5.99999C50.02 5.80999 49.91 5.62499 49.8 5.44499C47.69 1.83999 45.37 0.0849915 41.405 0.0849915C37.44 0.0849915 35.205 1.83999 33.005 5.44499C32.895 5.62499 32.785 5.80999 32.67 5.99999C24.13 20.175 0 60 0 60H14.305L41.4 16.5L53.5 35.97H38.025L31.305 47.86H60.89L68.435 60H82.805C82.805 60 58.635 20.2 50.135 5.99999Z" fill="currentColor" />
+              </g>
+            </svg>
+          </a>
+
+          <p class="footer-copy">© <span data-year></span> AISO Alliance. All rights reserved.</p>
+
+          <nav class="footer-links" aria-label="Footer links">
+            <a href="combo.html">Combo Set</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="software.html">Software</a>
+            <a href="about.html">About</a>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      /* ── Single source of truth: swap a campaign by editing this ──
+         campaign: matching landing page; null = none yet (CTA shows "coming soon")
+         period:   offer end-date string; null = period TBC */
+      const COMBO_OFFERS = [
+        { id: 'dgc', name: 'Clinical Records', form: 'aio', industry: 'Healthcare',
+          tagline: 'Generates medical record summaries and nursing handover notes automatically, conforming to FHIR and the TW Core IG.',
+          traits: ['FHIR R4', 'AI Agents', 'On-premise'],
+          sw: 'digiCare', hw: 'AI PC', price: 1380000,
+          period: null, campaign: null },
+
+        { id: 'pdf-med', name: 'Healthcare Document Digitisation', form: 'aio', industry: 'Healthcare',
+          tagline: 'Turns medical records, lab reports and billing paperwork into AI-ready structured data.',
+          traits: ['OCR', 'Semantic parsing', 'On-premise'],
+          sw: 'ComPDF', hw: 'AI PC', price: 880000,
+          period: null, campaign: null },
+
+        { id: 'pdf-mfg', name: 'Manufacturing Document Digitisation', form: 'aio', industry: 'Manufacturing',
+          tagline: 'Structures inspection reports, engineering drawings and procurement documents, syncing straight into ERP, MES and SCM.',
+          traits: ['OCR', 'Multilingual', 'On-premise'],
+          sw: 'ComPDF', hw: 'AI PC', price: 880000,
+          period: null, campaign: 'campaign-kdan-manufacturing.html' },
+
+        { id: 'ori-nb', name: 'Knowledge Assistant Notebook', form: 'laptop', industry: 'Cross-industry',
+          tagline: 'Turns company documents into an assistant that answers questions. Pre-deployed and usable the moment it arrives.',
+          traits: ['Knowledge base', 'Access control', 'On-premise'],
+          sw: 'OrientAI', hw: 'AI Notebook', price: 100000,
+          period: null, campaign: 'campaign-orientai-knowledge.html' },
+
+        { id: 'ori-box', name: 'Knowledge Assistant AI Box', form: 'box', industry: 'Cross-industry',
+          tagline: 'Turns company documents into an assistant that answers questions. Pre-deployed and usable the moment it arrives.',
+          traits: ['Knowledge base', 'Access control', 'On-premise'],
+          sw: 'OrientAI', hw: 'AI Box', price: 150000,
+          period: null, campaign: null },
+      ];
+
+      const COMBO_FORM = {
+        aio:    { svg: '<rect x="12" y="8" width="68" height="44" rx="4"/><path d="M46 52v8M36 60h20"/>' },
+        laptop: { svg: '<path d="M20 12h52v34H20z"/><path d="M10 50h72l-5 8H15z"/>' },
+        box:    { svg: '<rect x="22" y="20" width="48" height="28" rx="5"/><circle cx="32" cy="34" r="2.6"/><path d="M42 34h20"/>' },
+      };
+
+      (function () {
+        const money = n => 'NT$' + n.toLocaleString('en-US');
+        const clock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+
+        function cardHTML(o) {
+          const f = COMBO_FORM[o.form];
+          const period = o.period ? clock + 'Ends ' + o.period : clock + 'Period TBC';
+          const cta = o.campaign
+            ? '<a class="cc-cta" href="' + o.campaign + '">View solution</a>'
+            : '<span class="cc-cta is-soon">Solution page coming soon</span>';
+          return '<article class="combo-card" data-ind="' + o.industry + '">' +
+            '<div class="cc-fig">' +
+              '<span class="cc-period">' + period + '</span>' +
+              '<svg viewBox="0 0 92 66" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + f.svg + '</svg>' +
+            '</div>' +
+            '<div class="cc-in">' +
+              '<h2 class="cc-name">' + o.name + '</h2>' +
+              '<p class="cc-tag">' + o.tagline + '</p>' +
+              '<div class="cc-tags"><span class="cc-t ind">' + o.industry + '</span>' +
+                o.traits.map(t => '<span class="cc-t">' + t + '</span>').join('') + '</div>' +
+              '<div class="cc-incl">Includes <b>' + o.sw + '</b> · ' + o.hw + '</div>' +
+              '<div class="cc-price"><span class="amt">' + money(o.price) + '</span><span class="u">excl. tax</span></div>' +
+              cta +
+            '</div>' +
+          '</article>';
+        }
+
+        const inds = ['All'].concat(Array.from(new Set(COMBO_OFFERS.map(o => o.industry))));
+        const countOf = i => i === 'All' ? COMBO_OFFERS.length : COMBO_OFFERS.filter(o => o.industry === i).length;
+
+        document.getElementById('combo-filters').innerHTML = inds.map((i, idx) =>
+          '<button class="combo-chip" aria-pressed="' + (idx === 0) + '" data-ind="' + i + '">' + i +
+          '<span class="n">' + countOf(i) + '</span></button>'
+        ).join('');
+
+        document.getElementById('combo-grid').innerHTML = COMBO_OFFERS.map(cardHTML).join('');
+
+        function apply(ind) {
+          let shown = 0;
+          document.querySelectorAll('.combo-card').forEach(c => {
+            const ok = ind === 'All' || c.dataset.ind === ind;
+            c.hidden = !ok;
+            if (ok) shown++;
+          });
+          document.getElementById('combo-count').textContent = 'Showing ' + shown + ' of ' + COMBO_OFFERS.length;
+          document.getElementById('combo-empty').hidden = shown > 0;
+        }
+
+        document.getElementById('combo-filters').addEventListener('click', e => {
+          const btn = e.target.closest('.combo-chip');
+          if (!btn) return;
+          document.querySelectorAll('.combo-chip').forEach(c => c.setAttribute('aria-pressed', 'false'));
+          btn.setAttribute('aria-pressed', 'true');
+          apply(btn.dataset.ind);
+        });
+        apply('All');
+      })();
+    </script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

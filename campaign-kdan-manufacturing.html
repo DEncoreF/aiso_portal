@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AISO x KDAN - Manufacturing Document AI-Ready Package</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      body[data-page='campaign-kdan'] {
+        background: #edf4fb;
+        color: #101832;
+      }
+
+      body[data-page='campaign-kdan'] .main-wrap {
+        padding: 0;
+        background: #edf4fb;
+      }
+
+      .campaign-hero {
+        position: relative;
+        min-height: 84svh;
+        padding: 136px max(var(--page-gutter), calc((100vw - 1240px) / 2 + 36px)) 72px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(24px, 3.2vw, 48px);
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 82% 38%, rgba(78, 116, 210, 0.24), transparent 34%),
+          radial-gradient(circle at 24% 24%, rgba(62, 225, 255, 0.12), transparent 28%),
+          linear-gradient(180deg, #071027 0%, #0c1536 58%, #edf4fb 100%);
+      }
+
+      .campaign-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(151, 184, 255, 0.055) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(151, 184, 255, 0.055) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+        opacity: 0.55;
+        pointer-events: none;
+      }
+
+      .campaign-hero::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 160px;
+        background: linear-gradient(180deg, rgba(237, 244, 251, 0) 0%, #edf4fb 92%);
+        pointer-events: none;
+      }
+
+      .campaign-hero-inner {
+        position: relative;
+        z-index: 1;
+        width: min(620px, 100%);
+        flex: 0 1 620px;
+      }
+
+      .campaign-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+        color: #9be8ff;
+        font-size: 0.86rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .campaign-kicker::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #73f7ff;
+        box-shadow: 0 0 24px rgba(115, 247, 255, 0.8);
+      }
+
+      .campaign-hero h1 {
+        max-width: 680px;
+        color: #fff;
+        font-size: clamp(2.45rem, 5.7vw, 5.1rem);
+        font-weight: 900;
+        line-height: 1.04;
+        letter-spacing: 0;
+        text-wrap: balance;
+      }
+
+      .campaign-hero-lead {
+        max-width: 540px;
+        margin-top: 24px;
+        color: rgba(237, 246, 255, 0.86);
+        font-size: clamp(1.02rem, 1.7vw, 1.2rem);
+        font-weight: 600;
+        line-height: 1.58;
+      }
+
+      .campaign-hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .campaign-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 52px;
+        padding: 0 22px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        font-weight: 800;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .campaign-button svg {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+      }
+
+      .campaign-button:hover {
+        transform: translateY(-2px);
+      }
+
+      .campaign-button-primary {
+        background: #f4fbff;
+        color: #0f2458;
+        box-shadow: 0 16px 38px rgba(87, 210, 255, 0.16);
+      }
+
+      .campaign-button-secondary {
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.32);
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .campaign-hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .campaign-hero-visual {
+        position: relative;
+        z-index: 1;
+        flex: 0 0 min(460px, 34vw);
+        min-height: 460px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .campaign-system-visual {
+        position: relative;
+        width: min(460px, 32vw);
+        aspect-ratio: 1.08;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 48%, rgba(96, 232, 255, 0.18), transparent 32%),
+          linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.12),
+          0 30px 90px rgba(0, 0, 0, 0.24);
+        overflow: hidden;
+      }
+
+      .campaign-system-visual::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(160, 196, 255, 0.055) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(160, 196, 255, 0.055) 1px, transparent 1px);
+        background-size: 36px 36px;
+        mask-image: radial-gradient(circle at 54% 50%, #000 0%, transparent 72%);
+        pointer-events: none;
+      }
+
+      .campaign-system-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.92;
+      }
+
+      .campaign-flow-line {
+        stroke-dasharray: 8 13;
+        animation: campaign-flow 5.6s linear infinite;
+      }
+
+      .campaign-system-core,
+      .campaign-system-card,
+      .campaign-system-chip {
+        position: absolute;
+        border-radius: 8px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 24px 52px rgba(0, 0, 0, 0.18);
+      }
+
+      .campaign-system-core {
+        left: 54%;
+        top: 52%;
+        width: 164px;
+        min-height: 118px;
+        padding: 20px;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        color: #effbff;
+        border: 1px solid rgba(154, 238, 255, 0.34);
+        background:
+          linear-gradient(180deg, rgba(16, 35, 80, 0.92), rgba(11, 23, 56, 0.84)),
+          radial-gradient(circle at 50% 0%, rgba(111, 242, 255, 0.2), transparent 62%);
+      }
+
+      .campaign-core-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        margin-bottom: 14px;
+        border-radius: 8px;
+        color: #06142e;
+        background: linear-gradient(135deg, #e7fbff, #75edff);
+        font-size: 0.96rem;
+        font-weight: 900;
+      }
+
+      .campaign-core-title {
+        display: block;
+        color: #fff;
+        font-size: 1.08rem;
+        font-weight: 900;
+      }
+
+      .campaign-core-sub {
+        display: block;
+        margin-top: 5px;
+        color: rgba(225, 242, 255, 0.68);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .campaign-system-card {
+        min-width: 126px;
+        max-width: 142px;
+        padding: 14px 16px;
+        z-index: 2;
+        color: rgba(244, 251, 255, 0.96);
+        border: 1px solid rgba(167, 201, 255, 0.2);
+        background: rgba(11, 23, 56, 0.68);
+      }
+
+      .campaign-system-card strong {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 900;
+      }
+
+      .campaign-system-card span {
+        display: block;
+        margin-top: 5px;
+        color: rgba(229, 242, 255, 0.58);
+        font-size: 0.75rem;
+        font-weight: 750;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .campaign-system-card.is-input { left: 4%; top: 13%; }
+      .campaign-system-card.is-process { right: 4%; top: 16%; }
+      .campaign-system-card.is-output { right: 4%; bottom: 7%; }
+      .campaign-system-card.is-sync { left: 6%; bottom: 19%; }
+
+      .campaign-system-chip {
+        left: 8%;
+        bottom: 6%;
+        max-width: 190px;
+        min-height: 34px;
+        padding: 0 14px;
+        display: inline-flex;
+        align-items: center;
+        color: rgba(226, 248, 255, 0.84);
+        border: 1px solid rgba(154, 238, 255, 0.18);
+        background: rgba(255, 255, 255, 0.05);
+        font-size: 0.78rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        line-height: 1.25;
+        text-transform: uppercase;
+        z-index: 1;
+      }
+
+      @keyframes campaign-flow {
+        to { stroke-dashoffset: -84; }
+      }
+
+      @keyframes campaign-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+
+      .campaign-system-card,
+      .campaign-system-core {
+        animation: campaign-float 7s ease-in-out infinite;
+      }
+
+      .campaign-system-card.is-process,
+      .campaign-system-card.is-sync {
+        animation-delay: -2.4s;
+      }
+
+      .campaign-chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border-radius: 999px;
+        color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 0.87rem;
+        font-weight: 700;
+      }
+
+      .campaign-section {
+        width: min(1180px, calc(100% - 44px));
+        margin: 0 auto;
+        padding: 76px 0;
+      }
+
+      .campaign-section-tight {
+        padding-top: 40px;
+      }
+
+      .campaign-section-header {
+        max-width: 720px;
+        margin-bottom: 30px;
+      }
+
+      .campaign-eyebrow {
+        display: inline-flex;
+        margin-bottom: 12px;
+        color: #1d5d8f;
+        font-size: 0.82rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .campaign-section h2 {
+        color: #14204a;
+        font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+        font-weight: 900;
+        line-height: 1.12;
+        letter-spacing: 0;
+        text-wrap: balance;
+      }
+
+      .campaign-section-copy {
+        margin-top: 16px;
+        color: #44516f;
+        font-size: 1.05rem;
+        line-height: 1.55;
+      }
+
+      .metric-strip {
+        position: relative;
+        z-index: 2;
+        width: min(1180px, calc(100% - 44px));
+        margin: -38px auto 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .metric-item {
+        min-height: 120px;
+        padding: 26px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.84);
+        box-shadow: 0 16px 42px rgba(25, 45, 93, 0.09);
+        border: 1px solid rgba(112, 148, 198, 0.2);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      .metric-number {
+        display: block;
+        color: #1f347f;
+        font-size: clamp(2.2rem, 5vw, 3.7rem);
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .metric-label {
+        display: block;
+        margin-top: 10px;
+        color: #364464;
+        font-weight: 800;
+      }
+
+      .pain-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .pain-card {
+        min-height: 166px;
+        padding: 28px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.86);
+        border: 1px solid rgba(105, 134, 178, 0.2);
+        box-shadow: 0 10px 30px rgba(22, 43, 91, 0.055);
+      }
+
+      .pain-card-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        margin-bottom: 18px;
+        border-radius: 8px;
+        color: #09204e;
+        background: #b7f4ff;
+        font-weight: 900;
+      }
+
+      .pain-card h3 {
+        color: #15224d;
+        font-size: 1.36rem;
+        font-weight: 900;
+        line-height: 1.26;
+      }
+
+      .pain-card p {
+        margin-top: 10px;
+        color: #54617f;
+        line-height: 1.45;
+      }
+
+      .flow-band {
+        margin: 24px 0;
+        background: #08152f;
+        color: #fff;
+      }
+
+      .flow-layout {
+        width: min(1180px, calc(100% - 44px));
+        margin: 0 auto;
+        padding: 76px 0;
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: clamp(34px, 6vw, 72px);
+        align-items: center;
+      }
+
+      .flow-copy h2 {
+        color: #fff;
+        font-size: clamp(1.9rem, 3.8vw, 3.1rem);
+        font-weight: 900;
+        line-height: 1.12;
+        letter-spacing: 0;
+      }
+
+      .flow-copy p {
+        margin-top: 18px;
+        color: rgba(236, 247, 255, 0.75);
+        font-size: 1.06rem;
+        line-height: 1.55;
+      }
+
+      .flow-steps {
+        display: grid;
+        gap: 12px;
+      }
+
+      .flow-step {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 18px;
+        padding: 22px;
+        border-radius: 8px;
+        border: 1px solid rgba(140, 220, 255, 0.18);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .flow-step strong {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #77efff;
+        color: #06142e;
+        font-weight: 900;
+      }
+
+      .flow-step h3 {
+        color: #fff;
+        font-size: 1.15rem;
+        font-weight: 900;
+      }
+
+      .flow-step p {
+        margin-top: 6px;
+        color: rgba(237, 247, 255, 0.72);
+        line-height: 1.45;
+      }
+
+      .package-layout {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+        gap: clamp(28px, 5vw, 58px);
+        align-items: start;
+      }
+
+      .dm-preview {
+        position: sticky;
+        top: 104px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 24px 82px rgba(25, 45, 93, 0.22);
+        border: 1px solid rgba(88, 125, 179, 0.24);
+        background: #fff;
+      }
+
+      .dm-preview img {
+        width: 100%;
+        height: auto;
+      }
+
+      .package-panel {
+        display: grid;
+        gap: 18px;
+      }
+
+      .package-summary {
+        padding: 30px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(105, 134, 178, 0.2);
+        box-shadow: 0 10px 32px rgba(22, 43, 91, 0.06);
+      }
+
+      .package-summary h3 {
+        color: #14204a;
+        font-size: clamp(1.55rem, 3vw, 2.25rem);
+        font-weight: 900;
+        line-height: 1.18;
+      }
+
+      .package-summary p {
+        margin-top: 14px;
+        color: #4d5b78;
+        line-height: 1.55;
+      }
+
+      .spec-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .spec-item {
+        padding: 18px;
+        border-radius: 8px;
+        background: #f7faff;
+        border: 1px solid rgba(95, 135, 195, 0.17);
+      }
+
+      .spec-label {
+        display: block;
+        color: #697692;
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .spec-value {
+        display: block;
+        margin-top: 8px;
+        color: #14204a;
+        font-weight: 850;
+        line-height: 1.42;
+      }
+
+      .partner-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 24px;
+      }
+
+      .partner-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 132px;
+        height: 58px;
+        padding: 14px 20px;
+        border-radius: 8px;
+        background: #fff;
+        border: 1px solid rgba(105, 134, 178, 0.18);
+      }
+
+      .partner-logo img {
+        max-width: 100%;
+        max-height: 28px;
+      }
+
+      .cta-band {
+        margin-top: 32px;
+        padding: 74px var(--page-gutter);
+        color: #fff;
+        background:
+          radial-gradient(circle at 78% 34%, rgba(78, 116, 210, 0.22), transparent 32%),
+          linear-gradient(180deg, #08122e 0%, #0c173d 100%);
+      }
+
+      .cta-inner {
+        width: min(980px, 100%);
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .cta-inner h2 {
+        color: #fff;
+        font-size: clamp(2rem, 4.5vw, 3.7rem);
+        font-weight: 900;
+        line-height: 1.12;
+        letter-spacing: 0;
+      }
+
+      .cta-inner p {
+        max-width: 560px;
+        margin: 18px auto 0;
+        color: rgba(237, 247, 255, 0.78);
+        font-size: 1.05rem;
+        line-height: 1.55;
+      }
+
+      .cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 30px;
+      }
+
+      @media (max-width: 980px) {
+        .campaign-hero {
+          min-height: auto;
+          padding-top: 126px;
+          background:
+            radial-gradient(circle at 70% 26%, rgba(78, 116, 210, 0.22), transparent 34%),
+            linear-gradient(180deg, #071027 0%, #0c1536 68%, #edf4fb 100%);
+        }
+
+        .metric-strip,
+        .pain-grid,
+        .flow-layout,
+        .package-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .dm-preview {
+          position: static;
+          max-width: 560px;
+          margin: 0 auto;
+        }
+
+        .flow-layout {
+          gap: 28px;
+        }
+
+        .campaign-hero-visual {
+          display: none;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .campaign-hero {
+          padding: 112px 22px 64px;
+        }
+
+        .campaign-hero-actions,
+        .cta-actions {
+          display: grid;
+        }
+
+        .campaign-button {
+          width: 100%;
+        }
+
+        .metric-strip,
+        .campaign-section,
+        .flow-layout {
+          width: calc(100% - 32px);
+        }
+
+        .metric-item,
+        .pain-card,
+        .package-summary {
+          padding: 22px;
+        }
+
+        .spec-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .campaign-section {
+          padding: 64px 0;
+        }
+
+        .campaign-section-tight {
+          padding-top: 32px;
+        }
+      }
+    </style>
+  </head>
+  <body data-page="campaign-kdan">
+    <div class="page-shell">
+      <header class="site-header" data-site-header>
+        <div class="header-inner">
+          <a href="index.html" aria-label="AISO Home">
+            <svg class="brand-logo" viewBox="0 0 252 59" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g fill="none">
+                <path d="M99.8099 0H88.9199V59H99.8099V0Z" fill="currentColor" />
+                <path d="M113.49 58.9V47.9H157.83C161.335 47.9 164.415 45 164.415 41.69V41.33C164.415 38.025 161.34 35.12 157.83 35.12H130.055C120.565 35.12 112.845 27.4 112.845 17.91V17.365C112.845 7.875 120.565 0.154999 130.055 0.154999H173.145V11.155H130.43C126.925 11.155 123.845 14.055 123.845 17.365V17.91C123.845 21.215 126.92 24.12 130.43 24.12H158.205C167.695 24.12 175.415 31.84 175.415 41.33V41.69C175.415 51.18 167.61 58.9 158.02 58.9H113.49Z" fill="currentColor" />
+                <path d="M217.07 58.93C215.695 58.93 214.31 58.86 211.55 58.715C194.165 57.82 182.485 46.075 182.485 29.49C182.485 12.905 194.165 1.095 211.545 0.265002C214.305 0.135002 215.695 0.0650024 217.07 0.0650024C218.445 0.0650024 219.83 0.130002 222.595 0.265002C239.975 1.095 251.655 12.84 251.655 29.49C251.655 46.14 239.975 57.82 222.595 58.715C219.835 58.855 218.45 58.93 217.075 58.93H217.07ZM217.4 11.015C215.335 11.015 213.255 11.1 211.53 11.26C199.97 12.315 193.345 18.96 193.345 29.49C193.345 40.02 199.97 46.415 211.52 47.72C212.865 47.87 214.98 47.96 217.175 47.96C219.37 47.96 221.3 47.875 222.615 47.72C234.165 46.345 240.79 39.7 240.79 29.49C240.79 19.28 234.335 12.645 222.615 11.26C221.255 11.1 219.45 11.015 217.4 11.015Z" fill="currentColor" />
+                <path d="M67.825 59L60.28 46.86H31.275L37.43 35.97H53.515L40.515 15.05L13.14 58.995H0C3.38 53.415 24.42 18.69 32.21 5.75501L32.545 5.20001C34.82 1.46501 36.98 0.0750122 40.515 0.0750122C44.05 0.0750122 46.325 1.51001 48.48 5.19001C48.55 5.31001 48.815 5.75001 48.815 5.75001C56.57 18.705 77.64 53.41 81.025 58.99H67.825V59Z" fill="currentColor" />
+              </g>
+            </svg>
+          </a>
+
+          <nav class="nav-links" aria-label="Main navigation">
+            <div class="nav-item" data-nav-item>
+              <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">Who we are <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <div class="nav-dd">
+                <a class="dd-row" href="index.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Home</span>
+                    <span class="dd-row-desc">Why sovereign AI, at a glance</span>
+                  </span>
+                </a>
+                <a class="dd-row" href="about.html#alliance">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.4"/><path d="M16.5 3.7a3.4 3.4 0 0 1 0 6.6"/><path d="M21 21v-2a4 4 0 0 0-2.6-3.7"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Alliance Members</span>
+                    <span class="dd-row-desc">The partners behind AISO</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div class="nav-item is-current" data-nav-item>
+              <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">What we do <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <div class="nav-dd">
+                <a class="dd-row" href="combo.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v10"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Combo Set <span class="dd-badge">Ready-made</span></span>
+                    <span class="dd-row-desc">Bundles ready to use on arrival</span>
+                  </span>
+                </a>
+                <a class="dd-row" href="hardware.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.6"/><rect x="10.4" y="10.4" width="3.2" height="3.2" rx="0.6"/><path d="M9.5 2.5v2.4M14.5 2.5v2.4M9.5 19.1v2.4M14.5 19.1v2.4M2.5 9.5h2.4M2.5 14.5h2.4M19.1 9.5h2.4M19.1 14.5h2.4"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Hardware</span>
+                    <span class="dd-row-desc">From mini PCs to rack servers</span>
+                  </span>
+                </a>
+                <a class="dd-row" href="software.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5Z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Software</span>
+                    <span class="dd-row-desc">AI applications and platforms</span>
+                  </span>
+                </a>
+                <a class="dd-row" href="solutions.html">
+                  <span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-1.8 4.6-4.6 1.8 1.8-4.6 4.6-1.8Z"/></svg></span>
+                  <span class="dd-row-text">
+                    <span class="dd-row-title">Find My Solution</span>
+                    <span class="dd-row-desc">Match a tier to your needs</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div class="nav-item" data-nav-item>
+              <button class="nav-label" type="button" aria-haspopup="true" aria-expanded="false">Insights <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <div class="nav-dd">
+                <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z"/></svg></span><span class="dd-row-text"><span class="dd-row-title">Blog <span class="dd-badge">Coming soon</span></span></span></span>
+                <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.3 9a2.8 2.8 0 0 1 5.4 0.9c0 1.8-2.7 2.1-2.7 3.6"/><path d="M12 17h.01"/></svg></span><span class="dd-row-text"><span class="dd-row-title">FAQ <span class="dd-badge">Coming soon</span></span></span></span>
+                <span class="dd-row is-soon"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/></svg></span><span class="dd-row-text"><span class="dd-row-title">Case Studies <span class="dd-badge">Coming soon</span></span></span></span>
+              </div>
+            </div>
+          </nav>
+
+          <div class="header-right">
+            <a class="portal-link" href="https://portal.aisoportal.com">Workspace <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 13L13 7M8.5 7H13v4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="contact-pill" href="mailto:service@aisoportal.com?subject=AISO%20x%20KDAN%20Manufacturing%20Package">Contact AISO</a>
+            <button class="menu-toggle" data-menu-toggle aria-label="Open menu"><span></span></button>
+          </div>
+        </div>
+      </header>
+
+      <nav class="mobile-menu" data-mobile-menu aria-label="Mobile navigation">
+        <p class="menu-group">Who we are</p>
+        <a href="index.html">Home</a>
+        <a href="about.html#alliance">Alliance Members</a>
+        <p class="menu-group">What we do</p>
+        <a href="combo.html">Combo Set (Ready-made)</a>
+        <a href="hardware.html">Hardware</a>
+        <a href="software.html">Software</a>
+        <a href="solutions.html">Find My Solution</a>
+        <a href="https://portal.aisoportal.com">Workspace</a>
+        <a href="mailto:contact@aisoportal.com">Contact AISO</a>
+      </nav>
+
+      <main class="main-wrap">
+        <section class="campaign-hero" data-gsap-section>
+          <div class="campaign-hero-inner" data-gsap-hero>
+            <span class="campaign-kicker" data-gsap-item>AISO x KDAN Ready Package</span>
+            <h1>Manufacturing Document AI-Ready Package</h1>
+            <p class="campaign-hero-lead" data-gsap-item>
+              ComPDF document intelligence on an AISO on-premise AI PC. Turn factory documents into
+              AI-ready data without sending confidential files to the cloud.
+            </p>
+            <div class="campaign-hero-actions" data-gsap-item>
+              <a class="campaign-button campaign-button-primary" href="mailto:service@aisoportal.com?subject=AISO%20x%20KDAN%20Manufacturing%20Package%20Enquiry">
+                Discuss Deployment
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <a class="campaign-button campaign-button-secondary" href="downloads/kdan-manufacturing-ai-ready-package.pdf" target="_blank" rel="noreferrer noopener">
+                Download Brief
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M10 3v9m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+            <div class="campaign-hero-meta" aria-label="Package highlights" data-gsap-item>
+              <span class="campaign-chip">100% On-Premise Deployment</span>
+              <span class="campaign-chip">ComPDF Document AI</span>
+              <span class="campaign-chip">Validated Pilot Stack</span>
+            </div>
+          </div>
+
+          <div class="campaign-hero-visual" aria-hidden="true" data-gsap-item>
+            <div class="campaign-system-visual">
+              <svg class="campaign-system-svg" viewBox="0 0 520 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="campaignFlow" x1="80" y1="80" x2="440" y2="400" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#78F1FF" stop-opacity="0.12"/>
+                    <stop offset="0.46" stop-color="#78F1FF" stop-opacity="0.78"/>
+                    <stop offset="1" stop-color="#8FA8FF" stop-opacity="0.08"/>
+                  </linearGradient>
+                  <radialGradient id="campaignNodeGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(280 250) rotate(90) scale(162)">
+                    <stop stop-color="#78F1FF" stop-opacity="0.34"/>
+                    <stop offset="1" stop-color="#78F1FF" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="280" cy="250" r="166" stroke="rgba(160,196,255,0.12)"/>
+                <circle cx="280" cy="250" r="102" stroke="rgba(120,241,255,0.14)"/>
+                <circle cx="280" cy="250" r="64" fill="url(#campaignNodeGlow)"/>
+                <path class="campaign-flow-line" d="M112 105 C172 118 218 180 258 228" stroke="url(#campaignFlow)" stroke-width="2" stroke-linecap="round"/>
+                <path class="campaign-flow-line" d="M408 122 C364 142 326 188 302 226" stroke="url(#campaignFlow)" stroke-width="2" stroke-linecap="round"/>
+                <path class="campaign-flow-line" d="M410 388 C368 360 330 306 302 274" stroke="url(#campaignFlow)" stroke-width="2" stroke-linecap="round"/>
+                <path class="campaign-flow-line" d="M116 356 C174 330 222 292 258 272" stroke="url(#campaignFlow)" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="112" cy="105" r="4" fill="#78F1FF"/>
+                <circle cx="408" cy="122" r="4" fill="#A2B8FF"/>
+                <circle cx="399" cy="356" r="4" fill="#78F1FF"/>
+                <circle cx="116" cy="356" r="4" fill="#A2B8FF"/>
+              </svg>
+              <div class="campaign-system-core">
+                <span class="campaign-core-mark">C</span>
+                <span class="campaign-core-title">ComPDF</span>
+                <span class="campaign-core-sub">AI-ready document core</span>
+              </div>
+              <div class="campaign-system-card is-input">
+                <strong>Factory Docs</strong>
+                <span>Intake</span>
+              </div>
+              <div class="campaign-system-card is-process">
+                <strong>OCR + Parse</strong>
+                <span>Extraction</span>
+              </div>
+              <div class="campaign-system-card is-output">
+                <strong>Excel / JSON</strong>
+                <span>Structured data</span>
+              </div>
+              <div class="campaign-system-card is-sync">
+                <strong>ERP / MES</strong>
+                <span>System sync</span>
+              </div>
+              <div class="campaign-system-chip">On-premise validated stack</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="metric-strip reveal" aria-label="Expected package outcomes" data-gsap-section>
+          <div class="metric-item" data-gsap-item>
+            <span class="metric-number">90%</span>
+            <span class="metric-label">Faster Document Processing</span>
+          </div>
+          <div class="metric-item" data-gsap-item>
+            <span class="metric-number">98%</span>
+            <span class="metric-label">Reduction in Human Error</span>
+          </div>
+          <div class="metric-item" data-gsap-item>
+            <span class="metric-number">1M+</span>
+            <span class="metric-label">Pages Processed per Hour</span>
+          </div>
+        </section>
+
+        <section class="campaign-section campaign-section-tight reveal" data-gsap-section>
+          <div class="campaign-section-header">
+            <span class="campaign-eyebrow">Manufacturing Pain Points</span>
+            <h2>Three blockers. One document AI package.</h2>
+            <p class="campaign-section-copy">
+              Built for high-volume factory documents, mixed formats, and disconnected operating systems.
+            </p>
+          </div>
+
+          <div class="pain-grid">
+            <article class="pain-card" data-gsap-item>
+              <span class="pain-card-index">1</span>
+              <h3>Documents block AI workflows</h3>
+              <p>Paper, PDF, tables, and scans stay outside the data pipeline.</p>
+            </article>
+            <article class="pain-card" data-gsap-item>
+              <span class="pain-card-index">2</span>
+              <h3>Data is hard to sync</h3>
+              <p>Specifications and reports do not move cleanly into ERP, MES, or SCM.</p>
+            </article>
+            <article class="pain-card" data-gsap-item>
+              <span class="pain-card-index">3</span>
+              <h3>Cost scales with volume</h3>
+              <p>On-premise processing makes high-volume document work more predictable.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="flow-band reveal" data-gsap-section>
+          <div class="flow-layout">
+            <div class="flow-copy">
+              <span class="campaign-eyebrow">AI-Ready Workflow</span>
+              <h2>Scan. Parse. Sync.</h2>
+              <p>
+                Convert manufacturing documents into structured data for analytics, automation, and audit.
+              </p>
+            </div>
+            <div class="flow-steps" aria-label="Document AI workflow">
+              <article class="flow-step" data-gsap-item>
+                <strong>1</strong>
+                <div>
+                  <h3>Capture</h3>
+                  <p>Inspection reports, contracts, supplier forms, specifications, drawings, purchase documents.</p>
+                </div>
+              </article>
+              <article class="flow-step" data-gsap-item>
+                <strong>2</strong>
+                <div>
+                  <h3>Extract</h3>
+                  <p>Multilingual OCR, field recognition, table parsing, semantic extraction.</p>
+                </div>
+              </article>
+              <article class="flow-step" data-gsap-item>
+                <strong>3</strong>
+                <div>
+                  <h3>Structure</h3>
+                  <p>Excel, JSON, ERP, MES, SCM, and downstream AI agent workflows.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="campaign-section reveal" id="package" data-gsap-section>
+          <div class="campaign-section-header">
+            <span class="campaign-eyebrow">Validated Stack</span>
+            <h2>ComPDF + dedicated AI PC</h2>
+            <p class="campaign-section-copy">
+              AISO-validated software and hardware for on-premise manufacturing document intelligence.
+            </p>
+          </div>
+
+          <div class="package-layout">
+            <figure class="dm-preview" data-gsap-item>
+              <img src="images/campaign/kdan-manufacturing-ai-ready-package.png" alt="AISO x KDAN manufacturing document AI-Ready package PDF preview" />
+            </figure>
+
+            <div class="package-panel">
+              <article class="package-summary" data-gsap-item>
+                <h3>AISO Integrated Appliance Package</h3>
+                <p>
+                  Confidential data stays inside your factory. Software, hardware, and compatibility are
+                  packaged for faster document AI deployment.
+                </p>
+
+                <div class="spec-grid">
+                  <div class="spec-item">
+                    <span class="spec-label">Software</span>
+                    <span class="spec-value">KDAN ComPDF: OCR, semantic parsing, multi-format processing</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Hardware</span>
+                    <span class="spec-value">ASUS ET500I dedicated AI PC</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Processor</span>
+                    <span class="spec-value">Intel Core i5-14500, 14 Core</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">GPU / Memory</span>
+                    <span class="spec-value">NVIDIA RTX 5090 32GB, DDR5 4800 32GB</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">AI Cache</span>
+                    <span class="spec-value">aiDAPTIVCache A1100E, 320GB</span>
+                  </div>
+                  <div class="spec-item">
+                    <span class="spec-label">Deployment</span>
+                    <span class="spec-value">On-premise deployment with confidential data kept in-factory</span>
+                  </div>
+                </div>
+
+                <div class="partner-row" aria-label="Alliance partners">
+                  <span class="partner-logo"><img src="images/logos/logo-kdan.svg" alt="KDAN" /></span>
+                  <span class="partner-logo"><img src="images/logos/logo-tpi.svg" alt="TPIsoftware" /></span>
+                  <span class="partner-logo"><img src="images/logo-aiso.svg" alt="AISO" /></span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="cta-band reveal" data-gsap-section>
+          <div class="cta-inner">
+            <h2>Ready to validate your document flow?</h2>
+            <p>
+              Share your document types, data volume, and target systems. AISO will map the deployment scope.
+            </p>
+            <div class="cta-actions">
+              <a class="campaign-button campaign-button-primary" href="mailto:service@aisoportal.com?subject=AISO%20x%20KDAN%20Manufacturing%20Package%20Enquiry">
+                Discuss Deployment
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <a class="campaign-button campaign-button-secondary" href="downloads/kdan-manufacturing-ai-ready-package.pdf" target="_blank" rel="noreferrer noopener">
+                Download Brief
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M10 3v9m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <a href="index.html" aria-label="AISO Home">
+            <svg class="brand-logo footer" viewBox="0 0 254 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g fill="none">
+                <path d="M101.2 0H89.3101V60H101.2V0Z" fill="currentColor" />
+                <path d="M158.91 59.9H113.88V47.9H158.72C161.865 47.9 164.805 45.34 164.805 42.19V41.83C164.805 38.685 161.87 36.12 158.72 36.12H130.945C121.18 36.12 113.235 28.175 113.235 18.41V17.865C113.235 8.1 121.18 0.154999 130.945 0.154999H174.535V12.155H131.32C128.17 12.155 125.235 14.715 125.235 17.865V18.41C125.235 21.555 128.17 24.12 131.32 24.12H159.095C168.86 24.12 176.805 32.065 176.805 41.83V42.19C176.805 51.955 168.675 59.9 158.91 59.9Z" fill="currentColor" />
+                <path d="M223.505 59.715C219.808 59.905 216.11 59.905 212.41 59.715C194.52 58.795 182.875 46.485 182.875 29.99C182.875 13.495 194.52 1.12001 212.415 0.265007C216.112 0.0883407 219.81 0.0883407 223.51 0.265007C241.4 1.12001 253.045 13.495 253.045 29.99C253.045 46.485 241.395 58.79 223.51 59.715H223.505ZM212.47 12.255C200.725 13.33 194.735 20.21 194.735 29.99C194.735 39.77 200.75 46.4 212.47 47.725C215.145 48.025 220.64 48.06 223.455 47.725C234.89 46.36 241.19 39.77 241.19 29.99C241.19 20.21 235.185 13.64 223.455 12.255C220.58 11.915 215.805 11.95 212.47 12.255Z" fill="currentColor" />
+                <path d="M50.135 5.99999C50.02 5.80999 49.91 5.62499 49.8 5.44499C47.69 1.83999 45.37 0.0849915 41.405 0.0849915C37.44 0.0849915 35.205 1.83999 33.005 5.44499C32.895 5.62499 32.785 5.80999 32.67 5.99999C24.13 20.175 0 60 0 60H14.305L41.4 16.5L53.5 35.97H38.025L31.305 47.86H60.89L68.435 60H82.805C82.805 60 58.635 20.2 50.135 5.99999Z" fill="currentColor" />
+              </g>
+            </svg>
+          </a>
+
+          <p class="footer-copy">© <span data-year></span> AISO Alliance. All rights reserved.</p>
+
+          <nav class="footer-links" aria-label="Footer links">
+            <a href="solutions.html">Solution</a>
+            <a href="software.html">Software</a>
+            <a href="about.html">About</a>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <button id="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 15V5M5 10l5-5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <script>
+      (function () {
+        function loadCampaignScript(src) {
+          return new Promise(function (resolve, reject) {
+            var script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+          });
+        }
+
+        function initCampaignMotion() {
+          if (!window.gsap || !window.ScrollTrigger) return;
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+          gsap.registerPlugin(ScrollTrigger);
+
+          gsap.timeline({ defaults: { ease: 'power3.out' } })
+            .from('[data-gsap-hero] h1', { autoAlpha: 0, y: 34, duration: 0.9 })
+            .from('[data-gsap-hero] [data-gsap-item]', {
+              autoAlpha: 0,
+              y: 18,
+              duration: 0.68,
+              stagger: 0.1
+            }, '-=0.48')
+            .from('.campaign-hero-visual', {
+              autoAlpha: 0,
+              scale: 0.96,
+              y: 18,
+              duration: 0.78
+            }, '-=0.46');
+
+          gsap.utils.toArray('[data-gsap-section]').forEach(function (section) {
+            var items = section.querySelectorAll('[data-gsap-item]');
+            if (!items.length || section.matches('.campaign-hero')) return;
+
+            gsap.from(items, {
+              autoAlpha: 0,
+              y: 28,
+              duration: 0.72,
+              stagger: 0.08,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: section,
+                start: 'top 78%',
+                once: true
+              }
+            });
+          });
+
+          gsap.to('.campaign-system-visual', {
+            y: -18,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.campaign-hero',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+        }
+
+        function bootCampaignMotion() {
+          loadCampaignScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js')
+            .then(function () {
+              return loadCampaignScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');
+            })
+            .then(initCampaignMotion)
+            .catch(function () {
+              document.documentElement.classList.add('campaign-motion-fallback');
+            });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', bootCampaignMotion);
+        } else {
+          bootCampaignMotion();
+        }
+      })();
+    </script>
+    <script src="js/app.js" defer></script>
+  </body>
+</html>
