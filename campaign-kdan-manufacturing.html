@@ -899,20 +899,6 @@
               ComPDF document intelligence on an AISO on-premise AI PC. Turn factory documents into
               AI-ready data without sending confidential files to the cloud.
             </p>
-            <div class="campaign-hero-actions" data-gsap-item>
-              <a class="campaign-button campaign-button-primary" href="mailto:service@aisoportal.com?subject=AISO%20x%20KDAN%20Manufacturing%20Package%20Enquiry">
-                Discuss Deployment
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-              <a class="campaign-button campaign-button-secondary" href="downloads/kdan-manufacturing-ai-ready-package.pdf" target="_blank" rel="noreferrer noopener">
-                Download Brief
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path d="M10 3v9m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-            </div>
             <div class="campaign-hero-meta" aria-label="Package highlights" data-gsap-item>
               <span class="campaign-chip">100% On-Premise Deployment</span>
               <span class="campaign-chip">ComPDF Document AI</span>
@@ -1116,16 +1102,10 @@
               Share your document types, data volume, and target systems. AISO will map the deployment scope.
             </p>
             <div class="cta-actions">
-              <a class="campaign-button campaign-button-primary" href="mailto:service@aisoportal.com?subject=AISO%20x%20KDAN%20Manufacturing%20Package%20Enquiry">
-                Discuss Deployment
+              <a class="campaign-button campaign-button-primary" href="mailto:service@aisoportal.com?subject=AISO%20x%20KDAN%20Manufacturing%20Package%20Enquiry" data-quote-request>
+                Request a Quote
                 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
                   <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-              <a class="campaign-button campaign-button-secondary" href="downloads/kdan-manufacturing-ai-ready-package.pdf" target="_blank" rel="noreferrer noopener">
-                Download Brief
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path d="M10 3v9m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </a>
             </div>
@@ -1243,6 +1223,33 @@
         } else {
           bootCampaignMotion();
         }
+      })();
+    </script>
+    <script src="js/quote-ui.js"></script>
+    <script>
+      (function () {
+        const quoteUI = window.AISOQuoteUI;
+        const trigger = document.querySelector("[data-quote-request]");
+        if (!quoteUI || !trigger) return;
+        quoteUI.ensureStyles();
+
+        trigger.addEventListener("click", function (event) {
+          event.preventDefault();
+          quoteUI.openModal({
+            title: "Request a Quote",
+            subtitle: "We'll get back to you within 2-3 business days.",
+            summaryTitle: "Selected Combo Set",
+            summaryBlocks: [
+              { label: "Combo Set", html: "Manufacturing Document Digitisation" },
+              { label: "Software", html: "KDAN ComPDF" },
+              { label: "Hardware", html: "ASUS ET500I dedicated AI PC" },
+              { label: "Deployment", html: "On-premise — data stays in-factory" }
+            ],
+            messagePlaceholder: "e.g. document types, monthly volume, target systems (ERP / MES / SCM), or rollout timeline.",
+            email: "service@aisoportal.com",
+            subjectPrefix: "[AISO Combo] Manufacturing Document Digitisation"
+          });
+        });
       })();
     </script>
     <script src="js/app.js" defer></script>
